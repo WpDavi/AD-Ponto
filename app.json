@@ -2,7 +2,7 @@
   "expo": {
     "name": "AD-Ponto",
     "slug": "AD-Ponto",
-    "version": "1.0.0",
+    "version": "2.1.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -14,20 +14,43 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "br.com.adeltec.adponto",
+      "config": {
+        "googleMapsApiKey": "AIzaSyBfG7cc3zRsgouwQLydU-Z3QRLyk2qQLO4"
+      },
+      "buildNumber": "13",
+      "infoPlist": {
+        "NSCameraUsageDescription": "The photograph is used in the electronic point resource, with the purpose of registering the user who submitted it.",
+        "NSPhotoLibraryUsageDescription": "Access to cell phone photos is used to send medical certificates, a new profile picture and point functions.",
+        "NSLocationUsageDescription": "The location is used so that the user can tap the electronic point so that the WEB system knows the exact location where it was submitted.",
+        "NSLocationWhenInUseUsageDescription": "The user's location is used in the functionalities linked to the electronic point. The user's exact location is used as a parameter to define whether their position is what is expected by the company.",
+        "NSFaceIDUsageDescription": "The use of FaceID is to verify the authenticity of the user in the application."
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "br.com.adeltec.adponto",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyBfG7cc3zRsgouwQLydU-Z3QRLyk2qQLO4"
+        }
+      },
+      "versionCode": 13,
+      "blockedPermissions": ["android.permission.ACCESS_BACKGROUND_LOCATION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "03aaecb4-3024-438b-81ce-aaf8a31dff34"
+      }
     }
   }
 }
