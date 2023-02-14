@@ -184,8 +184,6 @@ export default function RelatorioDeAtestado() {
   }, []);
 
   async function handlePerson(itemValue) {
-    navigation.navigate("Home");
-    console.log("teste");
     console.log(itemValue);
     setPesquisa(itemValue);
   }
