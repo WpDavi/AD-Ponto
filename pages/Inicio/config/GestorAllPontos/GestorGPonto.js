@@ -125,29 +125,37 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     if (lista) {
-      setListaPesquisa(
-        lista.filter((item) => {
-          if (item.funcionario.indexOf(pesquisa) > -1) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
+      if (pesquisa === "") {
+        setListaPesquisa(lista);
+      } else {
+        setListaPesquisa(
+          lista.filter((item) => {
+            if (item.funcionario.indexOf(pesquisa) > -1) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        );
+      }
     }
   }, [pesquisa]);
 
   useEffect(() => {
     if (lista) {
-      setListaPesquisa(
-        lista.filter((item) => {
-          if (item.data.indexOf(pesquisaData) > -1) {
-            return true;
-          } else {
-            return false;
-          }
-        })
-      );
+      if (pesquisaData === "") {
+        setListaPesquisa(lista);
+      } else {
+        setListaPesquisa(
+          lista.filter((item) => {
+            if (item.data.indexOf(pesquisaData) > -1) {
+              return true;
+            } else {
+              return false;
+            }
+          })
+        );
+      }
     }
   }, [pesquisaData]);
   const onChangeInicio = (event, selectedDate) => {
@@ -176,6 +184,8 @@ export default function RelatorioDeAtestado() {
   }, []);
 
   async function handlePerson(itemValue) {
+    navigation.navigate("Home");
+    console.log("teste");
     console.log(itemValue);
     setPesquisa(itemValue);
   }
