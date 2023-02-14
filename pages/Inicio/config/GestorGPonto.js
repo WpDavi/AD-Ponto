@@ -21,6 +21,7 @@ import { ImageBackground } from "react-native";
 import { TextInput } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import styled from "styled-components/native";
+import DateTimePicker from "@react-native-community/datetimepicker";
 import {
   ALERT_TYPE,
   Dialog,
@@ -66,8 +67,10 @@ export default function RelatorioDeAtestado() {
   const [saida10, setSaida10] = useState(null);
   const [dt, setDt] = useState();
 
-  const [dataInicial, setDataInicial] = useState(new Date());
-  const [dataFim, setDataFim] = useState(new Date());
+  const [modalDataInicial, setModalDataInicial] = useState(false);
+  const [date, setDate] = useState(new Date());
+  const [placeIncial, setPlaceIncial] = useState("Data de Início");
+  const [dataInicial, setDataInicial] = useState("");
 
   const [funcionarios, setFuncionarios] = useState("Funcionarios");
 
@@ -155,6 +158,17 @@ export default function RelatorioDeAtestado() {
       }
     }
   }, [pesquisaData]);
+  const onChangeInicio = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setModalDataInicial(Platform.OS === "ios");
+    setDataInicial(currentDate);
+    setPesquisa(currentDate);
+    setPlaceIncial(newData);
+    const newData = JSON.stringify(currentDate);
+    setPesquisaData(newData.substr(1, 10));
+    console.log(newData);
+    console.log(newData.substr(1, 10));
+  };
 
   const navigation = useNavigation();
 
@@ -345,11 +359,24 @@ export default function RelatorioDeAtestado() {
                 keyboardType="number-pad"
                 placeholder="Pesquisar por Data"
                 value={pesquisaData}
+                onPressIn={() => {
+                  setModalDataInicial(true);
+                }}
                 onChangeText={setPesquisaData}
                 options={{ mask: "9999-99-99", maskType: "BRL" }}
                 type="custom"
               />
             </View>
+          )}
+          {modalDataInicial && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeInicio}
+            />
           )}
 
           <FlatList
@@ -742,7 +769,7 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 10,
     marginBottom: 20,
-    width: "75%",
+    width: "90%",
     backgroundColor: "white",
   },
 
