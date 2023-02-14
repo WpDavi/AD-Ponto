@@ -70,9 +70,11 @@ export default function RelatorioDeAtestado() {
   const [modalDataInicial, setModalDataInicial] = useState(false);
   const [date, setDate] = useState(new Date());
   const [placeIncial, setPlaceIncial] = useState("Data de Início");
-  const [dataInicial, setDataInicial] = useState("");
 
   const [funcionarios, setFuncionarios] = useState("Funcionarios");
+
+  const [dataInicial, setDataInicial] = useState("2022-12-14T10:30:00.000Z");
+  const [dataFim, setDataFim] = useState("2022-11-14T10:30:00.000Z");
 
   useEffect(() => {
     async function getFuncinarios() {
@@ -158,6 +160,19 @@ export default function RelatorioDeAtestado() {
       }
     }
   }, [pesquisaData]);
+
+  //useEffect(() => {
+  //  if (lista) {
+  //    setListaPesquisa(
+  //      lista.filter((item) => {
+  //        return (
+  //          new Date(item.data) >= new Date(dataInicial) &&
+  //          new Date(item.data) <= new Date(dataFim)
+  //        );
+  //      })
+  //    );
+  //  }
+  //}, [pesquisaData]);
   const onChangeInicio = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
