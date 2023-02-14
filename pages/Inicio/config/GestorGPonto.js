@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Text,
   View,
@@ -11,20 +11,26 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   SafeAreaView,
-} from 'react-native';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import Iconee from '@expo/vector-icons/MaterialIcons';
-import { useNavigation } from '@react-navigation/native';
-import { Feather, Entypo } from '@expo/vector-icons';
-import Api from '../../../src/services/Api';
-import { ImageBackground } from 'react-native';
-import { TextInput } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-import styled from 'styled-components/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+} from "react-native";
+import Icone from "@expo/vector-icons/FontAwesome5";
+import Iconee from "@expo/vector-icons/MaterialIcons";
+import { useNavigation } from "@react-navigation/native";
+import { Feather, Entypo } from "@expo/vector-icons";
+import Api from "../../../src/services/Api";
+import { ImageBackground } from "react-native";
+import { TextInput } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import styled from "styled-components/native";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
+import { Picker } from "@react-native-picker/picker";
 
 export default function RelatorioDeAtestado() {
-  const [infos, setInfos] = useState(['1', '2', '3', '4', '5']);
+  const [infos, setInfos] = useState(["1", "2", "3", "4", "5"]);
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
@@ -60,6 +66,20 @@ export default function RelatorioDeAtestado() {
   const [saida10, setSaida10] = useState(null);
   const [dt, setDt] = useState();
 
+  const [dataInicial, setDataInicial] = useState(new Date());
+  const [dataFim, setDataFim] = useState(new Date());
+
+  const [funcionarios, setFuncionarios] = useState("Funcionarios");
+
+  useEffect(() => {
+    async function getFuncinarios() {
+      const res = await Api.getAllFuncionarios();
+      setFuncionarios(res);
+    }
+
+    getFuncinarios();
+  }, []);
+
   const edicao = async () => {
     const res = Api.editPonto(
       entrada1,
@@ -93,16 +113,16 @@ export default function RelatorioDeAtestado() {
 
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Ponto Alterado com sucesso',
-        button: 'ok',
+        title: "Sucesso",
+        textBody: "Ponto Alterado com sucesso",
+        button: "ok",
       });
     }
   };
 
   useEffect(() => {
     if (lista) {
-      if (pesquisa === '') {
+      if (pesquisa === "") {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -120,7 +140,7 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     if (lista) {
-      if (pesquisaData === '') {
+      if (pesquisaData === "") {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -148,10 +168,6 @@ export default function RelatorioDeAtestado() {
     };
     onStart();
   }, []);
-
-  const togle = () => {
-    setTxtInput(!txtInput);
-  };
 
   const renderItem = useCallback((atestado) => {
     const handleClickItem = () => {
@@ -186,10 +202,10 @@ export default function RelatorioDeAtestado() {
     return (
       <SafeAreaView
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           borderBottomWidth: 1,
-          borderBottomColor: '#dadada',
-          marginBottom: '5%',
+          borderBottomColor: "#dadada",
+          marginBottom: "5%",
         }}
       >
         <TouchableOpacity
@@ -197,31 +213,41 @@ export default function RelatorioDeAtestado() {
           style={styles.containeratestado}
           onPress={handleClickItem}
         >
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row" }}>
             <Text style={styles.data}>
-              Data: {atestado.item.data.substr(8, 9)}/{atestado.item.data.substr(5, 2)}/
+              Data: {atestado.item.data.substr(8, 9)}/
+              {atestado.item.data.substr(5, 2)}/
               {atestado.item.data.substr(0, 4)}
             </Text>
           </View>
 
           <View style={styles.item}>
-            <Feather color={'#555555'} name={'check-circle'} size={40} />
+            <Feather color={"#555555"} name={"check-circle"} size={40} />
             <View style={styles.conteudo}>
-              <Text style={styles.titulo}>{`${atestado.item.funcionario}`}</Text>
+              <Text
+                style={styles.titulo}
+              >{`${atestado.item.funcionario}`}</Text>
               <Text style={styles.descricao}>
-                {atestado.item.entrada1} - {atestado.item.saida1} - {atestado.item.entrada2} -{' '}
-                {atestado.item.saida2} - {atestado.item.entrada3} - {atestado.item.saida3} -{' '}
-                {atestado.item.entrada4} - {atestado.item.saida4}- {atestado.item.entrada5} -{' '}
-                {atestado.item.saida5} - {atestado.item.entrada6} - {atestado.item.saida6} -{' '}
-                {atestado.item.entrada7} - {atestado.item.saida7} - {atestado.item.entrada8} -{' '}
-                {atestado.item.saida8}- {atestado.item.entrada9} - {atestado.item.saida9} -{' '}
+                {atestado.item.entrada1} - {atestado.item.saida1} -{" "}
+                {atestado.item.entrada2} - {atestado.item.saida2} -{" "}
+                {atestado.item.entrada3} - {atestado.item.saida3} -{" "}
+                {atestado.item.entrada4} - {atestado.item.saida4}-{" "}
+                {atestado.item.entrada5} - {atestado.item.saida5} -{" "}
+                {atestado.item.entrada6} - {atestado.item.saida6} -{" "}
+                {atestado.item.entrada7} - {atestado.item.saida7} -{" "}
+                {atestado.item.entrada8} - {atestado.item.saida8}-{" "}
+                {atestado.item.entrada9} - {atestado.item.saida9} -{" "}
                 {atestado.item.entrada10} - {atestado.item.saida10}
               </Text>
             </View>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ justifyContent: 'center', marginRight: 20, marginBottom: 30 }}
+          style={{
+            justifyContent: "center",
+            marginRight: 20,
+            marginBottom: 30,
+          }}
           onPress={handleClickItem}
         >
           <View>
@@ -237,29 +263,35 @@ export default function RelatorioDeAtestado() {
       <AlertNotificationRoot>
         <KeyboardAvoidingView
           keyboardVerticalOffset={10}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
-          <StatusBar backgroundColor={'#1CADE2'} />
           <View
             style={{
-              width: '100%',
-              height: '7%',
-              alignItems: 'center',
-              justifyContent: 'center',
+              width: "100%",
+              height: "7%",
+              alignItems: "center",
+              justifyContent: "center",
               marginBottom: 15,
-              backgroundColor: '#1CADE2',
+              backgroundColor: "#1CADE2",
             }}
           >
-            <Text style={{ textAlign: 'center', fontSize: 23, color: 'white', fontWeight: 'bold' }}>
+            <Text
+              style={{
+                textAlign: "center",
+                fontSize: 23,
+                color: "white",
+                fontWeight: "bold",
+              }}
+            >
               Gerencia de Pontos
             </Text>
           </View>
-          <View style={{ position: 'absolute', marginTop: 20 }}>
+          <View style={{ position: "absolute", marginTop: 20 }}>
             <TouchableOpacity
-              style={{ flexDirection: 'row', marginLeft: 20 }}
+              style={{ flexDirection: "row", marginLeft: 20 }}
               onPress={() =>
                 navigation.reset({
-                  routes: [{ name: 'Home' }],
+                  routes: [{ name: "Home" }],
                 })
               }
             >
@@ -267,41 +299,56 @@ export default function RelatorioDeAtestado() {
             </TouchableOpacity>
           </View>
           {lista == null && (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
               <Image
                 resizeMode="contain"
                 style={{ width: 200, marginTop: 500 }}
-                source={require('../../../src/icons/historicodeponto.png')}
+                source={require("../../../src/icons/historicodeponto.png")}
               />
-              <ActivityIndicator color={'#1CADE2'} size={'large'} />
+              <ActivityIndicator color={"#1CADE2"} size={"large"} />
             </View>
           )}
 
           {listaPesquisa && (
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-              {txtInput == true && (
-                <TextInput
-                  style={styles.txtInput}
-                  onChangeText={(t) => setPesquisa(t)}
-                  value={pesquisa}
-                  placeholder="Pesquisar por nome"
+            <Picker
+              selectedValue={pesquisa}
+              mode={"dropdown"}
+              onValueChange={(itemValue) => setPesquisa(itemValue)}
+            >
+              <Picker.Item label="Funcionario" value="Option 1" />
+              {funcionarios.map((item, index) => (
+                <Picker.Item
+                  key={item.id}
+                  label={item.funcionario}
+                  value={item.funcionario}
                 />
-              )}
+              ))}
+            </Picker>
+          )}
 
-              {txtInput == false && (
-                <TextInputMask
-                  style={styles.txtInput}
-                  keyboardType="number-pad"
-                  placeholder="Pesquisar por Data"
-                  value={pesquisaData}
-                  onChangeText={setPesquisaData}
-                  options={{ mask: '9999-99-99', maskType: 'BRL' }}
-                  type="custom"
-                />
-              )}
-              <TouchableOpacity onPress={togle} style={{ marginBottom: 20 }}>
-                <Iconee size={40} name="published-with-changes" color="#555555" />
-              </TouchableOpacity>
+          {listaPesquisa && (
+            <View
+              style={{
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <TextInputMask
+                style={styles.txtInput}
+                keyboardType="number-pad"
+                placeholder="Pesquisar por Data"
+                value={pesquisaData}
+                onChangeText={setPesquisaData}
+                options={{ mask: "9999-99-99", maskType: "BRL" }}
+                type="custom"
+              />
             </View>
           )}
 
@@ -320,28 +367,28 @@ export default function RelatorioDeAtestado() {
             }}
           >
             <ImageBackground
-              source={require('../../../assets/Backgroundblack.jpg')}
-              style={{ height: '110%', alignItems: 'center' }}
+              source={require("../../../assets/Backgroundblack.jpg")}
+              style={{ height: "110%", alignItems: "center" }}
             >
               <KeyboardAvoidingView
                 keyboardVerticalOffset={20}
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                behavior={Platform.OS === "ios" ? "padding" : "height"}
                 style={{
-                  backgroundColor: 'white',
+                  backgroundColor: "white",
                   marginTop: 20,
-                  width: '95%',
+                  width: "95%",
                   borderTopEndRadius: 20,
                   borderTopStartRadius: 20,
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     marginLeft: 10,
                     marginRight: 10,
                     marginTop: 20,
                     borderBottomWidth: 2,
-                    borderBottomColor: '#dadada',
+                    borderBottomColor: "#dadada",
                   }}
                   onPress={() => {
                     setModalimg(false);
@@ -351,9 +398,9 @@ export default function RelatorioDeAtestado() {
                   <Text
                     style={{
                       marginLeft: 30,
-                      fontStyle: 'Normal',
-                      fontWeight: '700',
-                      color: 'black',
+                      fontStyle: "Normal",
+                      fontWeight: "700",
+                      color: "black",
                       fontSize: 15,
                     }}
                   >
@@ -363,23 +410,25 @@ export default function RelatorioDeAtestado() {
 
                 <View
                   style={{
-                    flexDirection: 'row',
-                    flexWrap: 'wrap',
+                    flexDirection: "row",
+                    flexWrap: "wrap",
                     marginTop: 15,
                     borderBottomWidth: 2,
-                    borderBottomColor: '#dadada',
+                    borderBottomColor: "#dadada",
                     paddingRight: 70,
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>PONTOS: </Text>
+                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
+                    PONTOS:{" "}
+                  </Text>
 
                   <TextInputMask
                     style={styles.txtInputentrada}
                     placeholder=""
                     value={entrada1}
                     onChangeText={setEntrada1}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -388,7 +437,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida1}
                     onChangeText={setSaida1}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -397,7 +446,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada2}
                     onChangeText={setEntrada2}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -406,7 +455,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida2}
                     onChangeText={setSaida2}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -415,7 +464,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada3}
                     onChangeText={setEntrada3}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -424,7 +473,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida3}
                     onChangeText={setSaida3}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -433,7 +482,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada4}
                     onChangeText={setEntrada4}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -442,7 +491,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida4}
                     onChangeText={setSaida4}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -451,7 +500,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada5}
                     onChangeText={setEntrada5}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -460,7 +509,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida5}
                     onChangeText={setSaida5}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
+                    options={{ mask: "99:99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -469,7 +518,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada6}
                     onChangeText={setEntrada6}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -478,7 +527,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida6}
                     onChangeText={setSaida6}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -487,7 +536,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada7}
                     onChangeText={setEntrada7}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -496,7 +545,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida7}
                     onChangeText={setSaida7}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -505,7 +554,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada8}
                     onChangeText={setEntrada8}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -514,7 +563,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida8}
                     onChangeText={setSaida8}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -523,7 +572,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada9}
                     onChangeText={setEntrada9}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -532,7 +581,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida9}
                     onChangeText={setSaida9}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -541,7 +590,7 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={entrada10}
                     onChangeText={setEntrada10}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
 
@@ -550,55 +599,66 @@ export default function RelatorioDeAtestado() {
                     placeholder=""
                     value={saida10}
                     onChangeText={setSaida10}
-                    options={{ mask: '99-99', maskType: 'BRL' }}
+                    options={{ mask: "99-99", maskType: "BRL" }}
                     type="custom"
                   />
                 </View>
 
                 <View>
-                  <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                    <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>DATA: </Text>
+                  <View style={{ flexDirection: "row", marginTop: 15 }}>
+                    <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
+                      DATA:{" "}
+                    </Text>
                     <Text>
-                      {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/{infos[0].substr(0, 4)}
+                      {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/
+                      {infos[0].substr(0, 4)}
                     </Text>
                   </View>
                   <View
                     style={{
-                      flexDirection: 'row',
+                      flexDirection: "row",
                       borderBottomWidth: 2,
-                      borderBottomColor: '#dadada',
+                      borderBottomColor: "#dadada",
                       paddingBottom: 10,
                     }}
                   >
-                    <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>DIA: </Text>
+                    <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
+                      DIA:{" "}
+                    </Text>
                     <Text>{infos[1]}</Text>
                   </View>
                 </View>
-                <View style={{ alignItems: 'center' }}></View>
+                <View style={{ alignItems: "center" }}></View>
 
                 <View></View>
                 {button == true && (
                   <TouchableOpacity
                     onPress={edicao}
                     style={{
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: '#0393c7',
-                      flexDirection: 'row',
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#0393c7",
+                      flexDirection: "row",
                     }}
                   >
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', marginRight: 25 }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: "bold",
+                        marginRight: 25,
+                      }}
+                    >
                       Alterar
                     </Text>
                     <Image
                       style={{
                         width: 25,
                         height: 45,
-                        justifyContent: 'center',
+                        justifyContent: "center",
                         marginTop: 20,
                         marginBottom: 20,
                       }}
-                      source={require('../../../assets/bater-ponto.png')}
+                      source={require("../../../assets/bater-ponto.png")}
                     />
                   </TouchableOpacity>
                 )}
@@ -606,14 +666,14 @@ export default function RelatorioDeAtestado() {
                 {button == false && (
                   <TouchableOpacity
                     style={{
-                      alignItems: 'center',
-                      backgroundColor: '#0393c7',
-                      width: '100%',
+                      alignItems: "center",
+                      backgroundColor: "#0393c7",
+                      width: "100%",
                       height: 80,
-                      justifyContent: 'center',
+                      justifyContent: "center",
                     }}
                   >
-                    <ActivityIndicator size={'large'} color="white" />
+                    <ActivityIndicator size={"large"} color="white" />
                   </TouchableOpacity>
                 )}
               </KeyboardAvoidingView>
@@ -632,14 +692,14 @@ const Container = styled.SafeAreaView`
 const styles = StyleSheet.create({
   containeratestado: {
     flex: 1,
-    marginTop: '3%',
+    marginTop: "3%",
     marginLeft: 10,
     marginRight: 10,
   },
 
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   conteudo: {
     marginTop: 2,
@@ -647,31 +707,31 @@ const styles = StyleSheet.create({
   },
   data: {
     fontSize: 12,
-    color: '#0393c7',
-    fontWeight: 'bold',
+    color: "#0393c7",
+    fontWeight: "bold",
   },
   titulo: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
-    color: '#555555',
-    maxWidth: '95%',
+    color: "#555555",
+    maxWidth: "95%",
   },
   descricao: {
     fontSize: 12,
-    color: '#555555',
+    color: "#555555",
   },
 
   placeholderInput: {
     marginTop: 10,
-    fontStyle: 'Normal',
-    fontWeight: '400',
-    color: 'black',
+    fontStyle: "Normal",
+    fontWeight: "400",
+    color: "black",
     fontSize: 12,
     lineHeight: 16,
     borderWidth: 2,
-    borderColor: '#0393c7',
+    borderColor: "#0393c7",
     borderRadius: 5,
-    width: '90%',
+    width: "90%",
     padding: 9,
   },
 
@@ -682,8 +742,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 10,
     marginBottom: 20,
-    width: '75%',
-    backgroundColor: 'white',
+    width: "75%",
+    backgroundColor: "white",
   },
 
   txtInputentrada: {
