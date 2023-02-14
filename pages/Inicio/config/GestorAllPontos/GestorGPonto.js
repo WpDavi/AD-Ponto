@@ -16,7 +16,7 @@ import Icone from "@expo/vector-icons/FontAwesome5";
 import Iconee from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { Feather, Entypo } from "@expo/vector-icons";
-import Api from "../../../src/services/Api";
+import Api from "../../../../src/services/Api";
 import { ImageBackground } from "react-native";
 import { TextInput } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
@@ -125,37 +125,29 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     if (lista) {
-      if (pesquisa === "") {
-        setListaPesquisa(lista);
-      } else {
-        setListaPesquisa(
-          lista.filter((item) => {
-            if (item.funcionario.indexOf(pesquisa) > -1) {
-              return true;
-            } else {
-              return false;
-            }
-          })
-        );
-      }
+      setListaPesquisa(
+        lista.filter((item) => {
+          if (item.funcionario.indexOf(pesquisa) > -1) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
     }
   }, [pesquisa]);
 
   useEffect(() => {
     if (lista) {
-      if (pesquisaData === "") {
-        setListaPesquisa(lista);
-      } else {
-        setListaPesquisa(
-          lista.filter((item) => {
-            if (item.data.indexOf(pesquisaData) > -1) {
-              return true;
-            } else {
-              return false;
-            }
-          })
-        );
-      }
+      setListaPesquisa(
+        lista.filter((item) => {
+          if (item.data.indexOf(pesquisaData) > -1) {
+            return true;
+          } else {
+            return false;
+          }
+        })
+      );
     }
   }, [pesquisaData]);
   const onChangeInicio = (event, selectedDate) => {
@@ -182,6 +174,11 @@ export default function RelatorioDeAtestado() {
     };
     onStart();
   }, []);
+
+  async function handlePerson(itemValue) {
+    console.log(itemValue);
+    setPesquisa(itemValue);
+  }
 
   const renderItem = useCallback((atestado) => {
     const handleClickItem = () => {
@@ -323,7 +320,7 @@ export default function RelatorioDeAtestado() {
               <Image
                 resizeMode="contain"
                 style={{ width: 200, marginTop: 500 }}
-                source={require("../../../src/icons/historicodeponto.png")}
+                source={require("../../../../src/icons/historicodeponto.png")}
               />
               <ActivityIndicator color={"#1CADE2"} size={"large"} />
             </View>
@@ -334,7 +331,7 @@ export default function RelatorioDeAtestado() {
               <Picker
                 selectedValue={pesquisa}
                 mode={"dropdown"}
-                onValueChange={(itemValue) => setPesquisa(itemValue)}
+                onValueChange={(itemValue) => handlePerson(itemValue)}
               >
                 <Picker.Item label="Funcionario" value="Option 1" />
                 {funcionarios.map((item, index) => (
@@ -396,7 +393,7 @@ export default function RelatorioDeAtestado() {
             }}
           >
             <ImageBackground
-              source={require("../../../assets/Backgroundblack.jpg")}
+              source={require("../../../../assets/Backgroundblack.jpg")}
               style={{ height: "110%", alignItems: "center" }}
             >
               <KeyboardAvoidingView
@@ -687,7 +684,7 @@ export default function RelatorioDeAtestado() {
                         marginTop: 20,
                         marginBottom: 20,
                       }}
-                      source={require("../../../assets/bater-ponto.png")}
+                      source={require("../../../../assets/bater-ponto.png")}
                     />
                   </TouchableOpacity>
                 )}

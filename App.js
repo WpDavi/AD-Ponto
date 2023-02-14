@@ -44,7 +44,7 @@ import SolicitaçõesPonto from "./pages/Inicio/config/solicitacoesPonto";
 import GestorSolicitacoes from "./pages/Inicio/gestorSolic";
 //import GestorSolicitaçõesdePonto from "./pages/Inicio/config/GestorSolicitaçõesPonto";
 import GestorSolicitaçõesdePonto from "./pages/Inicio/gestorSPont";
-import GestorGPonto from "./pages/Inicio/config/GestorGPonto";
+import GestorGPonto from "./pages/Inicio/config/GestorAllPontos/GestorGPonto";
 import GestorBaterPonto from "./pages/Inicio/config/GestorBaterPonto";
 import EnvioDeNoification from "./pages/Inicio/config/EnvioDeNotification";
 import MeuQRCode from "./pages/Inicio/config/MeuQRCode";
