@@ -330,20 +330,22 @@ export default function RelatorioDeAtestado() {
           )}
 
           {listaPesquisa && (
-            <Picker
-              selectedValue={pesquisa}
-              mode={"dropdown"}
-              onValueChange={(itemValue) => setPesquisa(itemValue)}
-            >
-              <Picker.Item label="Funcionario" value="Option 1" />
-              {funcionarios.map((item, index) => (
-                <Picker.Item
-                  key={item.id}
-                  label={item.funcionario}
-                  value={item.funcionario}
-                />
-              ))}
-            </Picker>
+            <View>
+              <Picker
+                selectedValue={pesquisa}
+                mode={"dropdown"}
+                onValueChange={(itemValue) => setPesquisa(itemValue)}
+              >
+                <Picker.Item label="Funcionario" value="Option 1" />
+                {funcionarios.map((item, index) => (
+                  <Picker.Item
+                    key={item.id}
+                    label={item.funcionario}
+                    value={item.funcionario}
+                  />
+                ))}
+              </Picker>
+            </View>
           )}
 
           {listaPesquisa && (
