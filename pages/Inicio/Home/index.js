@@ -35,6 +35,7 @@ export default function Home() {
     async function getEmpresa() {
       const ress = await Api.getEmpresa();
       await AsyncStorage.setItem("@empresa", ress);
+      console.log(ress);
     }
     getEmpresa();
   }, []);

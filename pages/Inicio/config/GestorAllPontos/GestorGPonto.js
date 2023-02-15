@@ -25,6 +25,7 @@ import {
   AlertNotificationRoot,
 } from "react-native-alert-notification";
 import { Picker } from "@react-native-picker/picker";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function RelatorioDeAtestado() {
   const [infos, setInfos] = useState(["1", "2", "3", "4", "5"]);
@@ -123,29 +124,24 @@ export default function RelatorioDeAtestado() {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
     setDataInicial(currentDate);
-    setPesquisa(currentDate);
-    setPlaceIncial(newData);
-    const newData = JSON.stringify(currentDate);
-    setPesquisaData(newData.substr(1, 10));
-    console.log(newData);
-    console.log(newData.substr(1, 10));
+    AsyncStorage.setItem("@DataInicial", currentDate);
+    setModalDataFinal(true);
   };
 
   const onChangeFinal = (event, selectedDate) => {
+    console.log("termino");
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
-    setDataInicial(currentDate);
-    setPesquisa(currentDate);
-    setPlaceIncial(newData);
-    const newData = JSON.stringify(currentDate);
-    setPesquisaData(newData.substr(1, 10));
-    console.log(newData);
-    console.log(newData.substr(1, 10));
+    setDataFinal(currentDate);
+    AsyncStorage.setItem("@DataFinal", currentDate);
+    onStart();
+    setModalDataFinal(false);
   };
 
   const navigation = useNavigation();
 
   const onStart = async () => {
+    console.log(dataInicial, "------", dataFinal);
     if ((!dataInicial, !dataFinal)) {
       console.log("entrou");
       let dataFinal = new Date();
@@ -173,7 +169,7 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     onStart();
-  }, [funcionario]);
+  }, [funcionario, dataInicial, dataFinal]);
 
   async function handlePerson(itemValue) {
     console.log(itemValue);
