@@ -63,24 +63,22 @@ export default function RelatorioDeAtestado() {
   const [modalDataInicial, setModalDataInicial] = useState(false);
   const [modalDataFinal, setModalDataFinal] = useState(false);
   const [date, setDate] = useState(new Date());
-  const [placeIncial, setPlaceIncial] = useState("Data de Início");
 
   const [funcionarios, setFuncionarios] = useState("Funcionarios");
 
   const [dataInicial, setDataInicial] = useState("");
   const [dataFinal, setDataFinal] = useState("");
   const [funcionario, setFuncionario] = useState("");
-  const [load, setLoad] = useState(false);
+  const [load, setLoad] = useState(true);
+  const [loadSec, setLoadSec] = useState(false);
 
   useEffect(() => {
     async function getFuncinarios() {
       const res = await Api.getAllFuncionarios();
       setFuncionarios(res);
     }
-
     getFuncinarios();
   }, []);
-
   const edicao = async () => {
     const res = Api.editPonto(
       entrada1,
@@ -124,44 +122,42 @@ export default function RelatorioDeAtestado() {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
     setDataInicial(currentDate);
-    AsyncStorage.setItem("@DataInicial", currentDate);
+    AsyncStorage.setItem("@DataInicial", JSON.stringify(currentDate));
     setModalDataFinal(true);
   };
 
   const onChangeFinal = (event, selectedDate) => {
-    console.log("termino");
+    setModalDataFinal(false);
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
     setDataFinal(currentDate);
-    AsyncStorage.setItem("@DataFinal", currentDate);
-    onStart();
-    setModalDataFinal(false);
+    AsyncStorage.setItem("@DataFinal", JSON.stringify(currentDate));
   };
 
   const navigation = useNavigation();
 
   const onStart = async () => {
-    console.log(dataInicial, "------", dataFinal);
     if ((!dataInicial, !dataFinal)) {
-      console.log("entrou");
       let dataFinal = new Date();
       let dataInicial = new Date();
       dataInicial.setMonth(dataFinal.getMonth() - 1);
-
+      setLoad(true);
       const jso = await Api.getGestorhourss(
         funcionario,
         dataInicial,
         dataFinal
       );
+      setLoad(false);
       await setLista(jso);
       await setListaPesquisa(jso);
     } else {
-      console.log("teste");
+      setLoad(true);
       const jso = await Api.getGestorhourss(
         funcionario,
         dataInicial,
         dataFinal
       );
+      setLoad(false);
       await setLista(jso);
       await setListaPesquisa(jso);
     }
@@ -169,13 +165,12 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     onStart();
-  }, [funcionario, dataInicial, dataFinal]);
+  }, [funcionario, dataFinal]);
 
   async function handlePerson(itemValue) {
     console.log(itemValue);
     setLoad(true);
-    await onStart();
-    setLoad(false);
+    AsyncStorage.setItem("@FuncionarioPes", JSON.stringify(itemValue));
     setFuncionario(itemValue);
   }
 
@@ -271,452 +266,416 @@ export default function RelatorioDeAtestado() {
   return (
     <Container>
       <AlertNotificationRoot>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={10}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+        <ContainerHeaderTitulo>
+          <TxtTituloHeader>Gerencia de Pontos</TxtTituloHeader>
+        </ContainerHeaderTitulo>
+        <View style={{ position: "absolute", marginTop: 20 }}>
+          <ContainerButtonBack onPress={() => navigation.goBack()}>
+            <Icone size={17} name="arrow-left" color="white" />
+          </ContainerButtonBack>
+        </View>
+        {listaPesquisa && (
+          <View>
+            <Picker
+              selectedValue={pesquisa}
+              mode={"dropdown"}
+              onValueChange={(itemValue) => handlePerson(itemValue)}
+            >
+              <Picker.Item label={funcionario} value="Option 1" />
+              {funcionarios.map((item, index) => (
+                <Picker.Item
+                  key={item.id}
+                  label={item.funcionario}
+                  value={item.funcionario}
+                />
+              ))}
+            </Picker>
+          </View>
+        )}
+        {lista == null && (
+          <ContainerBody>
+            <Image
+              resizeMode="contain"
+              style={{ width: 200, marginTop: "35%" }}
+              source={require("../../../../src/icons/historicodeponto.png")}
+            />
+            <ActivityIndicator color={"#1CADE2"} size={"large"} />
+          </ContainerBody>
+        )}
+
+        {listaPesquisa && (
           <View
             style={{
-              width: "100%",
-              height: "7%",
+              flexDirection: "row",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 15,
-              backgroundColor: "#1CADE2",
             }}
           >
-            <Text
-              style={{
-                textAlign: "center",
-                fontSize: 23,
-                color: "white",
-                fontWeight: "bold",
+            <TextInputMask
+              style={styles.txtInput}
+              keyboardType="number-pad"
+              placeholder="Pesquisar por Data"
+              value={pesquisaData}
+              onPressIn={() => {
+                setModalDataInicial(true);
               }}
-            >
-              Gerencia de Pontos
-            </Text>
+              onChangeText={setPesquisaData}
+              options={{ mask: "9999-99-99", maskType: "BRL" }}
+              type="custom"
+            />
           </View>
-          <View style={{ position: "absolute", marginTop: 20 }}>
-            <TouchableOpacity
-              style={{ flexDirection: "row", marginLeft: 20 }}
-              onPress={() =>
-                navigation.reset({
-                  routes: [{ name: "Home" }],
-                })
-              }
-            >
-              <Icone size={20} name="arrow-left" color="white" />
-            </TouchableOpacity>
-          </View>
-          {lista == null && (
-            <View
-              style={{
-                flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Image
-                resizeMode="contain"
-                style={{ width: 200, marginTop: 500 }}
-                source={require("../../../../src/icons/historicodeponto.png")}
-              />
-              <ActivityIndicator color={"#1CADE2"} size={"large"} />
-            </View>
-          )}
+        )}
+        {modalDataInicial && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChangeInicio}
+          />
+        )}
+        {modalDataFinal && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode="date"
+            is24Hour={true}
+            display="default"
+            onChange={onChangeFinal}
+          />
+        )}
 
-          {listaPesquisa && (
-            <View>
-              <Picker
-                selectedValue={pesquisa}
-                mode={"dropdown"}
-                onValueChange={(itemValue) => handlePerson(itemValue)}
-              >
-                <Picker.Item label={funcionario} value="Option 1" />
-                {funcionarios.map((item, index) => (
-                  <Picker.Item
-                    key={item.id}
-                    label={item.funcionario}
-                    value={item.funcionario}
-                  />
-                ))}
-              </Picker>
-            </View>
-          )}
+        {!load && (
+          <FlatList
+            data={listaPesquisa}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index}
+          />
+        )}
+        {loadSec && <ActivityIndicator size={"large"} />}
 
-          {listaPesquisa && (
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <TextInputMask
-                style={styles.txtInput}
-                keyboardType="number-pad"
-                placeholder="Pesquisar por Data"
-                value={pesquisaData}
-                onPressIn={() => {
-                  setModalDataInicial(true);
-                }}
-                onChangeText={setPesquisaData}
-                options={{ mask: "9999-99-99", maskType: "BRL" }}
-                type="custom"
-              />
-            </View>
-          )}
-          {modalDataInicial && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={onChangeInicio}
-            />
-          )}
-          {modalDataFinal && (
-            <DateTimePicker
-              testID="dateTimePicker"
-              value={date}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={onChangeFinal}
-            />
-          )}
-
-          {!load && (
-            <FlatList
-              data={listaPesquisa}
-              renderItem={renderItem}
-              keyExtractor={(item, index) => index}
-            />
-          )}
-
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalimg}
-            onRequestClose={() => {
-              setModalimg(!modalimg);
-            }}
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalimg}
+          onRequestClose={() => {
+            setModalimg(!modalimg);
+          }}
+        >
+          <ImageBackground
+            source={require("../../../../assets/Backgroundblack.jpg")}
+            style={{ height: "110%", alignItems: "center" }}
           >
-            <ImageBackground
-              source={require("../../../../assets/Backgroundblack.jpg")}
-              style={{ height: "110%", alignItems: "center" }}
+            <KeyboardAvoidingView
+              keyboardVerticalOffset={20}
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              style={{
+                backgroundColor: "white",
+                marginTop: 20,
+                width: "95%",
+                borderTopEndRadius: 20,
+                borderTopStartRadius: 20,
+              }}
             >
-              <KeyboardAvoidingView
-                keyboardVerticalOffset={20}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+              <TouchableOpacity
                 style={{
-                  backgroundColor: "white",
+                  flexDirection: "row",
+                  marginLeft: 10,
+                  marginRight: 10,
                   marginTop: 20,
-                  width: "95%",
-                  borderTopEndRadius: 20,
-                  borderTopStartRadius: 20,
+                  borderBottomWidth: 2,
+                  borderBottomColor: "#dadada",
+                }}
+                onPress={() => {
+                  setModalimg(false);
                 }}
               >
-                <TouchableOpacity
+                <Icone size={20} name="arrow-left" color="black" />
+                <Text
                   style={{
-                    flexDirection: "row",
-                    marginLeft: 10,
-                    marginRight: 10,
-                    marginTop: 20,
-                    borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
-                  }}
-                  onPress={() => {
-                    setModalimg(false);
+                    marginLeft: 30,
+                    fontStyle: "Normal",
+                    fontWeight: "700",
+                    color: "black",
+                    fontSize: 15,
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="black" />
-                  <Text
-                    style={{
-                      marginLeft: 30,
-                      fontStyle: "Normal",
-                      fontWeight: "700",
-                      color: "black",
-                      fontSize: 15,
-                    }}
-                  >
-                    Edição do ponto
-                  </Text>
-                </TouchableOpacity>
+                  Edição do ponto
+                </Text>
+              </TouchableOpacity>
 
+              <View
+                style={{
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                  marginTop: 15,
+                  borderBottomWidth: 2,
+                  borderBottomColor: "#dadada",
+                  paddingRight: 70,
+                  paddingBottom: 10,
+                }}
+              >
+                <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
+                  PONTOS:{" "}
+                </Text>
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada1}
+                  onChangeText={setEntrada1}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida1}
+                  onChangeText={setSaida1}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada2}
+                  onChangeText={setEntrada2}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida2}
+                  onChangeText={setSaida2}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada3}
+                  onChangeText={setEntrada3}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida3}
+                  onChangeText={setSaida3}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada4}
+                  onChangeText={setEntrada4}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida4}
+                  onChangeText={setSaida4}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada5}
+                  onChangeText={setEntrada5}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida5}
+                  onChangeText={setSaida5}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada6}
+                  onChangeText={setEntrada6}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida6}
+                  onChangeText={setSaida6}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada7}
+                  onChangeText={setEntrada7}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida7}
+                  onChangeText={setSaida7}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada8}
+                  onChangeText={setEntrada8}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida8}
+                  onChangeText={setSaida8}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada9}
+                  onChangeText={setEntrada9}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida9}
+                  onChangeText={setSaida9}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={entrada10}
+                  onChangeText={setEntrada10}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  placeholder=""
+                  value={saida10}
+                  onChangeText={setSaida10}
+                  options={{ mask: "99-99", maskType: "BRL" }}
+                  type="custom"
+                />
+              </View>
+
+              <View>
+                <View style={{ flexDirection: "row", marginTop: 15 }}>
+                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
+                    DATA:{" "}
+                  </Text>
+                  <Text>
+                    {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/
+                    {infos[0].substr(0, 4)}
+                  </Text>
+                </View>
                 <View
                   style={{
                     flexDirection: "row",
-                    flexWrap: "wrap",
-                    marginTop: 15,
                     borderBottomWidth: 2,
                     borderBottomColor: "#dadada",
-                    paddingRight: 70,
                     paddingBottom: 10,
                   }}
                 >
                   <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    PONTOS:{" "}
+                    DIA:{" "}
                   </Text>
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada1}
-                    onChangeText={setEntrada1}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida1}
-                    onChangeText={setSaida1}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada2}
-                    onChangeText={setEntrada2}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida2}
-                    onChangeText={setSaida2}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada3}
-                    onChangeText={setEntrada3}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida3}
-                    onChangeText={setSaida3}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada4}
-                    onChangeText={setEntrada4}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida4}
-                    onChangeText={setSaida4}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada5}
-                    onChangeText={setEntrada5}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida5}
-                    onChangeText={setSaida5}
-                    options={{ mask: "99:99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada6}
-                    onChangeText={setEntrada6}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida6}
-                    onChangeText={setSaida6}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada7}
-                    onChangeText={setEntrada7}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida7}
-                    onChangeText={setSaida7}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada8}
-                    onChangeText={setEntrada8}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida8}
-                    onChangeText={setSaida8}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada9}
-                    onChangeText={setEntrada9}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida9}
-                    onChangeText={setSaida9}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={entrada10}
-                    onChangeText={setEntrada10}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
-
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    placeholder=""
-                    value={saida10}
-                    onChangeText={setSaida10}
-                    options={{ mask: "99-99", maskType: "BRL" }}
-                    type="custom"
-                  />
+                  <Text>{infos[1]}</Text>
                 </View>
+              </View>
+              <View style={{ alignItems: "center" }}></View>
 
-                <View>
-                  <View style={{ flexDirection: "row", marginTop: 15 }}>
-                    <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                      DATA:{" "}
-                    </Text>
-                    <Text>
-                      {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/
-                      {infos[0].substr(0, 4)}
-                    </Text>
-                  </View>
-                  <View
+              <View></View>
+              {button == true && (
+                <TouchableOpacity
+                  onPress={edicao}
+                  style={{
+                    alignItems: "center",
+                    justifyContent: "center",
+                    backgroundColor: "#0393c7",
+                    flexDirection: "row",
+                  }}
+                >
+                  <Text
                     style={{
-                      flexDirection: "row",
-                      borderBottomWidth: 2,
-                      borderBottomColor: "#dadada",
-                      paddingBottom: 10,
+                      fontSize: 20,
+                      fontWeight: "bold",
+                      marginRight: 25,
                     }}
                   >
-                    <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                      DIA:{" "}
-                    </Text>
-                    <Text>{infos[1]}</Text>
-                  </View>
-                </View>
-                <View style={{ alignItems: "center" }}></View>
-
-                <View></View>
-                {button == true && (
-                  <TouchableOpacity
-                    onPress={edicao}
+                    Alterar
+                  </Text>
+                  <Image
                     style={{
-                      alignItems: "center",
+                      width: 25,
+                      height: 45,
                       justifyContent: "center",
-                      backgroundColor: "#0393c7",
-                      flexDirection: "row",
+                      marginTop: 20,
+                      marginBottom: 20,
                     }}
-                  >
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: "bold",
-                        marginRight: 25,
-                      }}
-                    >
-                      Alterar
-                    </Text>
-                    <Image
-                      style={{
-                        width: 25,
-                        height: 45,
-                        justifyContent: "center",
-                        marginTop: 20,
-                        marginBottom: 20,
-                      }}
-                      source={require("../../../../assets/bater-ponto.png")}
-                    />
-                  </TouchableOpacity>
-                )}
+                    source={require("../../../../assets/bater-ponto.png")}
+                  />
+                </TouchableOpacity>
+              )}
 
-                {button == false && (
-                  <TouchableOpacity
-                    style={{
-                      alignItems: "center",
-                      backgroundColor: "#0393c7",
-                      width: "100%",
-                      height: 80,
-                      justifyContent: "center",
-                    }}
-                  >
-                    <ActivityIndicator size={"large"} color="white" />
-                  </TouchableOpacity>
-                )}
-              </KeyboardAvoidingView>
-            </ImageBackground>
-          </Modal>
-        </KeyboardAvoidingView>
+              {button == false && (
+                <TouchableOpacity
+                  style={{
+                    alignItems: "center",
+                    backgroundColor: "#0393c7",
+                    width: "100%",
+                    height: 80,
+                    justifyContent: "center",
+                  }}
+                >
+                  <ActivityIndicator size={"large"} color="white" />
+                </TouchableOpacity>
+              )}
+            </KeyboardAvoidingView>
+          </ImageBackground>
+        </Modal>
       </AlertNotificationRoot>
     </Container>
   );
@@ -724,6 +683,33 @@ export default function RelatorioDeAtestado() {
 const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${(props) => props.theme.background};
+`;
+
+//header ----------------------
+const ContainerHeaderTitulo = styled.View`
+  background-color: #1cade2;
+  align-items: center;
+`;
+const TxtTituloHeader = styled.Text`
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const ContainerButtonBack = styled.TouchableOpacity`
+  flex-direction: row;
+  position: absolute;
+  padding-left: 20px;
+`;
+
+//Body -------------
+
+const ContainerBody = styled.View`
+  align-items: center;
+  position: absolute;
+  width: 100%;
+  padding-bottom: 50%;
 `;
 
 const styles = StyleSheet.create({
