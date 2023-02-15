@@ -5,7 +5,6 @@ import {
   FlatList,
   Image,
   StyleSheet,
-  StatusBar,
   TouchableOpacity,
   Modal,
   ActivityIndicator,
@@ -13,12 +12,10 @@ import {
   SafeAreaView,
 } from "react-native";
 import Icone from "@expo/vector-icons/FontAwesome5";
-import Iconee from "@expo/vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
 import { Feather, Entypo } from "@expo/vector-icons";
 import Api from "../../../../src/services/Api";
 import { ImageBackground } from "react-native";
-import { TextInput } from "react-native";
 import { TextInputMask } from "react-native-masked-text";
 import styled from "styled-components/native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -26,7 +23,6 @@ import {
   ALERT_TYPE,
   Dialog,
   AlertNotificationRoot,
-  Toast,
 } from "react-native-alert-notification";
 import { Picker } from "@react-native-picker/picker";
 
@@ -35,13 +31,10 @@ export default function RelatorioDeAtestado() {
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
-  const [informacao, setInformacao] = useState();
   const [lista, setLista] = useState();
   const [pesquisa, setPesquisa] = useState();
   const [pesquisaData, setPesquisaData] = useState();
   const [listaPesquisa, setListaPesquisa] = useState();
-
-  const [txtInput, setTxtInput] = useState(true);
 
   const [pis, setPis] = useState();
   const [data, setData] = useState();
@@ -65,16 +58,18 @@ export default function RelatorioDeAtestado() {
   const [saida9, setSaida9] = useState(null);
   const [entrada10, setEntrada10] = useState(null);
   const [saida10, setSaida10] = useState(null);
-  const [dt, setDt] = useState();
 
   const [modalDataInicial, setModalDataInicial] = useState(false);
+  const [modalDataFinal, setModalDataFinal] = useState(false);
   const [date, setDate] = useState(new Date());
   const [placeIncial, setPlaceIncial] = useState("Data de Início");
 
   const [funcionarios, setFuncionarios] = useState("Funcionarios");
 
-  const [dataInicial, setDataInicial] = useState("2022-12-14T10:30:00.000Z");
-  const [dataFim, setDataFim] = useState("2022-11-14T10:30:00.000Z");
+  const [dataInicial, setDataInicial] = useState("");
+  const [dataFinal, setDataFinal] = useState("");
+  const [funcionario, setFuncionario] = useState("");
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     async function getFuncinarios() {
@@ -124,56 +119,19 @@ export default function RelatorioDeAtestado() {
       });
     }
   };
-
-  useEffect(() => {
-    if (lista) {
-      if (pesquisa === "") {
-        setListaPesquisa(lista);
-      } else {
-        setListaPesquisa(
-          lista.filter((item) => {
-            if (item.funcionario.indexOf(pesquisa) > -1) {
-              return true;
-            } else {
-              return false;
-            }
-          })
-        );
-      }
-    }
-  }, [pesquisa]);
-
-  useEffect(() => {
-    if (lista) {
-      if (pesquisaData === "") {
-        setListaPesquisa(lista);
-      } else {
-        setListaPesquisa(
-          lista.filter((item) => {
-            if (item.data.indexOf(pesquisaData) > -1) {
-              return true;
-            } else {
-              return false;
-            }
-          })
-        );
-      }
-    }
-  }, [pesquisaData]);
-
-  //useEffect(() => {
-  //  if (lista) {
-  //    setListaPesquisa(
-  //      lista.filter((item) => {
-  //        return (
-  //          new Date(item.data) >= new Date(dataInicial) &&
-  //          new Date(item.data) <= new Date(dataFim)
-  //        );
-  //      })
-  //    );
-  //  }
-  //}, [pesquisaData]);
   const onChangeInicio = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setModalDataInicial(Platform.OS === "ios");
+    setDataInicial(currentDate);
+    setPesquisa(currentDate);
+    setPlaceIncial(newData);
+    const newData = JSON.stringify(currentDate);
+    setPesquisaData(newData.substr(1, 10));
+    console.log(newData);
+    console.log(newData.substr(1, 10));
+  };
+
+  const onChangeFinal = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
     setDataInicial(currentDate);
@@ -187,20 +145,42 @@ export default function RelatorioDeAtestado() {
 
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const onStart = async () => {
-      const jso = await Api.getGestorhours();
-      const json = await Api.getInformacoesPessoais();
-      await setInformacao(json);
+  const onStart = async () => {
+    if ((!dataInicial, !dataFinal)) {
+      console.log("entrou");
+      let dataFinal = new Date();
+      let dataInicial = new Date();
+      dataInicial.setMonth(dataFinal.getMonth() - 1);
+
+      const jso = await Api.getGestorhourss(
+        funcionario,
+        dataInicial,
+        dataFinal
+      );
       await setLista(jso);
       await setListaPesquisa(jso);
-    };
+    } else {
+      console.log("teste");
+      const jso = await Api.getGestorhourss(
+        funcionario,
+        dataInicial,
+        dataFinal
+      );
+      await setLista(jso);
+      await setListaPesquisa(jso);
+    }
+  };
+
+  useEffect(() => {
     onStart();
-  }, []);
+  }, [funcionario]);
 
   async function handlePerson(itemValue) {
     console.log(itemValue);
-    setPesquisa(itemValue);
+    setLoad(true);
+    await onStart();
+    setLoad(false);
+    setFuncionario(itemValue);
   }
 
   const renderItem = useCallback((atestado) => {
@@ -356,7 +336,7 @@ export default function RelatorioDeAtestado() {
                 mode={"dropdown"}
                 onValueChange={(itemValue) => handlePerson(itemValue)}
               >
-                <Picker.Item label="Funcionario" value="Option 1" />
+                <Picker.Item label={funcionario} value="Option 1" />
                 {funcionarios.map((item, index) => (
                   <Picker.Item
                     key={item.id}
@@ -400,12 +380,24 @@ export default function RelatorioDeAtestado() {
               onChange={onChangeInicio}
             />
           )}
+          {modalDataFinal && (
+            <DateTimePicker
+              testID="dateTimePicker"
+              value={date}
+              mode="date"
+              is24Hour={true}
+              display="default"
+              onChange={onChangeFinal}
+            />
+          )}
 
-          <FlatList
-            data={listaPesquisa}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index}
-          />
+          {!load && (
+            <FlatList
+              data={listaPesquisa}
+              renderItem={renderItem}
+              keyExtractor={(item, index) => index}
+            />
+          )}
 
           <Modal
             animationType="slide"

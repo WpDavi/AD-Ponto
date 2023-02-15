@@ -546,6 +546,24 @@ export default {
     return json;
   },
 
+  getGestorhourss: async (funcionario, dataInicial, dataFinal) => {
+    const token = await AsyncStorage.getItem("token");
+    const req = await fetch(`${BASE_API}/dashboard/newhoursDate`, {
+      method: "POST",
+      body: JSON.stringify({
+        funcionario,
+        dataInicial,
+        dataFinal,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
   getAllInformacoesPessoais: async (pis) => {
     const token = await AsyncStorage.getItem("token");
     const req = await fetch(`${BASE_API}/dashboard/Allpersonal-information`, {
