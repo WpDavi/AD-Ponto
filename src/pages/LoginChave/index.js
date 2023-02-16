@@ -27,6 +27,7 @@ import { useNavigation } from '@react-navigation/native';
 import Api from '~/services/Api';
 
 import { SubContainer } from './styled';
+import { cleanText } from '~/utils/text';
 
 const LoginChave = ({ navigation }) => {
   const navigationn = useNavigation();
@@ -116,6 +117,7 @@ const LoginChave = ({ navigation }) => {
                 theme={{ colors: { background: '#fff' } }}
                 value={empresa}
                 onChangeText={(t) => setEmpresa(t)}
+                onBlur={() => cleanText(empresa, setEmpresa)}
               />
 
               <RNPTextInput
@@ -127,6 +129,7 @@ const LoginChave = ({ navigation }) => {
                 theme={{ colors: { background: '#fff' } }}
                 value={chave}
                 onChangeText={(t) => setChave(t)}
+                onBlur={() => cleanText(chave, setChave)}
               />
 
               <TouchableOpacity

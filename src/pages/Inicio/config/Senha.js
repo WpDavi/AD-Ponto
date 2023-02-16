@@ -21,6 +21,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function Senha() {
   const navigation = useNavigation();
@@ -111,6 +112,8 @@ export default function Senha() {
             theme={{ colors: { background: '#fff' } }}
             value={senhaAtual}
             onChangeText={(t) => setSenhaAtual(t)}
+            onBlur={() => cleanText(senhaAtual, setSenhaAtual)}
+
           />
 
           <RNPTextInput
@@ -122,6 +125,8 @@ export default function Senha() {
             theme={{ colors: { background: '#fff' } }}
             value={novaSenha}
             onChangeText={(t) => setNovaSenha(t)}
+            onBlur={() => cleanText(novaSenha, setNovaSenha)}
+
           />
 
           <RNPTextInput
@@ -133,6 +138,8 @@ export default function Senha() {
             theme={{ colors: { background: '#fff' } }}
             value={confirmarSenha}
             onChangeText={(t) => setConfirmarSenha(t)}
+            onBlur={() => cleanText(confirmarSenha, setConfirmarSenha)}
+
           />
 
           <View style={{ height: 20 }} />

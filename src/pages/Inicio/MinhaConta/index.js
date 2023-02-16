@@ -25,6 +25,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import * as ImagePicker from 'expo-image-picker';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 import { Container, InformaçõesPessoais, Nome } from './styled';
 
@@ -305,6 +306,7 @@ export default function MinhaConta() {
                     selectTextOnFocus={!disabledInput}
                     value={nomeInput}
                     onChangeText={setNomeInput}
+                    onBlur={() => cleanText(nomeInput, setNomeInput)}
                   />
                 </View>
                 <View style={styles.inputDisabled}>
@@ -316,6 +318,7 @@ export default function MinhaConta() {
                     selectTextOnFocus={!disabledInput}
                     value={emailInput}
                     onChangeText={setEmailInput}
+                    onBlur={() => cleanText(emailInput, setEmailInput)}
                   />
                 </View>
                 <View style={styles.inputDisabled}>
@@ -403,6 +406,7 @@ export default function MinhaConta() {
                     selectTextOnFocus={!disabledInput}
                     value={ctpsInput}
                     onChangeText={setCtpsInput}
+                    onBlur={() => cleanText(ctpsInput, setCtpsInput)}
                   />
                 </View>
               </View>
