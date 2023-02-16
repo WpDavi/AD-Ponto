@@ -14,6 +14,7 @@ import {
 } from 'react-native-alert-notification';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 
 import Icone from '@expo/vector-icons/FontAwesome5';
@@ -68,6 +69,12 @@ export default function Ponto() {
   ///Modal permissoes
   const [modalPermission, setModalPermission] = useState(false);
   const sistema = Platform.OS;
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      setInternet(state.isConnected);
+    });
+  }, [internet]);
 
   useEffect(() => {
     if (sistema === 'android') {

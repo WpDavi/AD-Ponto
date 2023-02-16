@@ -23,6 +23,7 @@ import MapView from 'react-native-maps';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 
 import Icone from '@expo/vector-icons/FontAwesome5';
@@ -66,6 +67,12 @@ export default function PontoLogin() {
   const [scanned, setScanned] = useState(false);
   const [qrEmail, setQrEmail] = useState();
   const [loadqr, setLoadqr] = useState(true);
+
+  useEffect(() => {
+    NetInfo.fetch().then((state) => {
+      setInternet(state.isConnected);
+    });
+  }, [internet]);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
