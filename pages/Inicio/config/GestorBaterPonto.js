@@ -379,16 +379,6 @@ export default function RelatorioDefuncionario() {
               type={type}
               style={{ flex: 1, justifyContent: "flex-end" }}
             >
-              <Image
-                resizeMethod="resize"
-                style={{
-                  width: 200,
-                  height: 325,
-                  alignSelf: "center",
-                  marginBottom: "70%",
-                }}
-                source={require("../../../src/icons/faceCan.png")}
-              />
               <PikerButton onPress={takePicture}>
                 <Icone size={23} name="camera" color="white" />
               </PikerButton>
