@@ -129,7 +129,7 @@ export default function Notification() {
               <Image
                 resizeMode="stretch"
                 style={styles.imgnotification}
-                source={require("../../../assets/notificaçao.png")}
+                source={require("../../../assets/notificacao.png")}
               />
             )}
 
