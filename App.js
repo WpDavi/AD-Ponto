@@ -2,7 +2,6 @@ import { useEffect } from "react";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import themee from "./src/thema/index";
 
 import { DefaultTheme, Provider } from "react-native-paper";
 
@@ -52,6 +51,15 @@ import GestorCadastroVisita from "./pages/Inicio/config/GestorCadastroVisita";
 import PontoFaceId2 from "./pages/Inicio/config/GestorPontoFaceId2";
 
 import { ThemeProvider } from "./src/thema/contexteTheme";
+
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    background: "#fff",
+    primary: "#00bbff",
+    accent: "#00bbff",
+  },
+};
 
 const Stack = createStackNavigator();
 

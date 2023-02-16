@@ -40,6 +40,7 @@ export default function RelatorioDeAtestado() {
 
   const [token, setToken] = useState("");
 
+  const [observacao, setObservacao] = useState();
   const [pis, setPis] = useState();
   const [data, setData] = useState();
   const [entrada1, setEntrada1] = useState(null);
@@ -423,7 +424,7 @@ export default function RelatorioDeAtestado() {
           >
             <Image
               resizeMode="contain"
-              style={{ width: 200, marginTop: "50%" }}
+              style={{ width: 200, marginTop: 500 }}
               source={require("../../../src/icons/historicodeponto.png")}
             />
             <ActivityIndicator color={"#1CADE2"} size={"large"} />
