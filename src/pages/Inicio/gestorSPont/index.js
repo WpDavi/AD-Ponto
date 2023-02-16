@@ -1,6 +1,3 @@
-import { Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,11 +10,17 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function GestorSolicitaçõesdePonto() {
@@ -245,9 +248,9 @@ export default function GestorSolicitaçõesdePonto() {
     };
 
     var status = 'Pendente';
-    if (ItemPonto.item.status == '2') {
+    if (ItemPonto.item.status === '2') {
       status = 'Aceito';
-    } else if (ItemPonto.item.status == '3') {
+    } else if (ItemPonto.item.status === '3') {
       status = 'Negado';
     }
 
@@ -355,7 +358,7 @@ export default function GestorSolicitaçõesdePonto() {
           />
         </TouchableOpacity>
 
-        {solicitacaoPonto.length == 0 && (
+        {solicitacaoPonto.length === 0 && (
           <View
             style={{
               flex: 1,
@@ -369,14 +372,14 @@ export default function GestorSolicitaçõesdePonto() {
               source={require('~/icons/solicitacoes.png')}
             />
 
-            {load == true && (
+            {load === true && (
               <ActivityIndicator
                 style={{ marginTop: 30 }}
                 size={'large'}
                 color="#1CADE2"
               />
             )}
-            {load == false && (
+            {load === false && (
               <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
                 Sem solicitações ate o momento
               </Text>
@@ -764,7 +767,7 @@ export default function GestorSolicitaçõesdePonto() {
                 marginTop: 15,
               }}
             >
-              {bottonLoad == false && (
+              {bottonLoad === false && (
                 <View style={{ flexDirection: 'row' }}>
                   <TouchableOpacity onPress={aceitarPonto}>
                     <Image
@@ -794,7 +797,7 @@ export default function GestorSolicitaçõesdePonto() {
                   </TouchableOpacity>
                 </View>
               )}
-              {bottonLoad == true && (
+              {bottonLoad === true && (
                 <ActivityIndicator
                   style={{ padding: 15 }}
                   size={'large'}

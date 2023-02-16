@@ -1,11 +1,12 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Image,
+  ImageBackground,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -14,18 +15,20 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+import { TextInputMask } from 'react-native-masked-text';
 
-import { Entypo } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
+import { Entypo } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import { Camera } from 'expo-camera';
-import { ImageBackground } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function RelatorioDefuncionario() {
@@ -54,7 +57,7 @@ export default function RelatorioDefuncionario() {
     const id = res.uuid;
     const url = res.url;
     await Api.postinfosFaceID(id, url);
-    if (res.status == 'failure') {
+    if (res.status === 'failure') {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'Alerta',
@@ -62,7 +65,7 @@ export default function RelatorioDefuncionario() {
         button: 'ok',
       });
       setModalLoad(false);
-    } else if (res.status == 'success') {
+    } else if (res.status === 'success') {
       setModalLoad(false);
       setModalcan(true);
       Dialog.show({
@@ -156,9 +159,9 @@ export default function RelatorioDefuncionario() {
     };
 
     let formadebaterponto = 'Localização';
-    if (funcionario.item.ponto_online_foto == 'S') {
+    if (funcionario.item.ponto_online_foto === 'S') {
       formadebaterponto = 'Localização + Foto';
-    } else if (funcionario.item.ponto_online_foto == 'Q') {
+    } else if (funcionario.item.ponto_online_foto === 'Q') {
       formadebaterponto = 'QR Code + Foto';
     }
 
@@ -278,17 +281,17 @@ export default function RelatorioDefuncionario() {
               marginBottom: 30,
             }}
             onPress={handleFaceId}
-          ></TouchableOpacity>
+          />
         </View>
       </SafeAreaView>
     );
   }, []);
 
-  if (!ponto || ponto == 'N') {
+  if (!ponto || ponto === 'N') {
     setPonto('Localização');
-  } else if (ponto == 'S') {
+  } else if (ponto === 'S') {
     setPonto('Foto + Localização');
-  } else if (ponto == 'Q') {
+  } else if (ponto === 'Q') {
     setPonto('QR Code + Foto');
   }
 
@@ -337,7 +340,7 @@ export default function RelatorioDefuncionario() {
               />
             </TouchableOpacity>
           </View>
-          {listaPesquisa == null && (
+          {listaPesquisa === null && (
             <View
               style={{
                 flex: 1,
@@ -488,8 +491,8 @@ export default function RelatorioDefuncionario() {
                   </Text>
                 </View>
 
-                <View></View>
-                {button == true && (
+                <View />
+                {button === true && (
                   <View
                     style={{
                       alignItems: 'center',
@@ -515,7 +518,7 @@ export default function RelatorioDefuncionario() {
                     </TouchableOpacity>
                   </View>
                 )}
-                {button == false && (
+                {button === false && (
                   <View
                     style={{
                       alignItems: 'center',

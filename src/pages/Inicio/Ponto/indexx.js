@@ -1,22 +1,27 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Alert,
+  Modal,
+  PermissionsAndroid,
+  Platform,
+  TouchableOpacity,
+} from 'react-native';
+import {
+  ALERT_TYPE,
+  AlertNotificationRoot,
+  Dialog,
+} from 'react-native-alert-notification';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
-import React, { useEffect, useState } from 'react';
-import {
-  ActivityIndicator,
-  Modal,
-  PermissionsAndroid,
-  TouchableOpacity,
-} from 'react-native';
-import {
-  AlertNotificationRoot,
-  ALERT_TYPE,
-  Dialog,
-} from 'react-native-alert-notification';
+
 import Mapa from '~/components/Mapa';
 import Api from '~/services/Api';
 
@@ -30,14 +35,17 @@ import {
   ContainerInfos,
   ContainerModalPermission,
   Header,
-  Txtbutton,
   TxtButtonModal,
   TxtHeader,
   TxtInfos,
+  Txtbutton,
 } from './styled';
 
 export default function Ponto() {
   const navigation = useNavigation();
+  const [internet, setInternet] = useState();
+  const [permissionCamera, setPermissionCamera] = useState();
+  const [hasPermission, setHasPermission] = useState();
 
   const [email, setEmail] = useState();
 
@@ -61,19 +69,19 @@ export default function Ponto() {
   const [modalPermission, setModalPermission] = useState(false);
   const sistema = Platform.OS;
 
-  if (sistema == 'android') {
-    useEffect(() => {
+  useEffect(() => {
+    if (sistema === 'android') {
       async function req() {
         const results = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
-        if (results == false) {
+        if (results === false) {
           setModalPermission(true);
         }
       }
       req();
-    }, []);
-  }
+    }
+  }, []);
 
   const logount = async () => {
     navigation.reset({
@@ -97,7 +105,7 @@ export default function Ponto() {
     setPermissionCamera(statuss === 'granted');
 
     if (permissionCamera === false) {
-      return alert('Acesso a camera negado!');
+      return Alert.alert('Acesso a camera negado!');
     }
   };
 
@@ -140,10 +148,10 @@ export default function Ponto() {
 
   const baterPonto = async () => {
     setLoad(true);
-    if (sFoto == 'S') {
+    if (sFoto === 'S') {
       navigation.navigate('PontoCamera');
       setLoad(false);
-    } else if (sFoto == 'Q') {
+    } else if (sFoto === 'Q') {
       navigation.navigate('PontoQrCode');
       setLoad(false);
     } else {
@@ -180,7 +188,7 @@ export default function Ponto() {
 
   const handlePonto = async () => {
     setLoad(true);
-    if (internet == true) {
+    if (internet === true) {
       //Req -----------------------------------------------------------------------------------------
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
@@ -218,7 +226,7 @@ export default function Ponto() {
           });
         }
       }
-    } else if (internet == false) {
+    } else if (internet === false) {
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
       var mes = String(dataaa.getMonth() + 1).padStart(2, '0');

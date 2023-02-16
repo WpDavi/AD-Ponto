@@ -1,6 +1,3 @@
-import { Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -14,7 +11,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
@@ -134,7 +137,7 @@ export default function RelatorioDeAtestado() {
       </View>
 
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {listaaa.length == '0' && (
+        {listaaa.length === '0' && (
           <Image
             resizeMode="contain"
             style={{ width: 300 }}

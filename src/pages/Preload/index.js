@@ -1,5 +1,3 @@
-import asyncstorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,11 +11,14 @@ import {
   Text,
   View,
 } from 'react-native';
-import Api from '~/services/Api';
-
 import { useTheme } from 'react-native-paper';
 
+import asyncstorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+
 import * as LocalAuthentication from 'expo-local-authentication';
+
+import Api from '~/services/Api';
 
 const Login = ({ navigation }) => {
   const { colors } = useTheme();
@@ -32,7 +33,7 @@ const Login = ({ navigation }) => {
   }, [internet]);
 
   useEffect(() => {
-    if (internet == true) {
+    if (internet === true) {
       const checkToken1 = async () => {
         const token = await asyncstorage.getItem('token');
 
@@ -46,7 +47,7 @@ const Login = ({ navigation }) => {
         }
       };
       checkToken1();
-    } else if (internet == false) {
+    } else if (internet === false) {
       const checkToken = async () => {
         const token = await asyncstorage.getItem('token');
         console.log('veio no 2');
@@ -66,10 +67,11 @@ const Login = ({ navigation }) => {
   async function authenticate() {
     const hasPassword = await LocalAuthentication.isEnrolledAsync();
 
-    if (!hasPassword)
+    if (!hasPassword) {
       navigation.reset({
         routes: [{ name: 'Login' }],
       });
+    }
 
     const { success, error } = await LocalAuthentication.authenticateAsync({
       promptMessage: 'Realizar Login',
@@ -120,7 +122,7 @@ const Login = ({ navigation }) => {
           transparent={true}
           visible={modal}
           onShow={authenticate}
-        ></Modal>
+        />
       )}
     </SafeAreaView>
   );

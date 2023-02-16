@@ -1,6 +1,3 @@
-import { AntDesign, Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,7 +8,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { AntDesign, Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function Senha() {
@@ -71,7 +74,7 @@ export default function Senha() {
         </Text>
       </TouchableOpacity>
 
-      {ferias.length == 0 && (
+      {ferias.length === 0 && (
         <View
           style={{
             flex: 1,
@@ -85,14 +88,14 @@ export default function Senha() {
             source={require('~/icons/solicitacoes.png')}
           />
 
-          {load == true && (
+          {load === true && (
             <ActivityIndicator
               style={{ marginTop: 30 }}
               size={'large'}
               color="#1CADE2"
             />
           )}
-          {load == false && (
+          {load === false && (
             <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
               Sem solicitações ate o momento
             </Text>
@@ -124,21 +127,21 @@ export default function Senha() {
                     }}
                   >
                     <View>
-                      {item.status == '1' && (
+                      {item.status === '1' && (
                         <AntDesign
                           color={'#555555'}
                           name={'reload1'}
                           size={45}
                         />
                       )}
-                      {item.status == '2' && (
+                      {item.status === '2' && (
                         <Feather
                           color={'#555555'}
                           name={'check-circle'}
                           size={45}
                         />
                       )}
-                      {item.status == '3' && (
+                      {item.status === '3' && (
                         <Feather
                           color={'#555555'}
                           name={'x'}
@@ -173,13 +176,13 @@ export default function Senha() {
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.txtInfo}>Status </Text>
                         <Text style={styles.txtInfo2}>
-                          {item.status_solicitacao == '2'
+                          {item.status_solicitacao === '2'
                             ? 'Aceito'
                             : item.status_solicitacao ||
-                              item.status_solicitacao == '1'
+                              item.status_solicitacao === '1'
                             ? 'Pendente'
                             : item.status_solicitacao ||
-                              item.status_solicitacao == '3'
+                              item.status_solicitacao === '3'
                             ? 'Negado'
                             : item.status_solicitacao}
                         </Text>

@@ -1,6 +1,6 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ImageBackground,
@@ -12,13 +12,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import styled from 'styled-components/native';
-import Api from '~/services/Api';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
-import { ActivityIndicator } from 'react-native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import styled from 'styled-components/native';
+
 import Atrasos from '~/components/BandodeDados/atrasos';
 import BancodeDados3 from '~/components/BandodeDados/bancodeDados';
 import Extra from '~/components/BandodeDados/extra';
@@ -27,6 +28,7 @@ import Faltas from '~/components/BandodeDados/faltas';
 import Horasnoturnas from '~/components/BandodeDados/horasNoturnas';
 import Horastrabalhadas from '~/components/BandodeDados/horasTrabalhadas';
 import Saldobancodehoras from '~/components/BandodeDados/saldoBancodeHoras';
+import Api from '~/services/Api';
 
 export default function BancodeHoras() {
   const [lista, setLista] = useState('');
@@ -55,7 +57,7 @@ export default function BancodeHoras() {
   useEffect(() => {
     const pontos = async () => {
       const pontosString = await AsyncStorage.getItem('pontos');
-      if (internet == true && pontosString !== null) {
+      if (internet === true && pontosString !== null) {
         navigation.reset({
           routes: [{ name: 'PontoEmEspera' }],
         });

@@ -1,5 +1,7 @@
-import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
+
+import * as Notifications from 'expo-notifications';
+
 import { useNotification } from '~/components/Pushnotificacao';
 import { ThemeProvider } from '~/context/ThemeContext';
 import { Routes } from '~/routes';
@@ -23,8 +25,9 @@ const App = () => {
     );
 
     return () => {
-      if (responseListener)
+      if (responseListener) {
         Notifications.removeNotificationSubscription(responseListener);
+      }
     };
   }, []);
 

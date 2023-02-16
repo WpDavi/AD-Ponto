@@ -1,10 +1,7 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Image,
   Modal,
   StyleSheet,
@@ -13,7 +10,14 @@ import {
   View,
 } from 'react-native';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
+
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function EnviodeAtestado() {
@@ -47,7 +51,9 @@ export default function EnviodeAtestado() {
   const enviar = async () => {
     if (!image) {
       setButton(true);
-    } else [setButton(false)];
+    } else {
+      [setButton(false)];
+    }
     if (image) {
       const json = await Api.uploudFiles(image);
       setJson(json);
@@ -71,7 +77,7 @@ export default function EnviodeAtestado() {
   }, [image]);
 
   if (permissionCamera === false) {
-    return alert('Acesso a camera negado!');
+    return Alert.alert('Acesso a camera negado!');
   }
 
   const camera = async () => {

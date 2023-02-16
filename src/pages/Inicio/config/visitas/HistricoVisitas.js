@@ -1,14 +1,7 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import Icon from '@expo/vector-icons/MaterialIcons';
-import {
-  BottomSheetModal,
-  BottomSheetModalProvider,
-} from '@gorhom/bottom-sheet';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   Modal,
@@ -18,12 +11,23 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import Icon from '@expo/vector-icons/MaterialIcons';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 import styled from 'styled-components';
+
 import TodoList from '~/components/checklist';
 import Api from '~/services/Api';
 
@@ -71,7 +75,7 @@ export default function VisiitasEmAndamento() {
       setTask('');
       setButtonAddTask(true);
     } else {
-      alert('Campo obrigatorio');
+      Alert.alert('Campo obrigatorio');
     }
   }
 
@@ -143,7 +147,7 @@ export default function VisiitasEmAndamento() {
             <ContainerDados>
               <TxtTituloFletList>ASSINATURA:</TxtTituloFletList>
               <TxtInfo>
-                {visitas.item.assinatura != null ? 'Coletada' : 'Não coletada'}
+                {visitas.item.assinatura !== null ? 'Coletada' : 'Não coletada'}
               </TxtInfo>
             </ContainerDados>
             {visitas.item.check_in && (
@@ -225,7 +229,7 @@ export default function VisiitasEmAndamento() {
               />
             </HeaderButton>
           </HeaderConteinerButoon>
-          {visitas.length == 0 && (
+          {visitas.length === 0 && (
             <View style={{ alignItems: 'center' }}>
               <Image
                 style={{
@@ -236,14 +240,14 @@ export default function VisiitasEmAndamento() {
                 }}
                 source={require('~/icons/visitas.png')}
               />
-              {inicioLoad == false && (
+              {inicioLoad === false && (
                 <Text
                   style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}
                 >
                   Sem visitas no momento
                 </Text>
               )}
-              {inicioLoad == true && (
+              {inicioLoad === true && (
                 <ActivityIndicator
                   size={'large'}
                   color={'#0393c7'}

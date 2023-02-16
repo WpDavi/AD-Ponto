@@ -1,15 +1,18 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import SignatureScreen from 'react-native-signature-canvas';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import * as FileSystem from 'expo-file-system';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function Assinatura(onOK) {

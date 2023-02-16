@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity, Button } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import {
+  Button,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { SafeAreaView } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native';
+
+import { Feather } from '@expo/vector-icons';
 
 export default function Header() {
   const navigation = useNavigation();
@@ -26,7 +35,11 @@ export default function Header() {
           style={styles.btnNotificacoes}
           activeOpacity={0.9}
         >
-          <Feather name="menu" size={27} color="#fff" />
+          <Feather
+            name="menu"
+            size={27}
+            color="#fff"
+          />
         </TouchableOpacity>
       </View>
     </SafeAreaView>

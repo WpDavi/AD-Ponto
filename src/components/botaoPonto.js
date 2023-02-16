@@ -1,6 +1,7 @@
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
 
 export default function BotaoPonto({ focused, color }) {
   const navigation = useNavigation();

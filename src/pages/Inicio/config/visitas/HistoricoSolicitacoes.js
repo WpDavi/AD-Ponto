@@ -1,6 +1,3 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,7 +10,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function HistoricoSolicitaçãoDeVisitas() {
@@ -116,7 +119,7 @@ export default function HistoricoSolicitaçãoDeVisitas() {
         </HeaderButton>
       </HeaderConteinerButoon>
 
-      {visitas.length == 0 && (
+      {visitas.length === 0 && (
         <View style={{ alignItems: 'center' }}>
           <Image
             style={{
@@ -127,14 +130,14 @@ export default function HistoricoSolicitaçãoDeVisitas() {
             }}
             source={require('~/icons/visitas.png')}
           />
-          {inicioLead == false && (
+          {inicioLead === false && (
             <Text
               style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}
             >
               Sem solicitações no momento
             </Text>
           )}
-          {inicioLead == true && (
+          {inicioLead === true && (
             <ActivityIndicator
               size={'large'}
               color={'#0393c7'}
@@ -247,8 +250,8 @@ export default function HistoricoSolicitaçãoDeVisitas() {
               <Text>{horarioVista}</Text>
             </View>
 
-            <View></View>
-            {button == true && (
+            <View />
+            {button === true && (
               <View
                 style={{
                   alignItems: 'center',
@@ -267,7 +270,7 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                 </TouchableOpacity>
               </View>
             )}
-            {button == false && (
+            {button === false && (
               <View
                 style={{
                   alignItems: 'center',

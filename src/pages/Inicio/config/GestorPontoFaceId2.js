@@ -1,5 +1,3 @@
-import { Ionicons } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,15 +9,19 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
+
+import { Ionicons } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function PontoFaceId2() {
@@ -109,7 +111,7 @@ export default function PontoFaceId2() {
     console.log('res', res.status);
     console.log('res', res.length);
 
-    if (res.status == 'failure') {
+    if (res.status === 'failure') {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'Alerta',
@@ -117,11 +119,11 @@ export default function PontoFaceId2() {
         button: 'ok',
       });
       setModalLoad(false);
-    } else if (res.length == 1) {
+    } else if (res.length === 1) {
       setPis(res[0].name);
       setModalLoad(false);
       setModalVisible(true);
-    } else if (res.length == 0) {
+    } else if (res.length === 0) {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'Alerta',
@@ -146,7 +148,7 @@ export default function PontoFaceId2() {
     getUser();
   }, [pis]);
 
-  handleFacesDetected = ({ faces }) => {
+  const handleFacesDetected = ({ faces }) => {
     //console.log(faces);
     if (faces[0]) {
       setFace(true);
@@ -189,7 +191,7 @@ export default function PontoFaceId2() {
         >
           <ContainerModalLoad>
             <View style={styles.imageUserContainer}>
-              {photo != '' ? (
+              {photo !== '' ? (
                 <Image
                   resizeMode="center"
                   style={styles.img}
@@ -213,7 +215,7 @@ export default function PontoFaceId2() {
                 <Text style={styles.textButtonModal}>Cancelar</Text>
               </TouchableOpacity>
 
-              {buttonEnviarLoad == false ? (
+              {buttonEnviarLoad === false ? (
                 <TouchableOpacity
                   activeOpacity={0.9}
                   style={styles.buttonModal}

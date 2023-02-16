@@ -1,6 +1,3 @@
-import { Entypo } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -9,6 +6,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -16,11 +14,17 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Entypo } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function Notification() {
@@ -132,7 +136,7 @@ export default function Notification() {
 
         <View style={styles.cotainerinfo}>
           <View style={{ width: '100%', alignItems: 'center' }}>
-            {lista.length == 0 && (
+            {lista.length === 0 && (
               <Image
                 resizeMode="stretch"
                 style={styles.imgnotification}
@@ -140,9 +144,9 @@ export default function Notification() {
               />
             )}
 
-            {lista.length == 0 && (
+            {lista.length === 0 && (
               <View style={{ alignItems: 'center' }}>
-                {load == false && (
+                {load === false && (
                   <View style={{ alignItems: 'center' }}>
                     <Text
                       style={{
@@ -167,7 +171,7 @@ export default function Notification() {
                     </Text>
                   </View>
                 )}
-                {load == true && (
+                {load === true && (
                   <View style={{ alignItems: 'center', marginTop: 30 }}>
                     <ActivityIndicator
                       size={'large'}
@@ -260,10 +264,10 @@ export default function Notification() {
                   </Text>
                 </View>
               </View>
-              <View style={{ alignItems: 'center' }}></View>
+              <View style={{ alignItems: 'center' }} />
 
-              <View></View>
-              {button == true && (
+              <View />
+              {button === true && (
                 <TouchableOpacity
                   onPress={apagar}
                   style={{
@@ -293,7 +297,7 @@ export default function Notification() {
                 </TouchableOpacity>
               )}
 
-              {button == false && (
+              {button === false && (
                 <TouchableOpacity
                   style={{
                     alignItems: 'center',

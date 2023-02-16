@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -7,6 +5,7 @@ import {
   Image,
   ImageBackground,
   KeyboardAvoidingView,
+  Platform,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -16,12 +15,17 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 import Api from '~/services/Api';
+
 import { SubContainer } from './styled';
 
 const Login = ({ navigation }) => {
@@ -45,7 +49,7 @@ const Login = ({ navigation }) => {
   const buttonSignIn = async () => {
     setDisabledEntrar(true);
     setLoadingEntrar(true);
-    if (email != '' && senha != '' && company != '') {
+    if (email !== '' && senha !== '' && company !== '') {
       let json = await Api.signIn(email, senha, company);
       console.log(json);
       if (json.token) {
@@ -99,7 +103,7 @@ const Login = ({ navigation }) => {
             </ImageBackground>
 
             <KeyboardAvoidingView
-              behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               keyboardVerticalOffset={-200}
             >
               <Text style={styles.titulo}>ENTRAR NO SISTEMA</Text>

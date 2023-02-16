@@ -1,29 +1,32 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  AlertNotificationRoot,
-  ALERT_TYPE,
-  Dialog,
-} from 'react-native-alert-notification';
-import styled from 'styled-components';
-import Api from '~/services/Api';
-
-import config from '@config';
-import * as Location from 'expo-location';
 import {
   ActivityIndicator,
   PermissionsAndroid,
+  Platform,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
 } from 'react-native';
+import {
+  ALERT_TYPE,
+  AlertNotificationRoot,
+  Dialog,
+} from 'react-native-alert-notification';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInputMask } from 'react-native-masked-text';
+
+import { useNavigation } from '@react-navigation/native';
+
+import config from '@config';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import * as Location from 'expo-location';
+import styled from 'styled-components';
+
+import Api from '~/services/Api';
 
 export default function GestorCadastroVisita() {
   const navigation = useNavigation();
@@ -187,7 +190,7 @@ export default function GestorCadastroVisita() {
               showsUserLocation={true}
               loadingEnabled={true}
               ref={mapEl}
-            ></MapView>
+            />
 
             {!destination && (
               <View style={styles.containerImput}>
@@ -269,7 +272,7 @@ export default function GestorCadastroVisita() {
             {nameDestination && (
               <EndereçoSelect>{nameDestination}</EndereçoSelect>
             )}
-            {cliente && horario && data && loadbutton == false && (
+            {cliente && horario && data && loadbutton === false && (
               <TouchableOpacity
                 onPress={cadastrarVisita}
                 activeOpacity={0.9}
@@ -278,7 +281,7 @@ export default function GestorCadastroVisita() {
                 <Text style={styles.textoBotao}>CADASTRAR VISITA</Text>
               </TouchableOpacity>
             )}
-            {cliente && horario && data && loadbutton == true && (
+            {cliente && horario && data && loadbutton === true && (
               <TouchableOpacity
                 activeOpacity={0.9}
                 style={styles.criar}
@@ -463,8 +466,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 10,
     boxSizing: 'border-box',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
     marginLeft: 20,
     marginBottom: 20,
     position: 'absolute',

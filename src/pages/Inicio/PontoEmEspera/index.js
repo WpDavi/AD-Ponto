@@ -1,5 +1,3 @@
-import asyncstorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -12,13 +10,16 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
-import Api from '~/services/Api';
-
 import { useTheme } from 'react-native-paper';
+
+import asyncstorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+
+import Api from '~/services/Api';
 
 const Login = ({ navigation }) => {
   const { colors } = useTheme();
@@ -87,7 +88,7 @@ const Login = ({ navigation }) => {
   };
 
   useEffect(() => {
-    if (internet == true) {
+    if (internet === true) {
       const checkToken1 = async () => {
         const pontosString = await asyncstorage.getItem('pontos');
         if (pontosString) {

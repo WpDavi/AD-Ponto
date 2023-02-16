@@ -1,8 +1,7 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
+  Alert,
   Image,
   Modal,
   PermissionsAndroid,
@@ -15,20 +14,23 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+import 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
 import { TextInput as RNPTextInput } from 'react-native-paper';
-import Api from '~/services/Api';
 
-import * as Location from 'expo-location';
-import 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 import Icone from '@expo/vector-icons/FontAwesome5';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
-import { ActivityIndicator } from 'react-native';
+import * as Location from 'expo-location';
+
+import Api from '~/services/Api';
 
 export default function PontoLogin() {
   const camRef = useRef(null);
@@ -113,7 +115,7 @@ export default function PontoLogin() {
   }, []);
 
   if (permissionCamera === false) {
-    return alert('Acesso a camera negado!');
+    return Alert.alert('Acesso a camera negado!');
   }
 
   const camera = async () => {
@@ -199,9 +201,9 @@ export default function PontoLogin() {
       const can = async () => {
         setModalVisible(true);
       };
-      if (foto == 'S') {
+      if (foto === 'S') {
         can();
-      } else if (foto == 'Q') {
+      } else if (foto === 'Q') {
         setModalQr(true);
       } else {
         handlePonto();
@@ -260,7 +262,7 @@ export default function PontoLogin() {
         textBody: 'Ponto Inserido com sucesso',
         button: 'ok',
       });
-    } else if (internet == false) {
+    } else if (internet === false) {
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
       var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
@@ -271,7 +273,8 @@ export default function PontoLogin() {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'Alerta',
-        textBody: `Sem conexão a internet, ponto será enviado ao retomar conexão`,
+        textBody:
+          'Sem conexão a internet, ponto será enviado ao retomar conexão',
         button: 'ok',
       });
       const myArray = [
@@ -466,7 +469,7 @@ export default function PontoLogin() {
             />
             {scanned && (
               <View style={{ marginTop: 40 }}>
-                {loadqr == true && (
+                {loadqr === true && (
                   <TouchableOpacity onPress={QRCODE}>
                     <Text
                       style={{
@@ -479,7 +482,7 @@ export default function PontoLogin() {
                     </Text>
                   </TouchableOpacity>
                 )}
-                {loadqr == false && (
+                {loadqr === false && (
                   <ActivityIndicator
                     size={'large'}
                     color="#1CADE2"

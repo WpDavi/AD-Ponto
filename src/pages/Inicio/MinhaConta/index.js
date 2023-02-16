@@ -1,7 +1,3 @@
-import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -16,12 +12,20 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import * as ImagePicker from 'expo-image-picker';
+
 import Api from '~/services/Api';
+
 import { Container, InformaçõesPessoais, Nome } from './styled';
 
 export default function MinhaConta() {
@@ -217,7 +221,7 @@ export default function MinhaConta() {
           { text: 'OK', onPress: () => console.log('ok') },
         ]);
       })
-      .catch((err) => {
+      .catch(() => {
         Alert.alert(
           'Falha ao atualizar.',
           'Falha ao atualizar dados de usuario',
@@ -485,7 +489,7 @@ export default function MinhaConta() {
                 </Text>
               </View>
 
-              {loading == false && (
+              {loading === false && (
                 <TouchableOpacity
                   onPress={alterarimg}
                   activeOpacity={0.9}
@@ -494,7 +498,7 @@ export default function MinhaConta() {
                   <Text style={styles.textoBotao}>Curti</Text>
                 </TouchableOpacity>
               )}
-              {loading == true && (
+              {loading === true && (
                 <TouchableOpacity style={styles.criar}>
                   <ActivityIndicator color={'white'} />
                 </TouchableOpacity>
