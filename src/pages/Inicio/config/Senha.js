@@ -1,5 +1,3 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,12 +9,17 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
+
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function Senha() {
@@ -52,7 +55,7 @@ export default function Senha() {
     setLoad(true);
     const res = await Api.updatPass(senhaAtual, novaSenha);
 
-    if (res == 'true') {
+    if (res === 'true') {
       setPassmodal(true);
     } else {
       setLoad(false);
@@ -132,9 +135,9 @@ export default function Senha() {
             onChangeText={(t) => setConfirmarSenha(t)}
           />
 
-          <View style={{ height: 20 }}></View>
+          <View style={{ height: 20 }} />
 
-          {load == false && (
+          {load === false && (
             <TouchableOpacity
               onPress={alterar}
               activeOpacity={0.9}
@@ -144,7 +147,7 @@ export default function Senha() {
             </TouchableOpacity>
           )}
 
-          {load == true && (
+          {load === true && (
             <TouchableOpacity
               activeOpacity={0.9}
               style={styles.criar}

@@ -1,28 +1,30 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from 'react';
 import {
-  View,
-  Text,
-  StyleSheet,
   Image,
-  Switch,
   ScrollView,
-} from "react-native";
-import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import Api from "~/services/Api";
-import { TouchableOpacity } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+
+import { DrawerItem } from '@react-navigation/drawer';
+import { useNavigation } from '@react-navigation/native';
+
 import {
-  FontAwesome,
-  MaterialIcons,
-  Entypo,
-  Fontisto,
   AntDesign,
-  FontAwesome5,
+  Entypo,
+  FontAwesome,
+  Fontisto,
   MaterialCommunityIcons,
-} from "@expo/vector-icons";
-import { ThemeContext } from "~/context/ThemeContext";
-import { Container } from "./styled";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+  MaterialIcons,
+} from '@expo/vector-icons';
+
+import { ThemeContext } from '~/context/ThemeContext';
+import Api from '~/services/Api';
+
+import { Container } from './styled';
 
 export function DrawerContent(props) {
   const [informacoesUsuario, setInformacoesUsuario] = useState();
@@ -50,7 +52,7 @@ export function DrawerContent(props) {
   const logount = async () => {
     await Api.logout();
     navigation.reset({
-      routes: [{ name: "Login" }],
+      routes: [{ name: 'Login' }],
     });
   };
 
@@ -62,17 +64,22 @@ export function DrawerContent(props) {
         {informacoesUsuario && (
           <View
             style={{
-              backgroundColor: "#1CADE2",
-              flexDirection: "row",
-              alignItems: "center",
+              backgroundColor: '#1CADE2',
+              flexDirection: 'row',
+              alignItems: 'center',
             }}
           >
             <View style={{ marginTop: 20, marginBottom: 10, marginRight: 10 }}>
-              {foto && <Image style={s.img} source={{ uri: foto }} />}
+              {foto && (
+                <Image
+                  style={s.img}
+                  source={{ uri: foto }}
+                />
+              )}
             </View>
 
             <View>
-              <Text style={{ color: "white", fontWeight: "bold" }}>
+              <Text style={{ color: 'white', fontWeight: 'bold' }}>
                 {informacoesUsuario.funcionario}
               </Text>
               <Text style={s.headertxt}>{informacoesUsuario.email}</Text>
@@ -82,80 +89,112 @@ export function DrawerContent(props) {
         )}
 
         <DrawerItem
-          labelStyle={{ marginLeft: -12, color: "black" }}
+          labelStyle={{ marginLeft: -12, color: 'black' }}
           icon={({ color, size }) => (
-            <FontAwesome name="lock" size={23} color="black" />
+            <FontAwesome
+              name="lock"
+              size={23}
+              color="black"
+            />
           )}
           label="Alterar Senha"
-          onPress={() => navigation.navigate("Senha")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('Senha')}
+        />
 
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
-            <MaterialIcons name="notifications" size={23} color="black" />
+            <MaterialIcons
+              name="notifications"
+              size={23}
+              color="black"
+            />
           )}
           label="Notificação"
-          onPress={() => navigation.navigate("Notification")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('Notification')}
+        />
 
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
-            <Entypo name="aircraft" size={23} color="black" />
+            <Entypo
+              name="aircraft"
+              size={23}
+              color="black"
+            />
           )}
           label="Solicitar período de férias"
-          onPress={() => navigation.navigate("SolicitarFerias")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('SolicitarFerias')}
+        />
 
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
-            <Entypo name="pencil" size={20} color="black" />
+            <Entypo
+              name="pencil"
+              size={20}
+              color="black"
+            />
           )}
           label="Solicitar edição de ponto"
-          onPress={() => navigation.navigate("HistoricoDePonto")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('HistoricoDePonto')}
+        />
 
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
-            <FontAwesome name="history" size={20} color="black" />
+            <FontAwesome
+              name="history"
+              size={20}
+              color="black"
+            />
           )}
           label="Histórico de solicitações"
-          onPress={() => navigation.navigate("Solicitacoes")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('Solicitacoes')}
+        />
 
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
-            <FontAwesome name="qrcode" size={23} color="black" />
+            <FontAwesome
+              name="qrcode"
+              size={23}
+              color="black"
+            />
           )}
           label="Meu QR Code"
-          onPress={() => navigation.navigate("MeuQRCode")}
-        ></DrawerItem>
+          onPress={() => navigation.navigate('MeuQRCode')}
+        />
 
-        {gestor == "gestor" && (
+        {gestor === 'gestor' && (
           <View>
             <Text style={s.titulo}>Área do gestor</Text>
 
             <DrawerItem
               labelStyle={{ marginLeft: -12 }}
               icon={({ color, size }) => (
-                <AntDesign name="copy1" size={23} color="black" />
+                <AntDesign
+                  name="copy1"
+                  size={23}
+                  color="black"
+                />
               )}
               label="Solicitações de funcionários"
-              onPress={() => navigation.navigate("GestorSolicitacoes")}
-            ></DrawerItem>
+              onPress={() => navigation.navigate('GestorSolicitacoes')}
+            />
 
             <DrawerItem
               labelStyle={{ marginLeft: -12 }}
               icon={({ color, size }) => (
-                <Fontisto name="preview" size={23} color="black" />
+                <Fontisto
+                  name="preview"
+                  size={23}
+                  color="black"
+                />
               )}
               label="Gerenciar Pontos dos funcionários"
-              onPress={() => navigation.navigate("GestorGPonto")}
-            ></DrawerItem>
+              onPress={() => navigation.navigate('GestorGPonto')}
+            />
 
             <DrawerItem
               labelStyle={{ marginLeft: -12 }}
@@ -167,17 +206,21 @@ export function DrawerContent(props) {
                 />
               )}
               label="Gerenciar bater ponto"
-              onPress={() => navigation.navigate("GestorBaterPonto")}
-            ></DrawerItem>
+              onPress={() => navigation.navigate('GestorBaterPonto')}
+            />
 
             <DrawerItem
               labelStyle={{ marginLeft: -12 }}
               icon={({ color, size }) => (
-                <AntDesign name="notification" size={23} color="black" />
+                <AntDesign
+                  name="notification"
+                  size={23}
+                  color="black"
+                />
               )}
               label="Envio de notificação para funcionário"
-              onPress={() => navigation.navigate("EnvioDeNoification")}
-            ></DrawerItem>
+              onPress={() => navigation.navigate('EnvioDeNoification')}
+            />
 
             {/**
             <DrawerItem
@@ -199,8 +242,8 @@ export function DrawerContent(props) {
                 />
               )}
               label="Bater ponto por faceID"
-              onPress={() => navigation.navigate("PontoFaceId2")}
-            ></DrawerItem>
+              onPress={() => navigation.navigate('PontoFaceId2')}
+            />
           </View>
         )}
 
@@ -209,13 +252,13 @@ export function DrawerContent(props) {
           <TouchableOpacity style={s.containerbutton}>
             <Image
               style={s.iconImg}
-              source={require("~/icons/modoescuro.png")}
+              source={require('~/icons/modoescuro.png')}
             />
             <Text style={s.txtbutton}>Modo escuro</Text>
-            <View style={{ flex: 1, alignItems: "flex-end" }}>
+            <View style={{ flex: 1, alignItems: 'flex-end' }}>
               <Switch
-                trackColor={{ false: "#767577", true: "black" }}
-                thumbColor={darkMod ? "#00bbff" : "#00bbff"}
+                trackColor={{ false: '#767577', true: 'black' }}
+                thumbColor={darkMod ? '#00bbff' : '#00bbff'}
                 ios_backgroundColor="#3e3e3e"
                 value={darkMod}
                 onValueChange={toggleTheme}
@@ -236,11 +279,15 @@ export function DrawerContent(props) {
             labelStyle={{ marginLeft: -12 }}
             style={{ marginBottom: -7, marginTop: -7 }}
             icon={({ color, size }) => (
-              <AntDesign name="logout" size={20} color="black" />
+              <AntDesign
+                name="logout"
+                size={20}
+                color="black"
+              />
             )}
             label="Sair da conta"
             onPress={logount}
-          ></DrawerItem>
+          />
         </View>
       </ScrollView>
     </Container>
@@ -256,14 +303,14 @@ export const s = StyleSheet.create({
     borderWidth: 1,
   },
   headertxt: {
-    color: "white",
+    color: 'white',
     fontSize: 11,
   },
   containerbutton: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 25,
     marginLeft: 22,
-    alignItems: "center",
+    alignItems: 'center',
   },
   iconImg: {
     width: 15,
@@ -271,16 +318,16 @@ export const s = StyleSheet.create({
   },
   txtbutton: {
     marginLeft: 20,
-    color: "black",
+    color: 'black',
   },
 
   titulo: {
     fontSize: 17,
-    fontWeight: "bold",
+    fontWeight: 'bold',
     paddingTop: 5,
     marginTop: 30,
     paddingLeft: 22,
     borderTopWidth: 2,
-    borderColor: "#CCCCCC",
+    borderColor: '#CCCCCC',
   },
 });

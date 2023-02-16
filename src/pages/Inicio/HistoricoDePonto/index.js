@@ -1,6 +1,3 @@
-import { Entypo, Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -14,12 +11,18 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Entypo, Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
@@ -371,7 +374,7 @@ export default function RelatorioDeAtestado() {
               color={'#555555'}
             />
             <View style={styles.conteudo}>
-              <Text style={styles.titulo}>{`Ponto Inserido`}</Text>
+              <Text style={styles.titulo}>{'Ponto Inserido'}</Text>
               <Text style={styles.descricao}>
                 {atestado.item.entrada1} - {atestado.item.saida1} -{' '}
                 {atestado.item.entrada2} - {atestado.item.saida2} -{' '}
@@ -422,7 +425,7 @@ export default function RelatorioDeAtestado() {
             />
           </ContainerButtonBack>
         </View>
-        {lista == null && (
+        {lista === null && (
           <View
             style={{
               flex: 1,
@@ -1077,7 +1080,7 @@ export default function RelatorioDeAtestado() {
                 </ContainerInfos>
               )}
 
-              {button == true && (
+              {button === true && (
                 <ConatinerButton onPress={edicao}>
                   <Text
                     style={{
@@ -1092,7 +1095,7 @@ export default function RelatorioDeAtestado() {
                 </ConatinerButton>
               )}
 
-              {button == false && (
+              {button === false && (
                 <ConatinerButton>
                   <ActivityIndicator
                     size={'large'}

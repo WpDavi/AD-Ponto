@@ -1,7 +1,10 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 var data = new Date();

@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import {
   FlatList,
@@ -9,13 +7,17 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import styled from 'styled-components/native';
-import Header from '~/components/Header';
-import Opcoes from '~/components/Opcoes';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
+
+import * as Location from 'expo-location';
+import styled from 'styled-components/native';
+
 import Acoes from '~/components/Acoes';
+import Header from '~/components/Header';
+import Opcoes from '~/components/Opcoes';
 import UltimasMovimentacoes from '~/components/UltimasAtividades';
 import Api from '~/services/Api';
 
@@ -55,7 +57,7 @@ export default function Home() {
       const results = await PermissionsAndroid.check(
         PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
-      if (results == true) {
+      if (results === true) {
         const location = await Location.getCurrentPositionAsync({});
         if (location) {
           const { coords } = location;
@@ -91,7 +93,7 @@ export default function Home() {
     Api.getEmpresa();
     const pontos = async () => {
       const pontosString = await AsyncStorage.getItem('pontos');
-      if (internet == true && pontosString !== null) {
+      if (internet === true && pontosString !== null) {
         navigation.reset({
           routes: [{ name: 'PontoEmEspera' }],
         });
@@ -135,7 +137,7 @@ export default function Home() {
   }, [pis]);
 
   const onStart = async () => {
-    if (internet == true) {
+    if (internet === true) {
       await Api.checktoken();
     }
 

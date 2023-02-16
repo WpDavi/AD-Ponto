@@ -1,26 +1,32 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
-import { useNavigation } from '@react-navigation/native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
-import * as ImagePicker from 'expo-image-picker';
-import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Modal,
   PermissionsAndroid,
   TouchableOpacity,
 } from 'react-native';
+import { Platform } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import MapView from 'react-native-maps';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+
 import Mapa from '~/components/Mapa';
 import Api from '~/services/Api';
+
 import {
   ButtonBack,
   Container,
@@ -32,16 +38,18 @@ import {
   ContainerInfos,
   ContainerModalPermission,
   Header,
-  Txtbutton,
   TxtButtonModal,
   TxtHeader,
   TxtInfos,
   TxtName,
   TxtTitulo,
+  Txtbutton,
 } from './styled';
 
 export default function Ponto() {
   const navigation = useNavigation();
+  const [permissionCamera, setPermissionCamera] = useState();
+  const [hasPermission, setHasPermission] = useState();
 
   const [email, setEmail] = useState();
 
@@ -80,19 +88,19 @@ export default function Ponto() {
   const [modalPermission, setModalPermission] = useState(false);
   const sistema = Platform.OS;
 
-  if (sistema == 'android') {
-    useEffect(() => {
+  useEffect(() => {
+    if (sistema === 'android') {
       async function req() {
         const results = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
-        if (results == false) {
+        if (results === false) {
           setModalPermission(true);
         }
       }
       req();
-    }, []);
-  }
+    }
+  }, []);
 
   const logount = async () => {
     navigation.reset({
@@ -116,7 +124,7 @@ export default function Ponto() {
     setPermissionCamera(statuss === 'granted');
 
     if (permissionCamera === false) {
-      return alert('Acesso a camera negado!');
+      return Alert.alert('Acesso a camera negado!');
     }
   };
   const updateClock = () => {
@@ -181,10 +189,10 @@ export default function Ponto() {
 
   const baterPonto = async () => {
     setLoad(true);
-    if (sFoto == 'S') {
+    if (sFoto === 'S') {
       navigation.navigate('PontoCamera');
       setLoad(false);
-    } else if (sFoto == 'Q') {
+    } else if (sFoto === 'Q') {
       navigation.navigate('PontoQrCode');
       setLoad(false);
     } else {
@@ -210,7 +218,7 @@ export default function Ponto() {
 
   const handlePonto = async () => {
     setLoad(true);
-    if (internet == true) {
+    if (internet === true) {
       //Req -----------------------------------------------------------------------------------------
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
@@ -248,7 +256,7 @@ export default function Ponto() {
           });
         }
       }
-    } else if (internet == false) {
+    } else if (internet === false) {
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
       var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
@@ -335,7 +343,7 @@ export default function Ponto() {
             region={coords}
             showsUserLocation={true}
             loadingEnabled={true}
-          ></MapView>
+          />
           {!load && (
             <ContainerButton onPress={baterPonto}>
               <Txtbutton>

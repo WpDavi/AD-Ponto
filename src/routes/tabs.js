@@ -1,5 +1,7 @@
-import Feather from '@expo/vector-icons/Feather';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+
+import Feather from '@expo/vector-icons/Feather';
+
 import BotaoPonto from '~/components/botaoPonto';
 import Inicio from '~/pages/Inicio/Home';
 import MinhaConta from '~/pages/Inicio/MinhaConta';

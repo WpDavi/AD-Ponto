@@ -3,17 +3,17 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function BancodeDados({ data }) {
   var dia = 'Segunda';
-  if (data.dia == 'Tuesday') {
+  if (data.dia === 'Tuesday') {
     dia = 'Terça';
-  } else if (data.dia == 'Wednesday') {
+  } else if (data.dia === 'Wednesday') {
     dia = 'Quarta';
-  } else if (data.dia == 'Thursday') {
+  } else if (data.dia === 'Thursday') {
     dia = 'Quinta';
-  } else if (data.dia == 'Friday') {
+  } else if (data.dia === 'Friday') {
     dia = 'sexta';
-  } else if (data.dia == 'Saturday') {
+  } else if (data.dia === 'Saturday') {
     dia = 'Sábado';
-  } else if (data.dia == 'Sunday') {
+  } else if (data.dia === 'Sunday') {
     dia = 'Domingo';
   }
   return (

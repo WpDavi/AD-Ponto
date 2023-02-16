@@ -1,4 +1,3 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -13,9 +12,12 @@ import {
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function PontoFaceId() {
@@ -86,7 +88,7 @@ export default function PontoFaceId() {
   //     takePicture();
   //   }
   // };
-  handleFacesDetected = async () => {
+  const handleFacesDetected = async () => {
     await takePicture();
     setModalVisible(false);
   };
@@ -180,7 +182,7 @@ export default function PontoFaceId() {
             />
           </TouchableOpacity>
         </View>
-        {listaPesquisa == null && (
+        {listaPesquisa === null && (
           <View
             style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
           >
@@ -284,7 +286,6 @@ const styles = StyleSheet.create({
   },
   descricao: {
     fontSize: 12,
-    color: 'black',
     fontWeight: 'bold',
     color: '#555555',
   },

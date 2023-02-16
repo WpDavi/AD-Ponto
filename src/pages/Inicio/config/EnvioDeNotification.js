@@ -1,11 +1,12 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   FlatList,
   Image,
+  ImageBackground,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   SafeAreaView,
   StatusBar,
   StyleSheet,
@@ -14,16 +15,18 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+import { TextInput as RNPTextInput } from 'react-native-paper';
+
+import { useNavigation } from '@react-navigation/native';
 
 import { Entypo, Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
-import { ImageBackground } from 'react-native';
-import { TextInput as RNPTextInput } from 'react-native-paper';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function EnvioDeNoification() {
@@ -228,7 +231,7 @@ export default function EnvioDeNoification() {
               />
             </TouchableOpacity>
           </View>
-          {listaPesquisa == null && (
+          {listaPesquisa === null && (
             <View
               style={{
                 flex: 1,
@@ -338,8 +341,8 @@ export default function EnvioDeNoification() {
                     onChangeText={(t) => setMsg(t)}
                   />
                 </View>
-                <View></View>
-                {button == true && (
+                <View />
+                {button === true && (
                   <View
                     style={{
                       alignItems: 'center',
@@ -370,7 +373,7 @@ export default function EnvioDeNoification() {
                     </View>
                   </View>
                 )}
-                {button == false && (
+                {button === false && (
                   <View
                     style={{
                       alignItems: 'center',
@@ -423,7 +426,6 @@ const styles = StyleSheet.create({
   },
   descricao: {
     fontSize: 12,
-    color: 'black',
     fontWeight: 'bold',
     color: '#555555',
   },

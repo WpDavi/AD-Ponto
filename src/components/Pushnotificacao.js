@@ -1,7 +1,10 @@
+import { Alert, Linking, Platform } from 'react-native';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import * as Device from 'expo-device';
 import * as Notifications from 'expo-notifications';
-import { Linking, Platform } from 'react-native';
+
 import Api from '~/services/Api';
 
 export const useNotification = () => {
@@ -18,7 +21,7 @@ export const useNotification = () => {
         finalStatus = status;
       }
       if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+        Alert.alert('Failed to get push token for push notification!');
         return;
       }
       const tokenn = (await Notifications.getExpoPushTokenAsync()).data;
@@ -26,7 +29,7 @@ export const useNotification = () => {
         await AsyncStorage.setItem('@notificationToken', tokenn);
       }
     } else {
-      alert('Must use physical device for Push Notifications');
+      Alert.alert('Must use physical device for Push Notifications');
     }
     if (Platform.OS === 'android') {
       Notifications.setNotificationChannelAsync('default', {
@@ -42,7 +45,9 @@ export const useNotification = () => {
   const handleNotificationResponse = (response) => {
     const data = response;
 
-    if (data.url) Linking.openURL(data.url);
+    if (data.url) {
+      Linking.openURL(data.url);
+    }
   };
 
   return {

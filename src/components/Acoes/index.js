@@ -1,14 +1,16 @@
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import styled from 'styled-components/native';
-import Api from '~/services/Api';
+import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
 
 import {
   Feather,
   FontAwesome,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import { Image, ScrollView, StyleSheet, TouchableOpacity } from 'react-native';
+import styled from 'styled-components/native';
+
+import Api from '~/services/Api';
 
 export default function Acoes() {
   const navigation = useNavigation();
@@ -49,7 +51,7 @@ export default function Acoes() {
         </AreaAcao>
         <TextAcao>Banco{'\n'} de Horas</TextAcao>
       </TouchableOpacity>
-      
+
       */}
 
       <TouchableOpacity
@@ -83,7 +85,7 @@ export default function Acoes() {
         </TouchableOpacity>
       )}
 
-      {/**    
+      {/**
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.botaoAcao}

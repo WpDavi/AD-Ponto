@@ -1,17 +1,21 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import NetInfo from '@react-native-community/netinfo';
-import { useNavigation } from '@react-navigation/native';
-import { Camera } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { Camera } from 'expo-camera';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
+
 import { ChangeCan, ImgChangeCan } from './styled';
 
 export default function PontoCamera() {
@@ -63,9 +67,9 @@ export default function PontoCamera() {
   };
 
   function TogleCan() {
-    if (type == 0) {
+    if (type === 0) {
       setType(1);
-    } else if (type == 1) {
+    } else if (type === 1) {
       setType(0);
     }
   }
@@ -110,7 +114,7 @@ export default function PontoCamera() {
 
   const handlePonto = async () => {
     setLoadPonto(true);
-    if (internet == true) {
+    if (internet === true) {
       //Req -----------------------------------------------------------------------------------------
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
@@ -149,7 +153,7 @@ export default function PontoCamera() {
           });
         }
       }
-    } else if (internet == false) {
+    } else if (internet === false) {
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
       var mes = String(dataaa.getMonth() + 1).padStart(2, '0');

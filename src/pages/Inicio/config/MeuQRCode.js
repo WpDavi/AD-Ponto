@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import QRCode from 'react-native-qrcode-svg';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import styled from 'styled-components';
 
 export default function MeuQRCode() {
@@ -16,7 +18,12 @@ export default function MeuQRCode() {
   return (
     <Container>
       <Titulo>Bater ponto com QR CODE</Titulo>
-      {email && <QRCode value={email} size={250} />}
+      {email && (
+        <QRCode
+          value={email}
+          size={250}
+        />
+      )}
     </Container>
   );
 }

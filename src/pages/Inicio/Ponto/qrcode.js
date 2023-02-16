@@ -1,8 +1,3 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import { BarCodeScanner } from 'expo-barcode-scanner';
-import { Camera } from 'expo-camera';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,11 +6,19 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function PontoQrCode() {
@@ -103,9 +106,9 @@ export default function PontoQrCode() {
   }
 
   function TogleCan() {
-    if (type == 0) {
+    if (type === 0) {
       setType(1);
-    } else if (type == 1) {
+    } else if (type === 1) {
       setType(0);
     }
   }
@@ -138,7 +141,7 @@ export default function PontoQrCode() {
                 </ButtonQrCode>
               </TouchableOpacity>
             )}
-            {loadqr == false && (
+            {loadqr === false && (
               <ActivityIndicator
                 size={'large'}
                 color="#1CADE2"

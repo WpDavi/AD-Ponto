@@ -1,11 +1,7 @@
-import config from '@config';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
+  Alert,
   Linking,
   PermissionsAndroid,
   Platform,
@@ -15,15 +11,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { View } from 'react-native-animatable';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import config from '@config';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import * as Location from 'expo-location';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function Mapa() {
@@ -146,7 +150,7 @@ export default function Mapa() {
       if (supported) {
         Linking.openURL(url);
       } else {
-        ToastyMessage('Serviço indisponivel');
+        Alert.alert('Serviço indisponivel');
       }
     });
   };
@@ -219,7 +223,7 @@ export default function Mapa() {
           </View>
         )}
 
-        {cliente && loadButton == false && offButton == false && (
+        {cliente && loadButton === false && offButton === false && (
           <TouchableOpacity
             onPress={cadastrarRota}
             activeOpacity={0.9}
@@ -230,7 +234,7 @@ export default function Mapa() {
             </Text>
           </TouchableOpacity>
         )}
-        {cliente && loadButton == true && offButton == false && (
+        {cliente && loadButton === true && offButton === false && (
           <TouchableOpacity
             activeOpacity={0.9}
             style={styles.criar}
@@ -383,8 +387,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 10,
     boxSizing: 'border-box',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
     marginLeft: 20,
     marginBottom: 20,
     position: 'absolute',

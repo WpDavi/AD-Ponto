@@ -1,9 +1,3 @@
-import { Entypo, Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { Picker } from '@react-native-picker/picker';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -12,6 +6,7 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
@@ -19,12 +14,21 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native';
+
+import { Entypo, Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
@@ -309,7 +313,7 @@ export default function RelatorioDeAtestado() {
             </Picker>
           </ContainerSelectFuncion>
         )}
-        {lista == null && (
+        {lista === null && (
           <ContainerBody>
             <Image
               resizeMode="contain"
@@ -654,10 +658,10 @@ export default function RelatorioDeAtestado() {
                   <Text>{infos[1]}</Text>
                 </View>
               </View>
-              <View style={{ alignItems: 'center' }}></View>
+              <View style={{ alignItems: 'center' }} />
 
-              <View></View>
-              {button == true && (
+              <View />
+              {button === true && (
                 <TouchableOpacity
                   onPress={edicao}
                   style={{
@@ -689,7 +693,7 @@ export default function RelatorioDeAtestado() {
                 </TouchableOpacity>
               )}
 
-              {button == false && (
+              {button === false && (
                 <TouchableOpacity
                   style={{
                     alignItems: 'center',

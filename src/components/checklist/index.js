@@ -1,5 +1,3 @@
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
@@ -8,7 +6,12 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function TodoList() {
@@ -53,9 +56,11 @@ export default function TodoList() {
         <Container>
           <TouchableOpacity
             onPress={checkTask}
-            style={task.item.isComplet == 1 ? styles.checked : styles.unChecked}
+            style={
+              task.item.isComplet === 1 ? styles.checked : styles.unChecked
+            }
           >
-            {task.item.isComplet == 1 && (
+            {task.item.isComplet === 1 && (
               <Entypo
                 name="check"
                 size={16}
@@ -66,7 +71,7 @@ export default function TodoList() {
 
           <Text
             style={
-              task.item.isComplet == 1
+              task.item.isComplet === 1
                 ? [
                     styles.texto,
                     { textDecorationLine: 'line-through', color: '#73737373' },

@@ -1,14 +1,17 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Modal, View } from 'react-native';
+import { ActivityIndicator, Alert, Modal, Platform, View } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components';
+
 import Api from '~/services/Api';
 
 export default function SolicitarFerias() {
@@ -85,7 +88,7 @@ export default function SolicitarFerias() {
     if (res) {
       setModalSuccess(true);
     } else {
-      alert('Erro ao enviar');
+      Alert.alert('Erro ao enviar');
     }
   }
   return (

@@ -1,9 +1,11 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
 import { Image, SafeAreaView } from 'react-native';
-import styled from 'styled-components';
-import Icone from '@expo/vector-icons/FontAwesome5';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
+import styled from 'styled-components';
 
 export default function ImgAssinatura() {
   const navigation = useNavigation();
@@ -26,10 +28,17 @@ export default function ImgAssinatura() {
       </Header>
       <HeaderConteinerButoon>
         <HeaderButton onPress={() => navigation.goBack()}>
-          <Icone size={20} name="arrow-left" color="white" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
         </HeaderButton>
       </HeaderConteinerButoon>
-      <Image style={{ width: '100%', height: '100%' }} source={{ uri: img }} />
+      <Image
+        style={{ width: '100%', height: '100%' }}
+        source={{ uri: img }}
+      />
     </SafeAreaView>
   );
 }

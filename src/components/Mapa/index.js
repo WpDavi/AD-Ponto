@@ -1,6 +1,7 @@
-import { TxtHora } from '~/pages/Inicio/Ponto/styled';
 import React, { useState } from 'react';
 import { View } from 'react-native';
+
+import { TxtHora } from '~/pages/Inicio/Ponto/styled';
 
 export default function Mapa() {
   const [hour, setHour] = useState();

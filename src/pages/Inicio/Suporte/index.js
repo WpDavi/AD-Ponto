@@ -1,6 +1,3 @@
-import Icone from '@expo/vector-icons/FontAwesome5';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -11,12 +8,18 @@ import {
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function Suporte() {
@@ -117,7 +120,7 @@ export default function Suporte() {
             onChangeText={(t) => setMensagem(t)}
           />
         </View>
-        {load == false && (
+        {load === false && (
           <TouchableOpacity
             onPress={Enviar}
             activeOpacity={0.9}
@@ -126,7 +129,7 @@ export default function Suporte() {
             <Text style={styles.textoBotao}>ENVIAR</Text>
           </TouchableOpacity>
         )}
-        {load == true && (
+        {load === true && (
           <TouchableOpacity
             activeOpacity={0.9}
             style={styles.criar}
@@ -181,8 +184,6 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingVertical: 10,
     boxSizing: 'border-box',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
     marginLeft: 20,
     marginBottom: 40,
     alignItems: 'center',

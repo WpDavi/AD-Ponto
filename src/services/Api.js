@@ -1,25 +1,27 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as FileSystem from "expo-file-system";
-import * as Device from "expo-device";
-import * as Notifications from "expo-notifications";
-import axios from "axios";
+import { Platform } from 'react-native';
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import * as Device from 'expo-device';
+import * as FileSystem from 'expo-file-system';
+import * as Notifications from 'expo-notifications';
 
 //const BASE_API = "http://66.94.120.192:5001";
 //const BASE_API = "http://192.168.100.139:5001";
 //const BASE_API = 'http://192.168.1.83:5001';
-const BASE_API = "http://192.168.0.61:5001";
+const BASE_API = 'http://192.168.0.61:5001';
 
 export default {
   signIn: async (email, senha, empresa) => {
     const req = await fetch(`${BASE_API}/user/login`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         email: email,
         password: senha,
         empresa: empresa,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const json = await req.json();
@@ -28,13 +30,13 @@ export default {
 
   signInChave: async (chave, empresa) => {
     const req = await fetch(`${BASE_API}/user/loginChave`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         chave,
         empresa,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
     const json = await req.json();
@@ -47,40 +49,40 @@ export default {
         const { status: existingStatus } =
           await Notifications.getPermissionsAsync();
         let finalStatus = existingStatus;
-        if (existingStatus !== "granted") {
+        if (existingStatus !== 'granted') {
           const { status } = await Notifications.requestPermissionsAsync();
           finalStatus = status;
         }
-        if (finalStatus !== "granted") {
-          console.log("Failed to get push token for push notification!");
+        if (finalStatus !== 'granted') {
+          console.log('Failed to get push token for push notification!');
           return;
         }
         token = (await Notifications.getExpoPushTokenAsync()).data;
         console.log(token);
       } else {
-        console.log("Must use physical device for Push Notifications");
+        console.log('Must use physical device for Push Notifications');
       }
 
-      if (Platform.OS === "android") {
-        Notifications.setNotificationChannelAsync("default", {
-          name: "default",
+      if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
           importance: Notifications.AndroidImportance.MAX,
           vibrationPattern: [0, 250, 250, 250],
-          lightColor: "#FF231F7C",
+          lightColor: '#FF231F7C',
         });
       }
       const req = await fetch(
         `${BASE_API}/user/register-for-push-notification`,
         {
-          method: "POST",
+          method: 'POST',
           body: JSON.stringify({
-            token: userToken,
+            token: token,
             pushNotificationsToken: token,
           }),
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
-        }
+        },
       )
         .fetch((r) => r.json())
         .catch(() => ({}));
@@ -97,7 +99,7 @@ export default {
   },
 
   checktoken: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/checktoken`, {
       headers: {
@@ -106,8 +108,8 @@ export default {
     });
     const json = await req.json();
     console.log(json);
-    if (json == "auth") {
-      console.log("token valido");
+    if (json === 'auth') {
+      console.log('token valido');
     } else {
       await AsyncStorage.clear();
     }
@@ -115,9 +117,9 @@ export default {
   },
 
   point: async (email, hour, date, lat, long, image) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/point`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         date: date,
         hour: hour,
@@ -126,7 +128,7 @@ export default {
         longitude: long,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -137,9 +139,9 @@ export default {
   },
 
   pointChave: async (date, hour, chave, lat, long, image, empresa) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/pointchave`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         date: date,
         hour: hour,
@@ -149,7 +151,7 @@ export default {
         chave: chave,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -160,9 +162,9 @@ export default {
   },
 
   pointQr: async (qrEmail, hour, date, lat, long, image) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/point`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         date: date,
         hour: hour,
@@ -171,18 +173,18 @@ export default {
         longitude: long,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
 
     const json = await req.json();
-    console.log("aaaaaaaaaaaaaaaaa", json);
+    console.log('aaaaaaaaaaaaaaaaa', json);
     return json;
   },
 
   getlestactive: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/dashboard/last-activities`, {
       headers: {
@@ -194,7 +196,7 @@ export default {
   },
 
   getHistoricoActive: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/dashboard/historic-activities`, {
       headers: {
@@ -208,7 +210,7 @@ export default {
   },
 
   getInformacoesPessoais: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/personal-information`, {
       headers: {
         Authorization: `${token}`,
@@ -230,11 +232,11 @@ export default {
     cpf,
     formData,
   }) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(
       `${BASE_API}/dashboard/personal-information/editar/${id}`,
       {
-        method: "PUT",
+        method: 'PUT',
         body: JSON.stringify({
           pis,
           rg,
@@ -245,31 +247,31 @@ export default {
           cpf,
         }),
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `${token}`,
         },
-      }
+      },
     );
     const json = await req.json();
     return json;
   },
 
   uploudFiles: async (image) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     try {
       const response = await FileSystem.uploadAsync(
         `${BASE_API}/dashboard/upload`,
         image,
         {
-          fieldName: "files",
-          httpMethod: "POST",
+          fieldName: 'files',
+          httpMethod: 'POST',
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization: `${token}`,
           },
-        }
+        },
       );
       console.log(JSON.stringify(response, null, 4));
     } catch (error) {
@@ -278,7 +280,7 @@ export default {
   },
 
   gethours: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/dashboard/hours`, {
       headers: {
@@ -290,7 +292,7 @@ export default {
   },
 
   getAtestado: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/deshboard/atestados`, {
       headers: {
@@ -302,20 +304,20 @@ export default {
   },
 
   uploudImgPerfil: async (uploudimg) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     try {
       const response = await FileSystem.uploadAsync(
         `${BASE_API}/dashboard/imgperfil`,
         uploudimg,
         {
-          fieldName: "files",
-          httpMethod: "POST",
+          fieldName: 'files',
+          httpMethod: 'POST',
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization: `${token}`,
           },
-        }
+        },
       );
       console.log(JSON.stringify(response, null, 4));
     } catch (error) {
@@ -324,21 +326,21 @@ export default {
   },
 
   getCidade: async () => {
-    const req = await fetch(`https://ipinfo.io/json`);
+    const req = await fetch('https://ipinfo.io/json');
     const json = await req.json();
     return json;
   },
 
   updatPass: async (senhaAtual, novaSenha) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/uset/changePassw`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         password: senhaAtual,
         novasenha: novaSenha,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -347,15 +349,15 @@ export default {
   },
 
   uploudPonto: async (email, hour, date, lat, long, image) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     try {
       const response = await FileSystem.uploadAsync(
         `${BASE_API}/dashboard/uploadponto`,
         image,
         {
-          fieldName: "files",
-          httpMethod: "POST",
+          fieldName: 'files',
+          httpMethod: 'POST',
           body: JSON.stringify({
             date: date,
             hour: hour,
@@ -365,13 +367,13 @@ export default {
           }),
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization: `${token}`,
           },
-        }
+        },
       );
       const json = response.body;
-      console.log("resssssssssssssssssss", json);
+      console.log('resssssssssssssssssss', json);
       return json;
     } catch (error) {
       console.log(error);
@@ -384,8 +386,8 @@ export default {
         `${BASE_API}/dashboard/uploadpontochave`,
         image,
         {
-          fieldName: "files",
-          httpMethod: "POST",
+          fieldName: 'files',
+          httpMethod: 'POST',
           body: JSON.stringify({
             empresa: empresa,
             chave: chave,
@@ -394,9 +396,9 @@ export default {
           }),
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
           },
-        }
+        },
       );
       const json = response.body;
       return json;
@@ -411,11 +413,11 @@ export default {
     observação,
     dataa,
     pontoAtual,
-    newPonto
+    newPonto,
   ) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/uset/solicitar_edicao`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis: informacao,
         data_marcacao: data,
@@ -425,7 +427,7 @@ export default {
         entrada_1_solicitacao: newPonto,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -434,17 +436,17 @@ export default {
   },
 
   solicitar_Ferias: async (dataInicial, dataTermino, id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/solicitarferias`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         data_ini: dataInicial,
         data_fim: dataTermino,
-        status_solicitacao: "",
-        status_solicitaca_desc: "",
+        status_solicitacao: '',
+        status_solicitaca_desc: '',
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -453,24 +455,24 @@ export default {
   },
 
   PointPhp: async (pis, lat, long, dataa, empresa) => {
-    console.log("ponto php");
+    console.log('ponto php');
     console.log(
-      "pis" + pis,
-      "lat" + lat,
-      "long" + long,
-      "dataa" + dataa,
-      "empresa" + empresa
+      'pis' + pis,
+      'lat' + lat,
+      'long' + long,
+      'dataa' + dataa,
+      'empresa' + empresa,
     );
     const res = await fetch(
-      `https://app.adponto.com.br/processa_ponto/?pis=${pis}&lat=${lat}&long=${long}&foto=IMG_${dataa}.jpg&database=${empresa}`
+      `https://app.adponto.com.br/processa_ponto/?pis=${pis}&lat=${lat}&long=${long}&foto=IMG_${dataa}.jpg&database=${empresa}`,
     );
     //console.log(res);
-    console.log("req api deles", res.url);
-    return "suce";
+    console.log('req api deles', res.url);
+    return 'suce';
   },
 
   getFerias: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/user/getFerias`, {
       headers: {
@@ -482,7 +484,7 @@ export default {
   },
 
   getSolicitaçãoPonto: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/user/getSolicitacaoPonto`, {
       headers: {
@@ -494,7 +496,7 @@ export default {
   },
 
   getAllFerias: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/user/getAllFerias`, {
       headers: {
@@ -506,7 +508,7 @@ export default {
   },
 
   getAllSolicitaçãoPonto: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/user/getAllSolicitacaoPonto`, {
       headers: {
@@ -518,15 +520,15 @@ export default {
   },
 
   PutFerias: async (id, aceite) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/gestor/putFerias`, {
-      method: "PUT",
+      method: 'PUT',
       body: JSON.stringify({
         id: id,
         status: aceite,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -535,7 +537,7 @@ export default {
   },
 
   getGestorhours: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/dashboard/newhours`, {
       headers: {
@@ -547,16 +549,16 @@ export default {
   },
 
   getGestorhourss: async (funcionario, dataInicial, dataFinal) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/newhoursDate`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         funcionario,
         dataInicial,
         dataFinal,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -565,14 +567,14 @@ export default {
   },
 
   getAllInformacoesPessoais: async (pis) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/Allpersonal-information`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis: pis,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -602,11 +604,11 @@ export default {
     entrada10,
     saida10,
     pis,
-    data
+    data,
   ) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/gestorEditPonto`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         entrada1,
         saida1,
@@ -632,7 +634,7 @@ export default {
         data,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -662,11 +664,11 @@ export default {
     entrada10,
     saida10,
     pis,
-    data
+    data,
   ) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/getOnePont`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         entrada1,
         saida1,
@@ -692,7 +694,7 @@ export default {
         data,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -762,11 +764,11 @@ export default {
     obsentrada9,
     obsSaisa9,
     obsentrada10,
-    obsSaisa10
+    obsSaisa10,
   ) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/solicitarEditPonto`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         entrada11,
         saida11,
@@ -832,7 +834,7 @@ export default {
         obsSaisa10,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -841,20 +843,20 @@ export default {
   },
 
   StatusSolicitarEditPonto: async (status, pis, data) => {
-    const token = await AsyncStorage.getItem("token");
-    console.log("status", status);
-    console.log("pis", pis);
-    console.log("data", data);
+    const token = await AsyncStorage.getItem('token');
+    console.log('status', status);
+    console.log('pis', pis);
+    console.log('data', data);
 
     const req = await fetch(`${BASE_API}/dashboard/statusSolicitarEditPonto`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         status: status,
         pis: pis,
         data: data,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -863,7 +865,7 @@ export default {
   },
 
   getAllFuncionarios: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/dashboard/allFuncionarios`, {
       headers: {
@@ -875,15 +877,15 @@ export default {
   },
 
   gerenciarBaterPonto: async (pis, foto) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/gerenciarBaterPonto`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         foto: foto,
         pis: pis,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -892,20 +894,20 @@ export default {
   },
 
   puhNotification: async (pis, tokenn) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/pushToken`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis,
         tokenn,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
     const json = await req.json();
-    console.log("reposta token", json);
+    console.log('reposta token', json);
     return json;
   },
 
@@ -913,17 +915,17 @@ export default {
     console.log(token, assunto, token);
     const message = {
       to: token,
-      sound: "default",
+      sound: 'default',
       title: assunto,
       body: msg,
-      data: { someData: "goes here" },
+      data: { someData: 'goes here' },
     };
-    const req = await fetch("https://exp.host/--/api/v2/push/send", {
-      method: "POST",
+    const req = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
       headers: {
-        Accept: "application/json",
-        "Accept-encoding": "gzip, deflate",
-        "Content-Type": "application/json",
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify(message),
     });
@@ -932,11 +934,11 @@ export default {
   },
 
   getGestor: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getGestorPersonalInformation`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -945,11 +947,11 @@ export default {
   },
 
   getEmpresa: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/deshboard/empresas`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -958,16 +960,16 @@ export default {
   },
 
   suporte: async (nome_usuario, mensagem, idFuncionario) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/suporte`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         nome_usuario,
         mensagem,
         idFuncionario,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -976,16 +978,16 @@ export default {
   },
 
   notification: async (pis, msg, assunto) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/notification`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis,
         mensagem: msg,
         assunto,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -994,7 +996,7 @@ export default {
   },
 
   getNotification: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/notification`, {
       headers: {
         Authorization: `${token}`,
@@ -1005,14 +1007,14 @@ export default {
   },
 
   deleteNotification: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/notification`, {
-      method: "DELETE",
+      method: 'DELETE',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1021,15 +1023,15 @@ export default {
   },
 
   getInfoChave: async (chave, empresa) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/infoChave`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         chave,
         empresa,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1044,11 +1046,11 @@ export default {
     destination,
     distance,
     timeEmRota,
-    prince
+    prince,
   ) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/upVisita`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         data: data,
         cliente: cliente,
@@ -1059,14 +1061,14 @@ export default {
         reembolso: prince,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
   },
 
   getVisitas: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
 
     const req = await fetch(`${BASE_API}/user/upVisita`, {
       headers: {
@@ -1078,14 +1080,14 @@ export default {
   },
 
   getTask: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getTask`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id_visita: id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1094,14 +1096,14 @@ export default {
   },
 
   checkTask: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/putTask`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1110,15 +1112,15 @@ export default {
   },
 
   postTask: async (id_visita, task) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/postTask`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id_visita,
         task,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1127,14 +1129,14 @@ export default {
   },
 
   deletTask: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/deletTask`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1143,14 +1145,14 @@ export default {
   },
 
   checkIn: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/check_in`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1159,14 +1161,14 @@ export default {
   },
 
   checkOut: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/check_out`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1180,12 +1182,12 @@ export default {
     horario,
     cliente,
     nameDestination,
-    destination
+    destination,
   ) => {
     console.log(pis);
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/gestor/SolcitarVisita`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis,
         data,
@@ -1195,14 +1197,14 @@ export default {
         cords: destination,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
   },
 
   getSolicitaçãoVisita: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/GetSolcitarVisita`, {
       headers: {
         Authorization: `${token}`,
@@ -1213,14 +1215,14 @@ export default {
   },
 
   deleteVisita: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/deleterota`, {
-      method: "DELETE",
+      method: 'DELETE',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1229,7 +1231,7 @@ export default {
   },
 
   getGestorSolicitaçãoVisita: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/gestor/GetSolcitarVisita`, {
       headers: {
         Authorization: `${token}`,
@@ -1240,7 +1242,7 @@ export default {
   },
 
   getGestorVisita: async () => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/gestor/upVisita`, {
       headers: {
         Authorization: `${token}`,
@@ -1251,21 +1253,21 @@ export default {
   },
 
   uploudAssinatura: async (image) => {
-    console.log("api", image);
-    const token = await AsyncStorage.getItem("token");
+    console.log('api', image);
+    const token = await AsyncStorage.getItem('token');
     try {
       const response = await FileSystem.uploadAsync(
         `${BASE_API}/dashboard/uploadassinatura`,
         image,
         {
-          fieldName: "files",
-          httpMethod: "POST",
+          fieldName: 'files',
+          httpMethod: 'POST',
           uploadType: FileSystem.FileSystemUploadType.MULTIPART,
           headers: {
-            Accept: "application/json",
+            Accept: 'application/json',
             Authorization: `${token}`,
           },
-        }
+        },
       );
       const json = response.body;
       console.log(json);
@@ -1276,14 +1278,14 @@ export default {
   },
 
   uploudAssinatura2: async (id) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/uploadassinatura2`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         id,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1293,14 +1295,14 @@ export default {
 
   comparationFaceID2: async (photo) => {
     var myHeaders = new Headers();
-    myHeaders.append("token", "86a9f01f8b8f4ad08632024ba818b027");
+    myHeaders.append('token', '86a9f01f8b8f4ad08632024ba818b027');
     var formdata = new FormData({ photo });
-    formdata.append("photo", photo);
-    const req = await fetch(`https://api.luxand.cloud/photo/search`, {
-      method: "POST",
+    formdata.append('photo', photo);
+    const req = await fetch('https://api.luxand.cloud/photo/search', {
+      method: 'POST',
       headers: myHeaders,
       body: formdata,
-      redirect: "follow",
+      redirect: 'follow',
     });
     const json = await req.json();
     return json;
@@ -1308,16 +1310,16 @@ export default {
 
   CadastroFaceID2: async (photo, pis) => {
     var myHeaders = new Headers();
-    myHeaders.append("token", "86a9f01f8b8f4ad08632024ba818b027");
+    myHeaders.append('token', '86a9f01f8b8f4ad08632024ba818b027');
     var formdata = new FormData({ photo });
-    formdata.append("name", pis);
-    formdata.append("store", "1");
-    formdata.append("photo", photo);
-    const req = await fetch(`https://api.luxand.cloud/person`, {
-      method: "POST",
+    formdata.append('name', pis);
+    formdata.append('store', '1');
+    formdata.append('photo', photo);
+    const req = await fetch('https://api.luxand.cloud/person', {
+      method: 'POST',
       headers: myHeaders,
       body: formdata,
-      redirect: "follow",
+      redirect: 'follow',
     });
     const json = await req.json();
     console.log(json);
@@ -1325,15 +1327,15 @@ export default {
   },
 
   postinfosFaceID: async (id, url) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/postFaceID`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         IdFaceID: id,
         urlFaceID: url,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1341,14 +1343,14 @@ export default {
 
   getallpersonalPis: async (pis) => {
     console.log(pis);
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getallpersonalPis`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         pis,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
@@ -1357,29 +1359,29 @@ export default {
   },
 
   sandEmail: async (email, mensagem) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/sandEmail`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         email,
         mensagem,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });
   },
 
   getFotoEmail: async (email) => {
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getFoto`, {
-      method: "POST",
+      method: 'POST',
       body: JSON.stringify({
         email,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         Authorization: `${token}`,
       },
     });

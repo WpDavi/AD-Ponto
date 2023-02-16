@@ -1,6 +1,3 @@
-import { Feather } from '@expo/vector-icons';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -9,17 +6,24 @@ import {
   ImageBackground,
   KeyboardAvoidingView,
   Modal,
+  Platform,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
 import {
-  AlertNotificationRoot,
   ALERT_TYPE,
+  AlertNotificationRoot,
   Dialog,
 } from 'react-native-alert-notification';
+
+import { useNavigation } from '@react-navigation/native';
+
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+
 import Api from '~/services/Api';
 
 export default function Senha() {
@@ -103,9 +107,9 @@ export default function Senha() {
     };
 
     var status = 'Pendente';
-    if (ferias.item.status_solicitacao == '2') {
+    if (ferias.item.status_solicitacao === '2') {
       status = 'Aceito';
-    } else if (ferias.item.status_solicitacao == '3') {
+    } else if (ferias.item.status_solicitacao === '3') {
       status = 'Negado';
     }
 
@@ -206,7 +210,7 @@ export default function Senha() {
           />
         </TouchableOpacity>
 
-        {ferias.length == 0 && (
+        {ferias.length === 0 && (
           <View
             style={{
               flex: 1,
@@ -220,14 +224,14 @@ export default function Senha() {
               source={require('~/icons/solicitacoes.png')}
             />
 
-            {load == true && (
+            {load === true && (
               <ActivityIndicator
                 style={{ marginTop: 30 }}
                 size={'large'}
                 color="#1CADE2"
               />
             )}
-            {load == false && (
+            {load === false && (
               <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
                 Sem solicitações ate o momento
               </Text>
@@ -350,7 +354,7 @@ export default function Senha() {
                 </View>
               </View>
 
-              <View></View>
+              <View />
 
               <View
                 style={{
@@ -359,7 +363,7 @@ export default function Senha() {
                   justifyContent: 'space-around',
                 }}
               >
-                {bottonLoad == false && (
+                {bottonLoad === false && (
                   <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity onPress={AceitFerias}>
                       <Image
@@ -389,7 +393,7 @@ export default function Senha() {
                     </TouchableOpacity>
                   </View>
                 )}
-                {bottonLoad == true && (
+                {bottonLoad === true && (
                   <ActivityIndicator
                     style={{ padding: 15 }}
                     size={'large'}
