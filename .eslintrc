@@ -1,0 +1,36 @@
+{
+  "env": {
+    "es2022": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:prettier/recommended",
+    "@react-native-community"
+  ],
+  "parserOptions": {
+    "parser": "esprima",
+    "project": [
+      "./jsconfig.json"
+    ]
+  },
+  "plugins": [
+    "prettier",
+    "@react-native-community"
+  ],
+  "ignorePatterns": [
+    "node_modules",
+    "*.config.*",
+    "*.d.ts"
+  ],
+  "noInlineConfig": true,
+  "reportUnusedDisableDirectives": true,
+  "rules": {
+    "react/react-in-jsx-scope": "off",
+    "react/no-unstable-nested-components":"off",
+    "react-hooks/rules-of-hooks":"off",
+    "react-native/no-inline-styles":"off",
+    "react-hooks/exhaustive-deps":"off",
+    "no-unused-vars":"off",
+    "no-shadow":"off"
+  }
+}
