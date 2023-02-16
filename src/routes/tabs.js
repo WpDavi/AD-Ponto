@@ -1,40 +1,37 @@
-import React from 'react';
-import { View } from 'react-native';
-
-import { createBottomTabNavigator, BottomTabBar } from '@react-navigation/bottom-tabs';
-import Feather from '@expo/vector-icons/Feather';
-
+import BotaoPonto from '../components/botaoPonto';
 import Inicio from '../pages/Inicio/Home';
 import MinhaConta from '../pages/Inicio/MinhaConta';
-import Drawer from './drawr';
+import { Drawer } from './drawer';
+import Feather from '@expo/vector-icons/Feather';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import BotaoPonto from '../components/botaoPonto';
+const { Screen, Navigator } = createBottomTabNavigator();
 
-const Tab = createBottomTabNavigator();
+const screenOptions = {
+  style: {
+    borderTopColor: 'transparent',
+  },
+  activeTintColor: '#fff',
+  tabStyle: {
+    paddingBottom: 5,
+    paddingTop: 5,
+  },
+  headerShown: false,
+};
 
-const Tabs = () => {
+export const Tabs = () => {
   return (
-    <Tab.Navigator
-      screenOptions={{
-        style: {
-          borderTopColor: 'transparent',
-        },
-        activeTintColor: '#fff',
-        tabStyle: {
-          paddingBottom: 5,
-          paddingTop: 5,
-        },
-        headerShown: false,
-      }}
-    >
-      <Tab.Screen
+    <Navigator screenOptions={screenOptions}>
+      <Screen
         name="Inicio"
         component={Drawer}
         options={{
-          tabBarIcon: ({ size, color }) => <Feather name="home" size={size} color={color} />,
+          tabBarIcon: ({ size, color }) => (
+            <Feather name="home" size={size} color={color} />
+          ),
         }}
       />
-      <Tab.Screen
+      <Screen
         name="Ponto Eletrônico"
         component={Inicio}
         options={{
@@ -42,7 +39,7 @@ const Tabs = () => {
           tabBarIcon: ({ color }) => <BotaoPonto color={color} />,
         }}
       />
-      <Tab.Screen
+      <Screen
         name="Minha Conta"
         component={MinhaConta}
         options={{
@@ -51,8 +48,6 @@ const Tabs = () => {
           ),
         }}
       />
-    </Tab.Navigator>
+    </Navigator>
   );
 };
-
-export default Tabs;
