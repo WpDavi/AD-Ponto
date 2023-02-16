@@ -1,38 +1,32 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Modal,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import Icon from "@expo/vector-icons/MaterialIcons";
-import styled from "styled-components";
-import { useNavigation } from "@react-navigation/native";
-import Api from "../../../src/services/Api";
-import {
-  ALERT_TYPE,
-  Dialog,
-  AlertNotificationRoot,
-} from "react-native-alert-notification";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Icone from '@expo/vector-icons/FontAwesome5';
+import Icon from '@expo/vector-icons/MaterialIcons';
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
-} from "@gorhom/bottom-sheet";
-import TodoList from "../../../components/checklist";
-import { TextInput as RNPTextInput } from "react-native-paper";
+} from '@gorhom/bottom-sheet';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ImageBackground,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import { TextInput as RNPTextInput } from 'react-native-paper';
+import styled from 'styled-components';
+import TodoList from '~/components/checklist';
+import Api from '~/services/Api';
 
 export default function VisiitasEmAndamento() {
   const [cliente, setCliente] = useState();
@@ -54,7 +48,7 @@ export default function VisiitasEmAndamento() {
   //modal checkList
   const bottomSheetModalRef = useRef(null);
 
-  const snapPoints = ["25%", "50%", "75%"];
+  const snapPoints = ['25%', '50%', '75%'];
 
   //-----------------------------
 
@@ -76,9 +70,9 @@ export default function VisiitasEmAndamento() {
       if (res) {
         Dialog.show({
           type: ALERT_TYPE.SUCCESS,
-          title: "Sucesso",
-          textBody: "Check-in Feito",
-          button: "ok",
+          title: 'Sucesso',
+          textBody: 'Check-in Feito',
+          button: 'ok',
         });
         setModalVisita(false);
       }
@@ -90,9 +84,9 @@ export default function VisiitasEmAndamento() {
       if (res) {
         Dialog.show({
           type: ALERT_TYPE.SUCCESS,
-          title: "Sucesso",
-          textBody: "Check-out Feito",
-          button: "ok",
+          title: 'Sucesso',
+          textBody: 'Check-out Feito',
+          button: 'ok',
         });
         setModalVisita(false);
         setButton(true);
@@ -100,43 +94,43 @@ export default function VisiitasEmAndamento() {
     } else {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Atenção",
-        textBody: "Check-in e Check-out já cadastrado",
-        button: "ok",
+        title: 'Atenção',
+        textBody: 'Check-in e Check-out já cadastrado',
+        button: 'ok',
       });
     }
   }
   async function NewTask() {
     setButtonAddTask(false);
-    const id_visita = await AsyncStorage.getItem("@id");
+    const id_visita = await AsyncStorage.getItem('@id');
     if (task) {
       bottomSheetModalRef.current?.close();
       const res = await Api.postTask(id_visita, task);
       setModalNewTask(false);
-      navigation.navigate("VisiitasEmAndamento");
-      setTask("");
+      navigation.navigate('VisiitasEmAndamento');
+      setTask('');
       setButtonAddTask(true);
     } else {
-      alert("Campo obrigatorio");
+      alert('Campo obrigatorio');
     }
   }
 
   const renderItem = useCallback((visitas) => {
     async function handlePresentModal() {
-      await AsyncStorage.setItem("@id", String(visitas.item.id));
+      await AsyncStorage.setItem('@id', String(visitas.item.id));
       bottomSheetModalRef.current?.present();
     }
 
     const handleSignature = async () => {
       if (!visitas.item.assinatura) {
-        await AsyncStorage.setItem("@id", String(visitas.item.id));
-        navigation.navigate("Assinatura");
+        await AsyncStorage.setItem('@id', String(visitas.item.id));
+        navigation.navigate('Assinatura');
       } else {
         await AsyncStorage.setItem(
-          "@imgAssinatura",
-          String(visitas.item.assinatura)
+          '@imgAssinatura',
+          String(visitas.item.assinatura),
         );
-        navigation.navigate("ImgAssinatura");
+        navigation.navigate('ImgAssinatura');
       }
     };
 
@@ -165,19 +159,19 @@ export default function VisiitasEmAndamento() {
           <ContainerDados>
             <TxtTituloFletList>ASSINATURA:</TxtTituloFletList>
             <TxtInfo>
-              {visitas.item.assinatura != null ? "Coletada" : "Não coletada"}
+              {visitas.item.assinatura != null ? 'Coletada' : 'Não coletada'}
             </TxtInfo>
           </ContainerDados>
           {visitas.item.check_in && (
             <ContainerDados>
               <TxtTituloFletList>CHECK_IN:</TxtTituloFletList>
-              <TxtInfo>{visitas.item.check_in.replace(".", ":")}h</TxtInfo>
+              <TxtInfo>{visitas.item.check_in.replace('.', ':')}h</TxtInfo>
             </ContainerDados>
           )}
           {visitas.item.check_out && (
             <ContainerDados>
               <TxtTituloFletList>CHECK_OUT:</TxtTituloFletList>
-              <TxtInfo>{visitas.item.check_out.replace(".", ":")}h</TxtInfo>
+              <TxtInfo>{visitas.item.check_out.replace('.', ':')}h</TxtInfo>
             </ContainerDados>
           )}
           {visitas.item.check_out && (
@@ -206,26 +200,20 @@ export default function VisiitasEmAndamento() {
           )}
           <ContainerButtons>
             <TouchableOpacity onPress={handlePresentModal}>
-              <ImgButton source={require("../../../src/icons/checklist.png")} />
+              <ImgButton source={require('~/icons/checklist.png')} />
             </TouchableOpacity>
             {!visitas.item.check_out && (
               <ConteinerImgButtonCenter onPress={handlePonto}>
-                <ImgButtonCenter
-                  source={require("../../../src/icons/baterponto.png")}
-                />
+                <ImgButtonCenter source={require('~/icons/baterponto.png')} />
               </ConteinerImgButtonCenter>
             )}
             {visitas.item.check_out && (
               <ConteinerImgButtonCenter onPress={handlePonto}>
-                <ImgButtonCenter
-                  source={require("../../../src/icons/aguardando.png")}
-                />
+                <ImgButtonCenter source={require('~/icons/aguardando.png')} />
               </ConteinerImgButtonCenter>
             )}
             <TouchableOpacity onPress={handleSignature}>
-              <ImgButton
-                source={require("../../../src/icons/assinatura.png")}
-              />
+              <ImgButton source={require('~/icons/assinatura.png')} />
             </TouchableOpacity>
           </ContainerButtons>
         </ContainerInfo>
@@ -243,11 +231,15 @@ export default function VisiitasEmAndamento() {
           </Header>
           <HeaderConteinerButoon>
             <HeaderButton onPress={() => navigation.goBack()}>
-              <Icone size={20} name="arrow-left" color="white" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="white"
+              />
             </HeaderButton>
           </HeaderConteinerButoon>
           {visitas.length == 0 && (
-            <View style={{ alignItems: "center" }}>
+            <View style={{ alignItems: 'center' }}>
               <Image
                 style={{
                   width: 250,
@@ -255,17 +247,20 @@ export default function VisiitasEmAndamento() {
                   marginBottom: 23,
                   marginTop: 120,
                 }}
-                source={require("../../../src/icons/visitas.png")}
+                source={require('~/icons/visitas.png')}
               />
               {inicioLoad == false && (
                 <Text
-                  style={{ fontWeight: "bold", fontSize: 18, color: "#999999" }}
+                  style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}
                 >
                   Sem visitas no momento
                 </Text>
               )}
               {inicioLoad == true && (
-                <ActivityIndicator size={"large"} color={"#0393c7"} />
+                <ActivityIndicator
+                  size={'large'}
+                  color={'#0393c7'}
+                />
               )}
             </View>
           )}
@@ -305,7 +300,11 @@ export default function VisiitasEmAndamento() {
                 setModalNewTask(true);
               }}
             >
-              <Icon size={35} name="add" color="white" />
+              <Icon
+                size={35}
+                name="add"
+                color="white"
+              />
             </ButtonAdd>
           </BottomSheetModal>
 
@@ -325,17 +324,25 @@ export default function VisiitasEmAndamento() {
                     setModalNewTask(false);
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="white" />
+                  <Icone
+                    size={20}
+                    name="arrow-left"
+                    color="white"
+                  />
                 </TouchableOpacity>
                 <TituloModalTas>NOVA TAREFA</TituloModalTas>
-                <Icone size={20} name="arrow-left" color="#1cade2" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="#1cade2"
+                />
               </ContainerTitutloModalTask>
               <RNPTextInput
                 style={styles.input}
                 placeholder="Tarefa"
                 label="Tarefa"
                 mode="outlined"
-                theme={{ colors: { background: "#fff" } }}
+                theme={{ colors: { background: '#fff' } }}
                 value={task}
                 onChangeText={(t) => setTask(t)}
               />
@@ -346,7 +353,7 @@ export default function VisiitasEmAndamento() {
               )}
               {!buttonAddTask && (
                 <ButtonNewTask>
-                  <ActivityIndicator color={"white"} />
+                  <ActivityIndicator color={'white'} />
                 </ButtonNewTask>
               )}
             </ContainerModalTask>
@@ -361,38 +368,42 @@ export default function VisiitasEmAndamento() {
             }}
           >
             <ImageBackground
-              source={require("../../../assets/Backgroundblack.jpg")}
-              style={{ height: "110%", alignItems: "center" }}
+              source={require('~/assets/Backgroundblack.jpg')}
+              style={{ height: '110%', alignItems: 'center' }}
             >
               <View
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginTop: 20,
-                  width: "95%",
+                  width: '95%',
                   borderTopEndRadius: 20,
                   borderTopStartRadius: 20,
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     marginLeft: 10,
                     marginRight: 10,
                     marginTop: 20,
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                   }}
                   onPress={() => {
                     setModalVisita(false);
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="black" />
+                  <Icone
+                    size={20}
+                    name="arrow-left"
+                    color="black"
+                  />
                   <Text
                     style={{
                       marginLeft: 30,
-                      fontStyle: "Normal",
-                      fontWeight: "700",
-                      color: "black",
+                      fontStyle: 'Normal',
+                      fontWeight: '700',
+                      color: 'black',
                       fontSize: 15,
                     }}
                   >
@@ -402,48 +413,48 @@ export default function VisiitasEmAndamento() {
 
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                     paddingRight: 70,
                     paddingBottom: 10,
                     marginTop: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    Cliente:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    Cliente:{' '}
                   </Text>
                   <Text>{cliente}</Text>
                 </View>
 
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     marginTop: 15,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                     paddingRight: 70,
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    Check-in:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    Check-in:{' '}
                   </Text>
                   <Text>{check_in}</Text>
                 </View>
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                     paddingRight: 70,
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    Check-out:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    Check-out:{' '}
                   </Text>
                   <Text>{check_out}</Text>
                 </View>
@@ -452,17 +463,17 @@ export default function VisiitasEmAndamento() {
                 {button == true && (
                   <View
                     style={{
-                      alignItems: "center",
-                      backgroundColor: "#0393c7",
-                      flexDirection: "row",
-                      justifyContent: "space-around",
+                      alignItems: 'center',
+                      backgroundColor: '#0393c7',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
                       height: 90,
                     }}
                   >
                     <TouchableOpacity onPress={check}>
                       <Image
                         style={{ width: 26, height: 43 }}
-                        source={require("../../../assets/bater-ponto.png")}
+                        source={require('~/assets/bater-ponto.png')}
                       />
                     </TouchableOpacity>
                   </View>
@@ -470,14 +481,17 @@ export default function VisiitasEmAndamento() {
                 {button == false && (
                   <View
                     style={{
-                      alignItems: "center",
-                      backgroundColor: "#0393c7",
-                      flexDirection: "row",
-                      justifyContent: "space-around",
+                      alignItems: 'center',
+                      backgroundColor: '#0393c7',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
                       height: 90,
                     }}
                   >
-                    <ActivityIndicator size={"large"} color="white" />
+                    <ActivityIndicator
+                      size={'large'}
+                      color="white"
+                    />
                   </View>
                 )}
               </View>
@@ -491,13 +505,13 @@ export default function VisiitasEmAndamento() {
 
 const styles = StyleSheet.create({
   txtButton: {
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
   input: {
-    width: "90%",
-    justifyContent: "center",
+    width: '90%',
+    justifyContent: 'center',
     marginTop: 30,
   },
 });

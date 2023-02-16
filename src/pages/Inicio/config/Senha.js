@@ -1,13 +1,23 @@
-import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
-import { TextInput as RNPTextInput } from 'react-native-paper';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import { Modal } from 'react-native';
+import React, { useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import { TextInput as RNPTextInput } from 'react-native-paper';
 import styled from 'styled-components/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
 export default function Senha() {
   const navigation = useNavigation();
@@ -65,17 +75,28 @@ export default function Senha() {
           <Text style={styles.headertxt}> Alterar Senha</Text>
         </View>
         <TouchableOpacity
-          style={{ flexDirection: 'row', marginLeft: 10, position: 'absolute', marginTop: 10 }}
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+            position: 'absolute',
+            marginTop: 10,
+          }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
           <Image
             resizeMode="contain"
             style={{ height: '25%', marginBottom: 50 }}
-            source={require('../../../src/icons/alterarsenha2.png')}
+            source={require('~/icons/alterarsenha2.png')}
           />
 
           <RNPTextInput
@@ -114,22 +135,36 @@ export default function Senha() {
           <View style={{ height: 20 }}></View>
 
           {load == false && (
-            <TouchableOpacity onPress={alterar} activeOpacity={0.9} style={styles.criar}>
+            <TouchableOpacity
+              onPress={alterar}
+              activeOpacity={0.9}
+              style={styles.criar}
+            >
               <Text style={styles.textoBotao}>Alterar Senha</Text>
             </TouchableOpacity>
           )}
 
           {load == true && (
-            <TouchableOpacity activeOpacity={0.9} style={styles.criar}>
+            <TouchableOpacity
+              activeOpacity={0.9}
+              style={styles.criar}
+            >
               <ActivityIndicator color={'white'} />
             </TouchableOpacity>
           )}
         </View>
-        <Modal animationType="slide" transparent={false} visible={passmodal} onRequestClose={sair}>
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={passmodal}
+          onRequestClose={sair}
+        >
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
             <Image
               style={{ width: '60%', height: '35%' }}
-              source={require('../../../src/icons/scrensenha.png')}
+              source={require('~/icons/scrensenha.png')}
             />
 
             <View>
@@ -154,7 +189,11 @@ export default function Senha() {
               </Text>
             </View>
 
-            <TouchableOpacity onPress={sair} activeOpacity={0.9} style={styles.criar}>
+            <TouchableOpacity
+              onPress={sair}
+              activeOpacity={0.9}
+              style={styles.criar}
+            >
               <Text style={styles.textoBotao}>Voltar para o inicio</Text>
             </TouchableOpacity>
           </View>

@@ -1,5 +1,5 @@
 import { NavigationContainer } from '@react-navigation/native';
-import { Stack } from './stack'
+import { Stack } from '~/routes/stack';
 
 export const Routes = () => {
   return (

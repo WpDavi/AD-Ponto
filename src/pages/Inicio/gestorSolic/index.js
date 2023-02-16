@@ -1,27 +1,26 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
   ActivityIndicator,
   FlatList,
-  TouchableOpacity,
-  Modal,
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Api from "../../../src/services/Api";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { Feather } from "@expo/vector-icons";
-import styled from "styled-components/native";
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function Senha() {
   const navigation = useNavigation();
@@ -32,14 +31,14 @@ export default function Senha() {
   const [bottonLoad, setBottonLoad] = useState(false);
 
   const [itemFerias, setItemFerias] = useState([
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
   ]);
   const [modaItemFerias, setModaItemFerias] = useState(false);
 
@@ -65,9 +64,9 @@ export default function Senha() {
     if (res) {
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Você Aceitou a solicitação de ferias",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Você Aceitou a solicitação de ferias',
+        button: 'ok',
       });
     }
   };
@@ -82,9 +81,9 @@ export default function Senha() {
     if (res) {
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Você negou a solicitação de férias",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Você negou a solicitação de férias',
+        button: 'ok',
       });
     }
   };
@@ -103,11 +102,11 @@ export default function Senha() {
       console.log(itemFerias);
     };
 
-    var status = "Pendente";
-    if (ferias.item.status_solicitacao == "2") {
-      status = "Aceito";
-    } else if (ferias.item.status_solicitacao == "3") {
-      status = "Negado";
+    var status = 'Pendente';
+    if (ferias.item.status_solicitacao == '2') {
+      status = 'Aceito';
+    } else if (ferias.item.status_solicitacao == '3') {
+      status = 'Negado';
     }
 
     return (
@@ -116,19 +115,23 @@ export default function Senha() {
           style={{
             marginLeft: 20,
             marginTop: 8,
-            flexDirection: "row",
+            flexDirection: 'row',
             borderBottomWidth: 2,
             paddingBottom: 10,
-            borderBottomColor: "#dadada",
+            borderBottomColor: '#dadada',
           }}
         >
           <View>
-            <Feather color={"#555555"} name={"check-circle"} size={45} />
+            <Feather
+              color={'#555555'}
+              name={'check-circle'}
+              size={45}
+            />
           </View>
 
           <View>
-            <Text style={{ color: "#1CADE2" }}>Solicitação enviada</Text>
-            <View style={{ flexDirection: "row" }}>
+            <Text style={{ color: '#1CADE2' }}>Solicitação enviada</Text>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Data de início: </Text>
               <Text style={styles.txtInfo2}>
                 {ferias.item.data_ini.substr(8, 9)}/
@@ -137,7 +140,7 @@ export default function Senha() {
               </Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Data de termíno: </Text>
               <Text style={styles.txtInfo2}>
                 {ferias.item.data_fim.substr(8, 9)}/
@@ -146,12 +149,12 @@ export default function Senha() {
               </Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Funcionário </Text>
               <Text style={styles.txtInfo2}>{ferias.item.funcionario}</Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Status </Text>
               <Text style={styles.txtInfo2}>{status}</Text>
             </View>
@@ -164,20 +167,20 @@ export default function Senha() {
   return (
     <Container>
       <AlertNotificationRoot>
-        <View style={{ backgroundColor: "#1CADE2", alignItems: "center" }}>
+        <View style={{ backgroundColor: '#1CADE2', alignItems: 'center' }}>
           <Text style={styles.headertxt}> Solicitações de funcionários </Text>
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("GestorSolicitaçõesdePonto");
+            navigation.navigate('GestorSolicitaçõesdePonto');
           }}
-          style={{ alignItems: "center" }}
+          style={{ alignItems: 'center' }}
         >
           <Text
             style={{
-              backgroundColor: "#1CADE2",
-              color: "white",
-              fontWeight: "bold",
+              backgroundColor: '#1CADE2',
+              color: 'white',
+              fontWeight: 'bold',
               padding: 10,
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
@@ -189,39 +192,43 @@ export default function Senha() {
 
         <TouchableOpacity
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginLeft: 10,
-            position: "absolute",
+            position: 'absolute',
             marginTop: 10,
           }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
         {ferias.length == 0 && (
           <View
             style={{
               flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               paddingBottom: -90,
             }}
           >
             <Image
               style={{ width: 210, height: 200 }}
-              source={require("../../../src/icons/solicitacoes.png")}
+              source={require('~/icons/solicitacoes.png')}
             />
 
             {load == true && (
               <ActivityIndicator
                 style={{ marginTop: 30 }}
-                size={"large"}
+                size={'large'}
                 color="#1CADE2"
               />
             )}
             {load == false && (
-              <Text style={{ marginTop: 30, fontWeight: "bold", fontSize: 20 }}>
+              <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
                 Sem solicitações ate o momento
               </Text>
             )}
@@ -235,7 +242,7 @@ export default function Senha() {
                 style={{
                   borderBottomWidth: 2,
                   paddingBottom: 30,
-                  borderBottomColor: "#adadad",
+                  borderBottomColor: '#adadad',
                 }}
                 data={ferias}
                 keyExtractor={(item) => item.id}
@@ -254,40 +261,44 @@ export default function Senha() {
           }}
         >
           <ImageBackground
-            source={require("../../../assets/Backgroundblack.jpg")}
-            style={{ height: "110%", alignItems: "center" }}
+            source={require('~/assets/Backgroundblack.jpg')}
+            style={{ height: '110%', alignItems: 'center' }}
           >
             <KeyboardAvoidingView
               keyboardVerticalOffset={20}
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={{
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 marginTop: 20,
-                width: "95%",
+                width: '95%',
                 borderTopEndRadius: 20,
                 borderTopStartRadius: 20,
               }}
             >
               <TouchableOpacity
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   marginLeft: 10,
                   marginRight: 10,
                   marginTop: 20,
                   borderBottomWidth: 2,
-                  borderBottomColor: "#dadada",
+                  borderBottomColor: '#dadada',
                 }}
                 onPress={() => {
                   setModaItemFerias(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 30,
-                    fontStyle: "Normal",
-                    fontWeight: "700",
-                    color: "black",
+                    fontStyle: 'Normal',
+                    fontWeight: '700',
+                    color: 'black',
                     fontSize: 15,
                   }}
                 >
@@ -296,24 +307,24 @@ export default function Senha() {
               </TouchableOpacity>
               <View
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   marginTop: 15,
                   borderBottomWidth: 2,
-                  borderBottomColor: "#dadada",
+                  borderBottomColor: '#dadada',
                   paddingRight: 70,
                   paddingBottom: 10,
                 }}
               >
-                <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                  FUNCIONÁRIO:{" "}
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                  FUNCIONÁRIO:{' '}
                 </Text>
                 <Text>{itemFerias[2]}</Text>
               </View>
 
               <View>
-                <View style={{ flexDirection: "row", marginTop: 15 }}>
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    DATA DE INÍCIO:{" "}
+                <View style={{ flexDirection: 'row', marginTop: 15 }}>
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    DATA DE INÍCIO:{' '}
                   </Text>
                   <Text>
                     {itemFerias[0].substr(8, 9)}/{itemFerias[0].substr(5, 2)}/
@@ -323,14 +334,14 @@ export default function Senha() {
 
                 <View
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    DATA DE TERMÍNO:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    DATA DE TERMÍNO:{' '}
                   </Text>
                   <Text>
                     {itemFerias[1].substr(8, 9)}/{itemFerias[1].substr(5, 2)}/
@@ -343,23 +354,23 @@ export default function Senha() {
 
               <View
                 style={{
-                  backgroundColor: "#0393c7",
-                  flexDirection: "row",
-                  justifyContent: "space-around",
+                  backgroundColor: '#0393c7',
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
                 }}
               >
                 {bottonLoad == false && (
-                  <View style={{ flexDirection: "row" }}>
+                  <View style={{ flexDirection: 'row' }}>
                     <TouchableOpacity onPress={AceitFerias}>
                       <Image
                         style={{
                           width: 100,
                           height: 20,
-                          justifyContent: "center",
+                          justifyContent: 'center',
                           marginTop: 20,
                           marginBottom: 20,
                         }}
-                        source={require("../../../src/icons/aceite.png")}
+                        source={require('~/icons/aceite.png')}
                       />
                     </TouchableOpacity>
 
@@ -368,12 +379,12 @@ export default function Senha() {
                         style={{
                           width: 100,
                           height: 22,
-                          justifyContent: "center",
+                          justifyContent: 'center',
                           marginTop: 20,
                           marginBottom: 20,
                           marginLeft: 70,
                         }}
-                        source={require("../../../src/icons/negar.png")}
+                        source={require('~/icons/negar.png')}
                       />
                     </TouchableOpacity>
                   </View>
@@ -381,7 +392,7 @@ export default function Senha() {
                 {bottonLoad == true && (
                   <ActivityIndicator
                     style={{ padding: 15 }}
-                    size={"large"}
+                    size={'large'}
                     color="white"
                   />
                 )}
@@ -401,28 +412,28 @@ const Container = styled.SafeAreaView`
 
 const styles = StyleSheet.create({
   headertxt: {
-    color: "white",
+    color: 'white',
     padding: 7,
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   //fletList Ferias
   txtTitulo: {
     marginTop: 20,
     marginLeft: 20,
-    color: "#1CADE2",
-    fontWeight: "bold",
+    color: '#1CADE2',
+    fontWeight: 'bold',
     fontSize: 17,
     borderBottomWidth: 2,
-    borderBottomColor: "#dadada",
+    borderBottomColor: '#dadada',
   },
   txtInfo: {
     marginLeft: 5,
-    fontWeight: "bold",
-    color: "#555555",
+    fontWeight: 'bold',
+    color: '#555555',
   },
   txtInfo2: {
-    color: "#1CADE2",
+    color: '#1CADE2',
   },
 
   txtPonts: {

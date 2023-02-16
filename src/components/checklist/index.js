@@ -1,17 +1,15 @@
+import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   FlatList,
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
 } from 'react-native';
 import styled from 'styled-components';
-import Api from '../../src/services/Api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Entypo, MaterialIcons } from '@expo/vector-icons';
+import Api from '~/services/Api';
 
 export default function TodoList() {
   const [visitas, setVisitas] = useState();
@@ -49,19 +47,30 @@ export default function TodoList() {
     };
 
     return (
-      <SafeAreaView style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+      <SafeAreaView
+        style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+      >
         <Container>
           <TouchableOpacity
             onPress={checkTask}
             style={task.item.isComplet == 1 ? styles.checked : styles.unChecked}
           >
-            {task.item.isComplet == 1 && <Entypo name="check" size={16} color="#FAFAFA" />}
+            {task.item.isComplet == 1 && (
+              <Entypo
+                name="check"
+                size={16}
+                color="#FAFAFA"
+              />
+            )}
           </TouchableOpacity>
 
           <Text
             style={
               task.item.isComplet == 1
-                ? [styles.texto, { textDecorationLine: 'line-through', color: '#73737373' }]
+                ? [
+                    styles.texto,
+                    { textDecorationLine: 'line-through', color: '#73737373' },
+                  ]
                 : styles.texto
             }
           >
@@ -69,14 +78,23 @@ export default function TodoList() {
           </Text>
         </Container>
         <TouchableOpacity onPress={deletTask}>
-          <MaterialIcons style={{ marginRight: 20 }} name="delete" size={25} color="black" />
+          <MaterialIcons
+            style={{ marginRight: 20 }}
+            name="delete"
+            size={25}
+            color="black"
+          />
         </TouchableOpacity>
       </SafeAreaView>
     );
   });
 
   return (
-    <FlatList data={visitas} keyExtractor={(item) => item.id.toString()} renderItem={renderItem} />
+    <FlatList
+      data={visitas}
+      keyExtractor={(item) => item.id.toString()}
+      renderItem={renderItem}
+    />
   );
 }
 const Container = styled.SafeAreaView`

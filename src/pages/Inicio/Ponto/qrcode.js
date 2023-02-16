@@ -1,25 +1,22 @@
-import { BarCodeScanner } from "expo-barcode-scanner";
-import React, { useEffect, useRef, useState } from "react";
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Text,
-  StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
   Modal,
-} from "react-native";
+  StyleSheet,
+  TouchableOpacity,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
-import styled from "styled-components";
-import * as Location from "expo-location";
-import Api from "../../../src/services/Api";
-import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { Camera } from "expo-camera";
+} from 'react-native-alert-notification';
+import styled from 'styled-components';
+import Api from '~/services/Api';
 
 export default function PontoQrCode() {
   const navigation = useNavigation();
@@ -32,15 +29,15 @@ export default function PontoQrCode() {
   const [loadqr, setLoadqr] = useState(true);
   const [email, setEmail] = useState();
 
-  const [lat, setLat] = useState("");
-  const [long, setLong] = useState("");
-  const [empresa, setEmpresa] = useState("");
-  const [hour, setHour] = useState("");
-  const [pis, setPis] = useState("");
-  const [image, setImage] = useState("");
+  const [lat, setLat] = useState('');
+  const [long, setLong] = useState('');
+  const [empresa, setEmpresa] = useState('');
+  const [hour, setHour] = useState('');
+  const [pis, setPis] = useState('');
+  const [image, setImage] = useState('');
   const [modalimg, setModalimg] = useState(false);
 
-  const [foto, setFoto] = useState("");
+  const [foto, setFoto] = useState('');
 
   const handleBarCodeScanned = async ({ type, data }) => {
     const res = await Api.getFotoEmail(data);
@@ -60,11 +57,11 @@ export default function PontoQrCode() {
       const hour = new Date().toLocaleTimeString();
       setHour(hour);
 
-      const ress = await AsyncStorage.getItem("@empresa");
+      const ress = await AsyncStorage.getItem('@empresa');
       setEmpresa(ress);
 
-      const lat = await AsyncStorage.getItem("@lat");
-      const long = await AsyncStorage.getItem("@long");
+      const lat = await AsyncStorage.getItem('@lat');
+      const long = await AsyncStorage.getItem('@long');
       setLat(Number(lat));
       setLong(Number(long));
     };
@@ -72,17 +69,17 @@ export default function PontoQrCode() {
   }, []);
 
   var data = new Date();
-  var dia = String(data.getDate()).padStart(2, "0");
-  var mes = String(data.getMonth() + 1).padStart(2, "0");
+  var dia = String(data.getDate()).padStart(2, '0');
+  var mes = String(data.getMonth() + 1).padStart(2, '0');
   var ano = data.getFullYear();
-  const date = ano + "/" + mes + "/" + dia;
+  const date = ano + '/' + mes + '/' + dia;
 
   async function QRCODE() {
     setLoadqr(false);
 
     var dataaa = new Date();
-    var dia = String(dataaa.getDate()).padStart(2, "0");
-    var mes = String(dataaa.getMonth() + 1).padStart(2, "0");
+    var dia = String(dataaa.getDate()).padStart(2, '0');
+    var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
     var ano = dataaa.getFullYear();
     var hourr = new Date().toLocaleTimeString();
     const dataa = ano + mes + dia;
@@ -93,13 +90,13 @@ export default function PontoQrCode() {
     if (json) {
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
+        title: 'Sucesso',
         textBody: `Ponto de ${email} inserido com sucesso`,
-        button: "ok",
+        button: 'ok',
       });
       setTimeout(() => {
         navigation.reset({
-          routes: [{ name: "Home" }],
+          routes: [{ name: 'Home' }],
         });
       }, 2000);
     }
@@ -134,17 +131,18 @@ export default function PontoQrCode() {
             {loadqr && (
               <TouchableOpacity onPress={QRCODE}>
                 <ContainerImg>
-                  <ImgButton
-                    source={require("../../../assets/bater-ponto.png")}
-                  />
+                  <ImgButton source={require('~/assets/bater-ponto.png')} />
                 </ContainerImg>
                 <ButtonQrCode>
-                  Enviar ponto de {"\n"} {email}
+                  Enviar ponto de {'\n'} {email}
                 </ButtonQrCode>
               </TouchableOpacity>
             )}
             {loadqr == false && (
-              <ActivityIndicator size={"large"} color="#1CADE2" />
+              <ActivityIndicator
+                size={'large'}
+                color="#1CADE2"
+              />
             )}
           </ContainerQRcode>
         )}
@@ -160,13 +158,17 @@ export default function PontoQrCode() {
           <Camera
             ref={camRef}
             type={type}
-            style={{ flex: 1, justifyContent: "flex-end" }}
+            style={{ flex: 1, justifyContent: 'flex-end' }}
           >
             <ButtomCamera onPress={takePicture}>
-              <Icone size={23} name="camera" color="white" />
+              <Icone
+                size={23}
+                name="camera"
+                color="white"
+              />
             </ButtomCamera>
             <ChangeCan onPress={TogleCan}>
-              <ImgChangeCan source={require("../../../src/icons/can.png")} />
+              <ImgChangeCan source={require('~/icons/can.png')} />
             </ChangeCan>
           </Camera>
         </Modal>

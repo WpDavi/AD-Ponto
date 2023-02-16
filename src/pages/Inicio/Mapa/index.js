@@ -1,26 +1,30 @@
+import config from '@config';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import * as Location from 'expo-location';
 import React, { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
+  Linking,
   PermissionsAndroid,
-  Text,
+  Platform,
   StyleSheet,
+  Text,
   TextInput,
   TouchableOpacity,
-  ActivityIndicator,
-  Platform,
-  Linking,
 } from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 import { View } from 'react-native-animatable';
-import MapView from 'react-native-maps';
-import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import config from '../../../config.json';
+import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import Api from '../../../src/services/Api';
-import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import styled from 'styled-components';
-import Icone from '@expo/vector-icons/FontAwesome5';
+import Api from '~/services/Api';
 
 export default function Mapa() {
   const mapEl = useRef(null);
@@ -106,7 +110,7 @@ export default function Mapa() {
       JSON.stringify(destination),
       distance,
       timeRota,
-      prince
+      prince,
     );
     Dialog.show({
       type: ALERT_TYPE.SUCCESS,
@@ -128,7 +132,10 @@ export default function Mapa() {
   };
 
   const shareCordinates = async () => {
-    const scheme = Platform.select({ ios: 'maps:0,0?q=', android: 'geo:0,0?q=' });
+    const scheme = Platform.select({
+      ios: 'maps:0,0?q=',
+      android: 'geo:0,0?q=',
+    });
     const latLng = `${destination.latitude},${destination.longitude}`;
     const label = `${nameDestination}`;
     const url = Platform.select({
@@ -151,7 +158,11 @@ export default function Mapa() {
       </Header>
       <HeaderConteinerButoon>
         <HeaderButton onPress={() => navigation.navigate('Home')}>
-          <Icone size={20} name="arrow-left" color="white" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
         </HeaderButton>
       </HeaderConteinerButoon>
       <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -161,7 +172,7 @@ export default function Mapa() {
             onMapReady={() => {
               Platform.OS === 'android'
                 ? PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                   ).then(() => {
                     console.log('usuario aceitou');
                   })
@@ -209,13 +220,25 @@ export default function Mapa() {
         )}
 
         {cliente && loadButton == false && offButton == false && (
-          <TouchableOpacity onPress={cadastrarRota} activeOpacity={0.9} style={styles.criar}>
-            <Text style={styles.textoBotao}>CADASTRAR VISITA PARA REEMBOLSO</Text>
+          <TouchableOpacity
+            onPress={cadastrarRota}
+            activeOpacity={0.9}
+            style={styles.criar}
+          >
+            <Text style={styles.textoBotao}>
+              CADASTRAR VISITA PARA REEMBOLSO
+            </Text>
           </TouchableOpacity>
         )}
         {cliente && loadButton == true && offButton == false && (
-          <TouchableOpacity activeOpacity={0.9} style={styles.criar}>
-            <ActivityIndicator size={'small'} color="white" />
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={styles.criar}
+          >
+            <ActivityIndicator
+              size={'small'}
+              color="white"
+            />
           </TouchableOpacity>
         )}
 
@@ -223,7 +246,9 @@ export default function Mapa() {
           onPress={() => navigation.navigate('VisiitasEmAndamento')}
           style={styles.containerTxtConcluido}
         >
-          <Text style={styles.txtConcluido}>Visitas em andamento{'\n'}ou concluidas</Text>
+          <Text style={styles.txtConcluido}>
+            Visitas em andamento{'\n'}ou concluidas
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -280,7 +305,11 @@ export default function Mapa() {
             onPress={shareCordinates}
             style={styles.buttonShareContainer}
           >
-            <Icone name="share-alt" size={32} color={'white'} />
+            <Icone
+              name="share-alt"
+              size={32}
+              color={'white'}
+            />
           </TouchableOpacity>
         )}
       </View>

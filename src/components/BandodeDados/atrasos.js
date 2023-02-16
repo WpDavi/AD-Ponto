@@ -1,8 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import Api from '../../src/services/Api';
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function BancodeDados({ data }) {
   var dia = 'Segunda';
@@ -20,11 +17,15 @@ export default function BancodeDados({ data }) {
     dia = 'Domingo';
   }
   return (
-    <TouchableOpacity activeOpacity={0.9} style={styles.container}>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      style={styles.container}
+    >
       <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
         <View style={styles.containertxt}>
           <Text style={styles.data}>
-            {data.data.substr(8, 9)}/{data.data.substr(5, 2)}/ {data.data.substr(0, 4)}
+            {data.data.substr(8, 9)}/{data.data.substr(5, 2)}/{' '}
+            {data.data.substr(0, 4)}
           </Text>
         </View>
 

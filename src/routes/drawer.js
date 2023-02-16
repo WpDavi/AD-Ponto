@@ -1,6 +1,6 @@
-import { DrawerContent } from '../components/Drawer';
-import Home from '../pages/Inicio/Home';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { DrawerContent } from '~/components/Drawer';
+import Home from '~/pages/Inicio/Home';
 
 const { Screen, Navigator } = createDrawerNavigator();
 
@@ -14,7 +14,10 @@ export const Drawer = () => {
       drawerContent={(props) => <DrawerContent {...props} />}
       screenOptions={screenOptions}
     >
-      <Screen name="Home" component={Home} />
+      <Screen
+        name="Home"
+        component={Home}
+      />
     </Navigator>
   );
 };

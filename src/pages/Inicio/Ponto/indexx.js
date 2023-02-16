@@ -1,41 +1,39 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Modal,
   PermissionsAndroid,
-  StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import MapView from 'react-native-maps';
-import Api from '../../../src/services/Api';
-import Mapa from '../../../components/Mapa';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Location from 'expo-location';
-import { useNavigation } from '@react-navigation/native';
-import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import Mapa from '~/components/Mapa';
+import Api from '~/services/Api';
 
 import {
-  Container,
-  ContainerButtonBack,
-  ContainerHeader,
-  TxtHora,
-  TxtName,
-  TxtTitulo,
   ButtonBack,
+  Container,
   ContainerBody,
   ContainerButton,
-  Txtbutton,
+  ContainerButtonBack,
+  ContainerButtons,
+  ContainerInfos,
   ContainerModalPermission,
   Header,
-  TxtHeader,
-  ContainerInfos,
-  TxtInfos,
-  ContainerButtons,
+  Txtbutton,
   TxtButtonModal,
+  TxtHeader,
+  TxtInfos,
 } from './styled';
 
 export default function Ponto() {
@@ -67,7 +65,7 @@ export default function Ponto() {
     useEffect(() => {
       async function req() {
         const results = await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
         if (results == false) {
           setModalPermission(true);
@@ -231,7 +229,8 @@ export default function Ponto() {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
         title: 'Alerta',
-        textBody: 'Sem conexão a internet, ponto será enviado ao retomar conexão',
+        textBody:
+          'Sem conexão a internet, ponto será enviado ao retomar conexão',
         button: 'ok',
       });
       const myArray = [
@@ -295,7 +294,11 @@ export default function Ponto() {
               navigation.navigate('Home');
             }}
           >
-            <Icone size={20} name="arrow-left" color="white" />
+            <Icone
+              size={20}
+              name="arrow-left"
+              color="white"
+            />
           </ButtonBack>
         </ContainerButtonBack>
 
@@ -305,7 +308,10 @@ export default function Ponto() {
             <ContainerButton onPress={baterPonto}>
               <Txtbutton>
                 BATER PONTO
-                <Icone size={16} name="hand-point-up" />
+                <Icone
+                  size={16}
+                  name="hand-point-up"
+                />
               </Txtbutton>
             </ContainerButton>
           )}
@@ -333,14 +339,16 @@ export default function Ponto() {
             </Header>
             <ContainerInfos>
               <TxtInfos>
-                Vamos solicitar a permissão para acesso a câmera afim de registro do ponto
-                eletrônico, envio de imagens e atestados médicos.
+                Vamos solicitar a permissão para acesso a câmera afim de
+                registro do ponto eletrônico, envio de imagens e atestados
+                médicos.
               </TxtInfos>
             </ContainerInfos>
             <ContainerInfos>
               <TxtInfos>
-                Vamos solicitar permissão de acesso a localização e a localização em segundo plano
-                do seu dispositivo para a finalidade de registro do ponto.
+                Vamos solicitar permissão de acesso a localização e a
+                localização em segundo plano do seu dispositivo para a
+                finalidade de registro do ponto.
               </TxtInfos>
             </ContainerInfos>
             <ContainerButtons>

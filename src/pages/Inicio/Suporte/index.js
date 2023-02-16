@@ -1,12 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import styled from 'styled-components/native';
-import { TextInput as RNPTextInput } from 'react-native-paper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Api from '../../../src/services/Api';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import { TextInput as RNPTextInput } from 'react-native-paper';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function Suporte() {
   const navigation = useNavigation();
@@ -71,16 +82,25 @@ export default function Suporte() {
           <Text style={styles.txtnotification}> Suporte</Text>
         </View>
         <TouchableOpacity
-          style={{ flexDirection: 'row', marginLeft: 10, position: 'absolute', marginTop: 10 }}
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+            position: 'absolute',
+            marginTop: 10,
+          }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
         <View style={styles.cotainerinfo}>
           <Image
             resizeMode="stretch"
             style={styles.img}
-            source={require('../../../src/icons/suporte.png')}
+            source={require('~/icons/suporte.png')}
           />
 
           <Text style={{ marginTop: 10, fontWeight: 'bold', marginBottom: 10 }}>
@@ -98,13 +118,23 @@ export default function Suporte() {
           />
         </View>
         {load == false && (
-          <TouchableOpacity onPress={Enviar} activeOpacity={0.9} style={styles.criar}>
+          <TouchableOpacity
+            onPress={Enviar}
+            activeOpacity={0.9}
+            style={styles.criar}
+          >
             <Text style={styles.textoBotao}>ENVIAR</Text>
           </TouchableOpacity>
         )}
         {load == true && (
-          <TouchableOpacity activeOpacity={0.9} style={styles.criar}>
-            <ActivityIndicator size={'large'} color="white" />
+          <TouchableOpacity
+            activeOpacity={0.9}
+            style={styles.criar}
+          >
+            <ActivityIndicator
+              size={'large'}
+              color="white"
+            />
           </TouchableOpacity>
         )}
       </AlertNotificationRoot>

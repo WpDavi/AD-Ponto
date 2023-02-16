@@ -1,8 +1,8 @@
-import { useNotification } from './components/Pushnotificacao';
-import { Routes } from './src/routes';
-import { ThemeProvider } from './src/thema/contexteTheme';
 import * as Notifications from 'expo-notifications';
 import { useEffect } from 'react';
+import { useNotification } from '~/components/Pushnotificacao';
+import { ThemeProvider } from '~/context/ThemeContext';
+import { Routes } from '~/routes';
 
 const App = () => {
   const { registerForPushNotificationsAsync, handleNotificationResponse } =
@@ -19,7 +19,7 @@ const App = () => {
     });
 
     const responseListener = Notifications.addNotificationReceivedListener(
-      handleNotificationResponse
+      handleNotificationResponse,
     );
 
     return () => {

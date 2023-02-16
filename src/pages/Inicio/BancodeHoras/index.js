@@ -1,32 +1,32 @@
+import Icone from '@expo/vector-icons/FontAwesome5';
 import React, { useEffect, useState } from 'react';
 import {
-  Image,
-  StyleSheet,
-  View,
   FlatList,
-  Text,
-  Modal,
+  Image,
   ImageBackground,
-  StatusBar,
-  TouchableOpacity,
+  Modal,
   ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import Api from '../../../src/services/Api';
-import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
-import BancodeDados3 from '../../../components/BandodeDados/bancodeDados';
-import Atrasos from '../../../components/BandodeDados/atrasos';
-import Faltas from '../../../components/BandodeDados/faltas';
-import Horasnoturnas from '../../../components/BandodeDados/horasNoturnas';
-import Extranoturnas from '../../../components/BandodeDados/extraNoturnas';
-import Extra from '../../../components/BandodeDados/extra';
-import Horastrabalhadas from '../../../components/BandodeDados/horasTrabalhadas';
-import Saldobancodehoras from '../../../components/BandodeDados/saldoBancodeHoras';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 import { ActivityIndicator } from 'react-native';
-import NetInfo from '@react-native-community/netinfo';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Atrasos from '~/components/BandodeDados/atrasos';
+import BancodeDados3 from '~/components/BandodeDados/bancodeDados';
+import Extra from '~/components/BandodeDados/extra';
+import Extranoturnas from '~/components/BandodeDados/extraNoturnas';
+import Faltas from '~/components/BandodeDados/faltas';
+import Horasnoturnas from '~/components/BandodeDados/horasNoturnas';
+import Horastrabalhadas from '~/components/BandodeDados/horasTrabalhadas';
+import Saldobancodehoras from '~/components/BandodeDados/saldoBancodeHoras';
 
 export default function BancodeHoras() {
   const [lista, setLista] = useState('');
@@ -88,23 +88,45 @@ export default function BancodeHoras() {
             backgroundColor: '#1CADE2',
           }}
         >
-          <Text style={{ textAlign: 'center', fontSize: 20, color: 'white', fontWeight: 'bold' }}>
+          <Text
+            style={{
+              textAlign: 'center',
+              fontSize: 20,
+              color: 'white',
+              fontWeight: 'bold',
+            }}
+          >
             Banco de Horas
           </Text>
         </View>
         <TouchableOpacity
-          style={{ flexDirection: 'row', marginLeft: 20, position: 'absolute', marginTop: 15 }}
+          style={{
+            flexDirection: 'row',
+            marginLeft: 20,
+            position: 'absolute',
+            marginTop: 15,
+          }}
           onPress={() =>
             navigation.reset({
               routes: [{ name: 'Home' }],
             })
           }
         >
-          <Icone size={20} name="arrow-left" color="white" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
         <ScrollView>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: -50 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: -50,
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 setSaldobancodehoras(true);
@@ -113,7 +135,7 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/saldobancohora.png')}
+                source={require('~/icons/saldobancohora.png')}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -124,11 +146,17 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/horastrabalhadas.png')}
+                source={require('~/icons/horastrabalhadas.png')}
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: -30 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: -30,
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 setBancodedados(true);
@@ -137,7 +165,7 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/cargahoraria.png')}
+                source={require('~/icons/cargahoraria.png')}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -148,11 +176,17 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/atrasos.png')}
+                source={require('~/icons/atrasos.png')}
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: -50 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: -50,
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 setFaltas(true);
@@ -161,7 +195,7 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/faltas.png')}
+                source={require('~/icons/faltas.png')}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -172,11 +206,17 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/horasnoturnas.png')}
+                source={require('~/icons/horasnoturnas.png')}
               />
             </TouchableOpacity>
           </View>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginTop: -50 }}>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              marginTop: -50,
+            }}
+          >
             <TouchableOpacity
               onPress={() => {
                 setExtranoturnas(true);
@@ -185,7 +225,7 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/extranoturnas.png')}
+                source={require('~/icons/extranoturnas.png')}
               />
             </TouchableOpacity>
             <TouchableOpacity
@@ -196,7 +236,7 @@ export default function BancodeHoras() {
               <Image
                 resizeMode="contain"
                 style={styles.iconsimg}
-                source={require('../../../src/icons/extra.png')}
+                source={require('~/icons/extra.png')}
               />
             </TouchableOpacity>
           </View>
@@ -211,7 +251,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -236,7 +276,11 @@ export default function BancodeHoras() {
                   setBancodedados(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -249,7 +293,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -262,7 +312,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -284,7 +338,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -309,9 +363,19 @@ export default function BancodeHoras() {
                   setAtraso(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -324,7 +388,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -346,7 +414,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -371,7 +439,11 @@ export default function BancodeHoras() {
                   setFaltas(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -384,7 +456,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -397,7 +475,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -419,7 +501,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -444,7 +526,11 @@ export default function BancodeHoras() {
                   setHorasnoturnas(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -457,7 +543,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -470,7 +562,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -492,7 +588,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -517,7 +613,11 @@ export default function BancodeHoras() {
                   setExtranoturnas(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -530,7 +630,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -543,7 +649,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -565,7 +675,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -590,7 +700,11 @@ export default function BancodeHoras() {
                   setExtra(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -603,7 +717,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -616,7 +736,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -638,7 +762,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -663,7 +787,11 @@ export default function BancodeHoras() {
                   setHorastrabalhadas(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -676,7 +804,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -689,7 +823,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}
@@ -711,7 +849,7 @@ export default function BancodeHoras() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <View
@@ -736,7 +874,11 @@ export default function BancodeHoras() {
                   setSaldobancodehoras(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 20,
@@ -749,7 +891,13 @@ export default function BancodeHoras() {
                   Voltar
                 </Text>
               </TouchableOpacity>
-              <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 30 }}>
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  marginTop: 30,
+                }}
+              >
                 <View style={styles.containertxt}>
                   <Text style={styles.txt}>Data</Text>
                 </View>
@@ -762,7 +910,11 @@ export default function BancodeHoras() {
                 </View>
               </View>
               {!lista && (
-                <ActivityIndicator color={'#1CADE2'} size={'large'} style={{ marginTop: 20 }} />
+                <ActivityIndicator
+                  color={'#1CADE2'}
+                  size={'large'}
+                  style={{ marginTop: 20 }}
+                />
               )}
               <FlatList
                 style={styles.lista}

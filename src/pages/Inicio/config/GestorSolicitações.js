@@ -1,22 +1,26 @@
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
   ActivityIndicator,
   FlatList,
-  TouchableOpacity,
-  Modal,
+  Image,
   ImageBackground,
   KeyboardAvoidingView,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { Feather } from '@expo/vector-icons';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 import styled from 'styled-components/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
 export default function Senha() {
   const navigation = useNavigation();
@@ -26,7 +30,16 @@ export default function Senha() {
 
   const [bottonLoad, setBottonLoad] = useState(false);
 
-  const [itemFerias, setItemFerias] = useState(['1', '2', '3', '4', '5', '6', '7', '8']);
+  const [itemFerias, setItemFerias] = useState([
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+  ]);
   const [modaItemFerias, setModaItemFerias] = useState(false);
 
   useEffect(() => {
@@ -109,7 +122,11 @@ export default function Senha() {
           }}
         >
           <View>
-            <Feather color={'#555555'} name={'check-circle'} size={45} />
+            <Feather
+              color={'#555555'}
+              name={'check-circle'}
+              size={45}
+            />
           </View>
 
           <View>
@@ -117,7 +134,8 @@ export default function Senha() {
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Data de início: </Text>
               <Text style={styles.txtInfo2}>
-                {ferias.item.data_ini.substr(8, 9)}/{ferias.item.data_ini.substr(5, 2)}/
+                {ferias.item.data_ini.substr(8, 9)}/
+                {ferias.item.data_ini.substr(5, 2)}/
                 {ferias.item.data_ini.substr(0, 4)}
               </Text>
             </View>
@@ -125,7 +143,8 @@ export default function Senha() {
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Data de termíno: </Text>
               <Text style={styles.txtInfo2}>
-                {ferias.item.data_fim.substr(8, 9)}/{ferias.item.data_fim.substr(5, 2)}/
+                {ferias.item.data_fim.substr(8, 9)}/
+                {ferias.item.data_fim.substr(5, 2)}/
                 {ferias.item.data_fim.substr(0, 4)}
               </Text>
             </View>
@@ -172,23 +191,41 @@ export default function Senha() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ flexDirection: 'row', marginLeft: 10, position: 'absolute', marginTop: 10 }}
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+            position: 'absolute',
+            marginTop: 10,
+          }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
         {ferias.length == 0 && (
           <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: -90 }}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: -90,
+            }}
           >
             <Image
               style={{ width: 210, height: 200 }}
-              source={require('../../../src/icons/solicitacoes.png')}
+              source={require('~/icons/solicitacoes.png')}
             />
 
             {load == true && (
-              <ActivityIndicator style={{ marginTop: 30 }} size={'large'} color="#1CADE2" />
+              <ActivityIndicator
+                style={{ marginTop: 30 }}
+                size={'large'}
+                color="#1CADE2"
+              />
             )}
             {load == false && (
               <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
@@ -224,7 +261,7 @@ export default function Senha() {
           }}
         >
           <ImageBackground
-            source={require('../../../assets/Backgroundblack.jpg')}
+            source={require('~/assets/Backgroundblack.jpg')}
             style={{ height: '110%', alignItems: 'center' }}
           >
             <KeyboardAvoidingView
@@ -251,7 +288,11 @@ export default function Senha() {
                   setModaItemFerias(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 30,
@@ -274,13 +315,17 @@ export default function Senha() {
                   paddingBottom: 10,
                 }}
               >
-                <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>FUNCIONÁRIO: </Text>
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                  FUNCIONÁRIO:{' '}
+                </Text>
                 <Text>{itemFerias[2]}</Text>
               </View>
 
               <View>
                 <View style={{ flexDirection: 'row', marginTop: 15 }}>
-                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>DATA DE INÍCIO: </Text>
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    DATA DE INÍCIO:{' '}
+                  </Text>
                   <Text>
                     {itemFerias[0].substr(8, 9)}/{itemFerias[0].substr(5, 2)}/
                     {itemFerias[0].substr(0, 4)}
@@ -295,7 +340,9 @@ export default function Senha() {
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>DATA DE TERMÍNO: </Text>
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    DATA DE TERMÍNO:{' '}
+                  </Text>
                   <Text>
                     {itemFerias[1].substr(8, 9)}/{itemFerias[1].substr(5, 2)}/
                     {itemFerias[1].substr(0, 4)}
@@ -323,7 +370,7 @@ export default function Senha() {
                           marginTop: 20,
                           marginBottom: 20,
                         }}
-                        source={require('../../../src/icons/aceite.png')}
+                        source={require('~/icons/aceite.png')}
                       />
                     </TouchableOpacity>
 
@@ -337,13 +384,17 @@ export default function Senha() {
                           marginBottom: 20,
                           marginLeft: 70,
                         }}
-                        source={require('../../../src/icons/negar.png')}
+                        source={require('~/icons/negar.png')}
                       />
                     </TouchableOpacity>
                   </View>
                 )}
                 {bottonLoad == true && (
-                  <ActivityIndicator style={{ padding: 15 }} size={'large'} color="white" />
+                  <ActivityIndicator
+                    style={{ padding: 15 }}
+                    size={'large'}
+                    color="white"
+                  />
                 )}
               </View>
             </KeyboardAvoidingView>

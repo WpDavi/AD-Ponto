@@ -1,23 +1,22 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  Image,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
-} from 'react-native';
 import Icone from '@expo/vector-icons/FontAwesome5';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  Image,
+  Modal,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import styled from 'styled-components/native';
 import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function PontoFaceId() {
   const camRef = useRef(null);
@@ -26,7 +25,8 @@ export default function PontoFaceId() {
   const [idPessoa, setIdPessoa] = useState();
 
   const [modalVisible, setModalVisible] = useState(true);
-  const [modalInformationUserVisible, setModalInformationUserVisible] = useState(false);
+  const [modalInformationUserVisible, setModalInformationUserVisible] =
+    useState(false);
 
   const [listaPesquisa, setListaPesquisa] = useState();
 
@@ -124,7 +124,7 @@ export default function PontoFaceId() {
   //           {!funcionario.item.foto && (
   //             <Image
   //               style={{ width: 40, height: 40, marginRight: 8, borderRadius: 100 }}
-  //               source={require('../../../src/icons/perfil.png')}
+  //               source={require('~/icons/perfil.png')}
   //             />
   //           )}
   //           {funcionario.item.foto && (
@@ -173,17 +173,26 @@ export default function PontoFaceId() {
             style={{ flexDirection: 'row', marginLeft: 20 }}
             onPress={() => navigation.goBack()}
           >
-            <Icone size={20} name="arrow-left" color="white" />
+            <Icone
+              size={20}
+              name="arrow-left"
+              color="white"
+            />
           </TouchableOpacity>
         </View>
         {listaPesquisa == null && (
-          <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <View
+            style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+          >
             <Image
               resizeMode="contain"
               style={{ width: 200, marginTop: 500 }}
-              source={require('../../../src/icons/envionotification.png')}
+              source={require('~/icons/envionotification.png')}
             />
-            <ActivityIndicator color={'#1CADE2'} size={'large'} />
+            <ActivityIndicator
+              color={'#1CADE2'}
+              size={'large'}
+            />
           </View>
         )}
         {/* <FlatList
@@ -211,10 +220,16 @@ export default function PontoFaceId() {
             </TouchableOpacity> */}
           </Camera>
         </Modal>
-        <Modal animationType="slide" transparent visible={modalInformationUserVisible}>
+        <Modal
+          animationType="slide"
+          transparent
+          visible={modalInformationUserVisible}
+        >
           <View>
             <Text>Teste</Text>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-around' }}
+            >
               <Text>Cancelar</Text>
               <Text>OK</Text>
             </View>

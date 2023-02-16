@@ -1,26 +1,30 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Text,
-  View,
+  ActivityIndicator,
   FlatList,
   Image,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
   KeyboardAvoidingView,
+  Modal,
   SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 
-import { useNavigation } from '@react-navigation/native';
 import { Entypo, Feather } from '@expo/vector-icons';
-import Api from '../../../src/services/Api';
+import { useNavigation } from '@react-navigation/native';
 import { ImageBackground } from 'react-native';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function EnvioDeNoification() {
   const [assunto, setAssunto] = useState();
@@ -95,52 +99,84 @@ export default function EnvioDeNoification() {
           <View style={styles.item}>
             {!funcionario.item.foto && (
               <Image
-                style={{ width: 40, height: 40, marginRight: 8, borderRadius: 100 }}
-                source={require('../../../src/icons/perfil.png')}
+                style={{
+                  width: 40,
+                  height: 40,
+                  marginRight: 8,
+                  borderRadius: 100,
+                }}
+                source={require('~/icons/perfil.png')}
               />
             )}
             {funcionario.item.foto && (
               <Image
-                style={{ width: 40, height: 40, marginRight: 8, borderRadius: 100 }}
+                style={{
+                  width: 40,
+                  height: 40,
+                  marginRight: 8,
+                  borderRadius: 100,
+                }}
                 source={{ uri: funcionario.item.foto }}
               />
             )}
 
             <View style={styles.conteudo}>
-              <Text style={styles.titulo}>{`${funcionario.item.funcionario}`}</Text>
+              <Text
+                style={styles.titulo}
+              >{`${funcionario.item.funcionario}`}</Text>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Email:</Text>
-                <Text style={{ fontSize: 12, marginLeft: 5 }}>{funcionario.item.email}</Text>
+                <Text style={{ fontSize: 12, marginLeft: 5 }}>
+                  {funcionario.item.email}
+                </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Data de nascimento</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
-                  {`${String(funcionario.item.dt_nascimento).substr(8, 9)}-${String(
-                    funcionario.item.dt_nascimento
-                  ).substr(5, 2)}-${String(funcionario.item.dt_nascimento).substr(0, 4)}`}
+                  {`${String(funcionario.item.dt_nascimento).substr(
+                    8,
+                    9,
+                  )}-${String(funcionario.item.dt_nascimento).substr(
+                    5,
+                    2,
+                  )}-${String(funcionario.item.dt_nascimento).substr(0, 4)}`}
                 </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Pis</Text>
-                <Text style={{ fontSize: 12, marginLeft: 5 }}>{funcionario.item.pis}</Text>
+                <Text style={{ fontSize: 12, marginLeft: 5 }}>
+                  {funcionario.item.pis}
+                </Text>
               </View>
               <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Data de admissão</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
-                  {`${String(funcionario.item.dt_admissao).substr(8, 9)}-${String(
-                    funcionario.item.dt_admissao
-                  ).substr(5, 2)}-${String(funcionario.item.dt_admissao).substr(0, 4)}`}
+                  {`${String(funcionario.item.dt_admissao).substr(
+                    8,
+                    9,
+                  )}-${String(funcionario.item.dt_admissao).substr(
+                    5,
+                    2,
+                  )}-${String(funcionario.item.dt_admissao).substr(0, 4)}`}
                 </Text>
               </View>
             </View>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ justifyContent: 'center', marginRight: 20, marginBottom: 30 }}
+          style={{
+            justifyContent: 'center',
+            marginRight: 20,
+            marginBottom: 30,
+          }}
           onPress={handleClickItem}
         >
           <View>
-            <Entypo name="pencil" size={20} color="#666666" />
+            <Entypo
+              name="pencil"
+              size={20}
+              color="#666666"
+            />
           </View>
         </TouchableOpacity>
       </SafeAreaView>
@@ -165,7 +201,14 @@ export default function EnvioDeNoification() {
               backgroundColor: '#1CADE2',
             }}
           >
-            <Text style={{ textAlign: 'center', fontSize: 20, color: 'white', fontWeight: 'bold' }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontSize: 20,
+                color: 'white',
+                fontWeight: 'bold',
+              }}
+            >
               Envio de notificação
             </Text>
           </View>
@@ -178,17 +221,30 @@ export default function EnvioDeNoification() {
                 })
               }
             >
-              <Icone size={20} name="arrow-left" color="white" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="white"
+              />
             </TouchableOpacity>
           </View>
           {listaPesquisa == null && (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <View
+              style={{
+                flex: 1,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
               <Image
                 resizeMode="contain"
                 style={{ width: 200, marginTop: 500 }}
-                source={require('../../../src/icons/envionotification.png')}
+                source={require('~/icons/envionotification.png')}
               />
-              <ActivityIndicator color={'#1CADE2'} size={'large'} />
+              <ActivityIndicator
+                color={'#1CADE2'}
+                size={'large'}
+              />
             </View>
           )}
           {listaPesquisa && (
@@ -208,7 +264,7 @@ export default function EnvioDeNoification() {
             }}
           >
             <ImageBackground
-              source={require('../../../assets/Backgroundblack.jpg')}
+              source={require('~/assets/Backgroundblack.jpg')}
               style={{ height: '110%', alignItems: 'center' }}
             >
               <KeyboardAvoidingView
@@ -235,7 +291,11 @@ export default function EnvioDeNoification() {
                     setModalimg(false);
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="black" />
+                  <Icone
+                    size={20}
+                    name="arrow-left"
+                    color="black"
+                  />
                   <Text
                     style={{
                       marginLeft: 30,
@@ -296,8 +356,15 @@ export default function EnvioDeNoification() {
                         alignItems: 'center',
                       }}
                     >
-                      <TouchableOpacity style={{ flexDirection: 'row' }} onPress={Enviar}>
-                        <Feather name="send" size={20} color="white" />
+                      <TouchableOpacity
+                        style={{ flexDirection: 'row' }}
+                        onPress={Enviar}
+                      >
+                        <Feather
+                          name="send"
+                          size={20}
+                          color="white"
+                        />
                         <Text style={styles.txtButton}>Enviar</Text>
                       </TouchableOpacity>
                     </View>
@@ -313,7 +380,10 @@ export default function EnvioDeNoification() {
                       height: 90,
                     }}
                   >
-                    <ActivityIndicator size={'large'} color="white" />
+                    <ActivityIndicator
+                      size={'large'}
+                      color="white"
+                    />
                   </View>
                 )}
               </KeyboardAvoidingView>

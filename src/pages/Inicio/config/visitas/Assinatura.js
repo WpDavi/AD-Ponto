@@ -1,7 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useEffect, useState } from 'react';
-import { Image, SafeAreaView, Text } from 'react-native';
-import { View } from 'react-native';
+import { Image, SafeAreaView } from 'react-native';
 import styled from 'styled-components';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';

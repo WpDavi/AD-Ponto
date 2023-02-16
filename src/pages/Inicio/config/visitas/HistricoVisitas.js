@@ -1,25 +1,31 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import {
-  FlatList,
-  Image,
-  ImageBackground,
-  StyleSheet,
-  Modal,
-  Text,
-  View,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import Icon from '@expo/vector-icons/MaterialIcons';
-import styled from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../../src/services/Api';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { BottomSheetModal, BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
-import TodoList from '../../../../components/checklist';
+import styled from 'styled-components';
+import TodoList from '~/components/checklist';
+import Api from '~/services/Api';
 
 export default function VisiitasEmAndamento() {
   const [cliente, setCliente] = useState();
@@ -111,7 +117,10 @@ export default function VisiitasEmAndamento() {
           button: 'ok',
         });
       } else {
-        await AsyncStorage.setItem('@imgAssinatura', String(visitas.item.assinatura));
+        await AsyncStorage.setItem(
+          '@imgAssinatura',
+          String(visitas.item.assinatura),
+        );
         navigation.navigate('ImgAssinatura');
       }
     };
@@ -133,7 +142,9 @@ export default function VisiitasEmAndamento() {
             </ContainerDadosTop>
             <ContainerDados>
               <TxtTituloFletList>ASSINATURA:</TxtTituloFletList>
-              <TxtInfo>{visitas.item.assinatura != null ? 'Coletada' : 'Não coletada'}</TxtInfo>
+              <TxtInfo>
+                {visitas.item.assinatura != null ? 'Coletada' : 'Não coletada'}
+              </TxtInfo>
             </ContainerDados>
             {visitas.item.check_in && (
               <ContainerDados>
@@ -162,7 +173,9 @@ export default function VisiitasEmAndamento() {
             {visitas.item.check_out && (
               <ContainerDados>
                 <TxtTituloFletList>TEMPO EM ROTA:</TxtTituloFletList>
-                <TxtInfo>{(visitas.item.tempo_em_rota * 2).toFixed(2)}h</TxtInfo>
+                <TxtInfo>
+                  {(visitas.item.tempo_em_rota * 2).toFixed(2)}h
+                </TxtInfo>
               </ContainerDados>
             )}
             {visitas.item.check_out && (
@@ -173,20 +186,20 @@ export default function VisiitasEmAndamento() {
             )}
             <ContainerButtons>
               <TouchableOpacity onPress={handlePresentModal}>
-                <ImgButton source={require('../../../../src/icons/checklist.png')} />
+                <ImgButton source={require('~/icons/checklist.png')} />
               </TouchableOpacity>
               {!visitas.item.check_out && (
                 <ConteinerImgButtonCenter onPress={check}>
-                  <ImgButtonCenter source={require('../../../../src/icons/notcheck.png')} />
+                  <ImgButtonCenter source={require('~/icons/notcheck.png')} />
                 </ConteinerImgButtonCenter>
               )}
               {visitas.item.check_out && (
                 <ConteinerImgButtonCenter onPress={check}>
-                  <ImgButtonCenter source={require('../../../../src/icons/aguardando.png')} />
+                  <ImgButtonCenter source={require('~/icons/aguardando.png')} />
                 </ConteinerImgButtonCenter>
               )}
               <TouchableOpacity onPress={handleSignature}>
-                <ImgButton source={require('../../../../src/icons/assinatura.png')} />
+                <ImgButton source={require('~/icons/assinatura.png')} />
               </TouchableOpacity>
             </ContainerButtons>
           </ContainerInfo>
@@ -205,27 +218,51 @@ export default function VisiitasEmAndamento() {
           </Header>
           <HeaderConteinerButoon>
             <HeaderButton onPress={() => navigation.goBack()}>
-              <Icone size={20} name="arrow-left" color="white" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="white"
+              />
             </HeaderButton>
           </HeaderConteinerButoon>
           {visitas.length == 0 && (
             <View style={{ alignItems: 'center' }}>
               <Image
-                style={{ width: 250, height: 165, marginBottom: 23, marginTop: 120 }}
-                source={require('../../../../src/icons/visitas.png')}
+                style={{
+                  width: 250,
+                  height: 165,
+                  marginBottom: 23,
+                  marginTop: 120,
+                }}
+                source={require('~/icons/visitas.png')}
               />
               {inicioLoad == false && (
-                <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}>
+                <Text
+                  style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}
+                >
                   Sem visitas no momento
                 </Text>
               )}
-              {inicioLoad == true && <ActivityIndicator size={'large'} color={'#0393c7'} />}
+              {inicioLoad == true && (
+                <ActivityIndicator
+                  size={'large'}
+                  color={'#0393c7'}
+                />
+              )}
             </View>
           )}
-          <FlatList data={visitas} renderItem={renderItem} keyExtractor={(item, index) => index} />
+          <FlatList
+            data={visitas}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index}
+          />
 
           {/*Modal de Task------------------------------ */}
-          <BottomSheetModal ref={bottomSheetModalRef} index={2} snapPoints={snapPoints}>
+          <BottomSheetModal
+            ref={bottomSheetModalRef}
+            index={2}
+            snapPoints={snapPoints}
+          >
             <View>
               <ContainerModalChek>
                 <TituloModa>CheckList</TituloModa>
@@ -234,7 +271,12 @@ export default function VisiitasEmAndamento() {
                     bottomSheetModalRef.current?.close();
                   }}
                 >
-                  <Icon style={{ marginRight: 15 }} size={35} name="close" color="black" />
+                  <Icon
+                    style={{ marginRight: 15 }}
+                    size={35}
+                    name="close"
+                    color="black"
+                  />
                 </TouchableOpacity>
               </ContainerModalChek>
               <TodoList />
@@ -245,7 +287,11 @@ export default function VisiitasEmAndamento() {
                 setModalNewTask(true);
               }}
             >
-              <Icon size={35} name="add" color="white" />
+              <Icon
+                size={35}
+                name="add"
+                color="white"
+              />
             </ButtonAdd>
           </BottomSheetModal>
 
@@ -265,10 +311,18 @@ export default function VisiitasEmAndamento() {
                     setModalNewTask(false);
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="white" />
+                  <Icone
+                    size={20}
+                    name="arrow-left"
+                    color="white"
+                  />
                 </TouchableOpacity>
                 <TituloModalTas>NOVA TAREFA</TituloModalTas>
-                <Icone size={20} name="arrow-left" color="#1cade2" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="#1cade2"
+                />
               </ContainerTitutloModalTask>
               <RNPTextInput
                 style={styles.input}

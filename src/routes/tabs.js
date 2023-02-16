@@ -1,9 +1,9 @@
-import BotaoPonto from '../components/botaoPonto';
-import Inicio from '../pages/Inicio/Home';
-import MinhaConta from '../pages/Inicio/MinhaConta';
-import { Drawer } from './drawer';
 import Feather from '@expo/vector-icons/Feather';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import BotaoPonto from '~/components/botaoPonto';
+import Inicio from '~/pages/Inicio/Home';
+import MinhaConta from '~/pages/Inicio/MinhaConta';
+import { Drawer } from '~/routes/drawer';
 
 const { Screen, Navigator } = createBottomTabNavigator();
 
@@ -27,7 +27,11 @@ export const Tabs = () => {
         component={Drawer}
         options={{
           tabBarIcon: ({ size, color }) => (
-            <Feather name="home" size={size} color={color} />
+            <Feather
+              name="home"
+              size={size}
+              color={color}
+            />
           ),
         }}
       />
@@ -44,7 +48,12 @@ export const Tabs = () => {
         component={MinhaConta}
         options={{
           tabBarIcon: ({ focused, size, color }) => (
-            <Feather name="user" size={size} color={color} focused={focused} />
+            <Feather
+              name="user"
+              size={size}
+              color={color}
+              focused={focused}
+            />
           ),
         }}
       />

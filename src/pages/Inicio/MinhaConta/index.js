@@ -1,30 +1,28 @@
-import Api from '../../../src/services/Api';
-import { Container, InformaçõesPessoais, Nome } from './styled';
-import { Feather } from '@expo/vector-icons';
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
-  SafeAreaView,
-  Image,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  TextInput,
   ActivityIndicator,
   Alert,
+  Image,
+  Modal,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { Modal } from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
 } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
+import Api from '~/services/Api';
+import { Container, InformaçõesPessoais, Nome } from './styled';
 
 export default function MinhaConta() {
   const [modalImage, setModalImage] = useState(false);
@@ -223,7 +221,7 @@ export default function MinhaConta() {
         Alert.alert(
           'Falha ao atualizar.',
           'Falha ao atualizar dados de usuario',
-          [{ text: 'OK', onPress: () => console.log('ok') }]
+          [{ text: 'OK', onPress: () => console.log('ok') }],
         );
       });
     setDisabledInput(true);
@@ -246,7 +244,11 @@ export default function MinhaConta() {
                       })
                     }
                   >
-                    <Icone color="#00bbff" size={20} name="arrow-left" />
+                    <Icone
+                      color="#00bbff"
+                      size={20}
+                      name="arrow-left"
+                    />
                   </TouchableOpacity>
                 </View>
                 <TouchableOpacity
@@ -254,7 +256,11 @@ export default function MinhaConta() {
                   style={styles.btnNotificacoes}
                   activeOpacity={0.9}
                 >
-                  <Feather name="bell" size={27} color="black" />
+                  <Feather
+                    name="bell"
+                    size={27}
+                    color="black"
+                  />
                 </TouchableOpacity>
               </View>
               <TouchableOpacity onPress={() => pickImage()}>
@@ -266,7 +272,11 @@ export default function MinhaConta() {
                     />
                   )}
                   {!image && <Image style={styles.perfilVazio} />}
-                  <Icone size={16} name="edit" style={styles.lapis} />
+                  <Icone
+                    size={16}
+                    name="edit"
+                    style={styles.lapis}
+                  />
                 </View>
               </TouchableOpacity>
               <Nome>{informacoesUsuario.funcionario}</Nome>
@@ -274,7 +284,7 @@ export default function MinhaConta() {
                 <InformaçõesPessoais>Informações pessoais</InformaçõesPessoais>
                 <TouchableOpacity onPress={() => setDisabledInput(false)}>
                   <Image
-                    source={require('../../../assets/edit.png')}
+                    source={require('~/assets/edit.png')}
                     style={styles.edit}
                   />
                 </TouchableOpacity>
@@ -346,7 +356,7 @@ export default function MinhaConta() {
                     placeholder={formataCPF(
                       informacoesUsuario.cpf
                         ? informacoesUsuario.cpf
-                        : '000000000'
+                        : '000000000',
                     )}
                     style={styles.placeholderInput}
                     editable={!disabledInput}
@@ -400,7 +410,10 @@ export default function MinhaConta() {
                 disabled={disabledAlterar}
               >
                 {loadingAlterarButton && (
-                  <ActivityIndicator size="large" color="#FFF" />
+                  <ActivityIndicator
+                    size="large"
+                    color="#FFF"
+                  />
                 )}
                 {!loadingAlterarButton && (
                   <Text style={styles.alterarText}>Alterar</Text>
@@ -409,10 +422,16 @@ export default function MinhaConta() {
             </View>
           ) : (
             <View style={styles.container}>
-              <ActivityIndicator size="large" color="#00BBFF" />
+              <ActivityIndicator
+                size="large"
+                color="#00BBFF"
+              />
             </View>
           )}
-          <TouchableOpacity onPress={handleLogout} style={styles.sair}>
+          <TouchableOpacity
+            onPress={handleLogout}
+            style={styles.sair}
+          >
             <Text style={styles.alterarText}>Sair</Text>
           </TouchableOpacity>
 
@@ -431,7 +450,11 @@ export default function MinhaConta() {
                 }}
                 style={{ position: 'absolute', marginTop: 15, marginLeft: 20 }}
               >
-                <FontAwesome5 size={20} name="arrow-left" color="#666666" />
+                <FontAwesome5
+                  size={20}
+                  name="arrow-left"
+                  color="#666666"
+                />
               </TouchableOpacity>
 
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>

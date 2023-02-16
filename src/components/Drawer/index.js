@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from "react-native";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import Api from "../../src/services/Api";
+import Api from "~/services/Api";
 import { TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import {
@@ -20,7 +20,7 @@ import {
   FontAwesome5,
   MaterialCommunityIcons,
 } from "@expo/vector-icons";
-import { ThemeContext } from "../../src/thema/contexteTheme";
+import { ThemeContext } from "~/context/ThemeContext";
 import { Container } from "./styled";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -209,7 +209,7 @@ export function DrawerContent(props) {
           <TouchableOpacity style={s.containerbutton}>
             <Image
               style={s.iconImg}
-              source={require("../../src/icons/modoescuro.png")}
+              source={require("~/icons/modoescuro.png")}
             />
             <Text style={s.txtbutton}>Modo escuro</Text>
             <View style={{ flex: 1, alignItems: "flex-end" }}>

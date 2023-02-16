@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import {
-  Text,
-  View,
-  FlatList,
-  Image,
-  StyleSheet,
-  SafeAreaView,
-  StatusBar,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
-} from 'react-native';
+import { Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
-import { Feather } from '@expo/vector-icons';
-import Api from '../../../src/services/Api';
+import React, { useCallback, useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  Modal,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
   const [image, setImage] = useState();
@@ -58,20 +58,28 @@ export default function RelatorioDeAtestado() {
         >
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.data}>
-              Data: {atestado.item.data.substr(8, 9)}/{atestado.item.data.substr(5, 2)}/
+              Data: {atestado.item.data.substr(8, 9)}/
+              {atestado.item.data.substr(5, 2)}/
               {atestado.item.data.substr(0, 4)}
             </Text>
           </View>
 
           <View style={styles.item}>
-            <Feather color={'#555555'} name={'check-circle'} size={40} />
+            <Feather
+              color={'#555555'}
+              name={'check-circle'}
+              size={40}
+            />
             <View style={styles.conteudo}>
               <Text style={styles.titulo}>{'Atestado enviado'}</Text>
               <Text style={styles.descricao}>
                 {`Atestado enviado no dia ${atestado.item.data.substr(
                   8,
-                  9
-                )}-${atestado.item.data.substr(5, 2)}-${atestado.item.data.substr(0, 4)}`}
+                  9,
+                )}-${atestado.item.data.substr(
+                  5,
+                  2,
+                )}-${atestado.item.data.substr(0, 4)}`}
               </Text>
             </View>
           </View>
@@ -97,7 +105,14 @@ export default function RelatorioDeAtestado() {
           backgroundColor: '#1CADE2',
         }}
       >
-        <Text style={{ textAlign: 'center', fontSize: 23, color: 'white', fontWeight: 'bold' }}>
+        <Text
+          style={{
+            textAlign: 'center',
+            fontSize: 23,
+            color: 'white',
+            fontWeight: 'bold',
+          }}
+        >
           Histórico de Atestado
         </Text>
       </View>
@@ -110,7 +125,11 @@ export default function RelatorioDeAtestado() {
             })
           }
         >
-          <Icone size={20} name="arrow-left" color="white" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
       </View>
 
@@ -119,14 +138,23 @@ export default function RelatorioDeAtestado() {
           <Image
             resizeMode="contain"
             style={{ width: 300 }}
-            source={require('../../../src/icons/atestado.png')}
+            source={require('~/icons/atestado.png')}
           />
         )}
 
-        {load && <ActivityIndicator color={'#1CADE2'} size={'large'} />}
+        {load && (
+          <ActivityIndicator
+            color={'#1CADE2'}
+            size={'large'}
+          />
+        )}
       </View>
 
-      <FlatList data={listaaa} renderItem={renderItem} keyExtractor={(item) => item.id} />
+      <FlatList
+        data={listaaa}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.id}
+      />
       <Modal
         initialNumToRender={15}
         animationType="slide"
@@ -137,8 +165,15 @@ export default function RelatorioDeAtestado() {
         }}
       >
         <View style={{ position: 'absolute', marginTop: 20, marginLeft: 15 }}>
-          <TouchableOpacity style={{ flexDirection: 'row' }} onPress={() => setModalimg(false)}>
-            <Icone size={24} name="arrow-left" color="#1CADE2" />
+          <TouchableOpacity
+            style={{ flexDirection: 'row' }}
+            onPress={() => setModalimg(false)}
+          >
+            <Icone
+              size={24}
+              name="arrow-left"
+              color="#1CADE2"
+            />
             <Text
               style={{
                 marginLeft: 20,
@@ -153,7 +188,9 @@ export default function RelatorioDeAtestado() {
           </TouchableOpacity>
         </View>
 
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
+        >
           <Image
             resizeMode="contain"
             style={{ width: '100%', height: '80%' }}

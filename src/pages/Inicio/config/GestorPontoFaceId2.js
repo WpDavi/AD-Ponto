@@ -1,26 +1,26 @@
-import { Ionicons } from "@expo/vector-icons";
-import React, { useEffect, useState, useRef } from "react";
+import { Ionicons } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import React, { useEffect, useRef, useState } from 'react';
 import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Modal,
   ActivityIndicator,
   Image,
-} from "react-native";
-import Icone from "@expo/vector-icons/FontAwesome5";
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
 
-import { useNavigation } from "@react-navigation/native";
-import Api from "../../../src/services/Api";
-import styled from "styled-components/native";
-import { Camera } from "expo-camera";
-import * as Location from "expo-location";
+import { useNavigation } from '@react-navigation/native';
+import { Camera } from 'expo-camera';
+import * as Location from 'expo-location';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function PontoFaceId2() {
   const camRef = useRef(null);
@@ -53,9 +53,9 @@ export default function PontoFaceId2() {
     const php = await Api.PointPhp(pis, lat, long, date, empresa);
     Dialog.show({
       type: ALERT_TYPE.SUCCESS,
-      title: "Sucesso",
-      textBody: "Ponto Enviado com sucesso",
-      button: "ok",
+      title: 'Sucesso',
+      textBody: 'Ponto Enviado com sucesso',
+      button: 'ok',
     });
     setTimeout(() => {
       navigation.goBack();
@@ -91,10 +91,10 @@ export default function PontoFaceId2() {
     }
     getemprsas();
     var data = new Date();
-    var dia = String(data.getDate()).padStart(2, "0");
-    var mes = String(data.getMonth() + 1).padStart(2, "0");
+    var dia = String(data.getDate()).padStart(2, '0');
+    var mes = String(data.getMonth() + 1).padStart(2, '0');
     var ano = data.getFullYear();
-    const date = ano + "/" + mes + "/" + dia;
+    const date = ano + '/' + mes + '/' + dia;
     setDate(date);
   }, []);
 
@@ -106,15 +106,15 @@ export default function PontoFaceId2() {
     const photo = data.base64;
     setImage(data.uri);
     const res = await Api.comparationFaceID2(photo, idPessoa);
-    console.log("res", res.status);
-    console.log("res", res.length);
+    console.log('res', res.status);
+    console.log('res', res.length);
 
-    if (res.status == "failure") {
+    if (res.status == 'failure') {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Alerta",
-        textBody: "Pessoa nao encontrada no banco de dados",
-        button: "ok",
+        title: 'Alerta',
+        textBody: 'Pessoa nao encontrada no banco de dados',
+        button: 'ok',
       });
       setModalLoad(false);
     } else if (res.length == 1) {
@@ -124,9 +124,9 @@ export default function PontoFaceId2() {
     } else if (res.length == 0) {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Alerta",
-        textBody: "Rosto nao encontrado",
-        button: "ok",
+        title: 'Alerta',
+        textBody: 'Rosto nao encontrado',
+        button: 'ok',
       });
       setModalLoad(false);
     }
@@ -135,7 +135,7 @@ export default function PontoFaceId2() {
     async function getUser() {
       if (pis) {
         const res = await Api.getallpersonalPis(pis);
-        console.log("res", res);
+        console.log('res', res);
 
         setEmail(res.email);
         setPhoto(res.foto);
@@ -168,10 +168,14 @@ export default function PontoFaceId2() {
           ref={camRef}
           onFacesDetected={handleFacesDetected}
           type={type}
-          style={{ flex: 1, justifyContent: "flex-end" }}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
         >
           <PikerButton onPress={takePicture}>
-            <Icone size={23} name="camera" color="white" />
+            <Icone
+              size={23}
+              name="camera"
+              color="white"
+            />
           </PikerButton>
         </Camera>
 
@@ -185,14 +189,18 @@ export default function PontoFaceId2() {
         >
           <ContainerModalLoad>
             <View style={styles.imageUserContainer}>
-              {photo != "" ? (
+              {photo != '' ? (
                 <Image
                   resizeMode="center"
                   style={styles.img}
                   source={{ uri: photo }}
                 />
               ) : (
-                <Ionicons name="person" size={54} color={"#1cade2"} />
+                <Ionicons
+                  name="person"
+                  size={54}
+                  color={'#1cade2'}
+                />
               )}
             </View>
             <TxtModalLoad>{name}</TxtModalLoad>
@@ -215,7 +223,10 @@ export default function PontoFaceId2() {
                 </TouchableOpacity>
               ) : (
                 <View style={styles.buttonModal}>
-                  <ActivityIndicator color={"#1cade2"} size={"large"} />
+                  <ActivityIndicator
+                    color={'#1cade2'}
+                    size={'large'}
+                  />
                 </View>
               )}
             </View>
@@ -232,7 +243,10 @@ export default function PontoFaceId2() {
           <ContainerModalLoad>
             <TxtModalLoad>Obtendo Informações </TxtModalLoad>
             <TxtModalLoad>Aguarde</TxtModalLoad>
-            <ActivityIndicator size={"large"} color={"#1CADE2"} />
+            <ActivityIndicator
+              size={'large'}
+              color={'#1CADE2'}
+            />
           </ContainerModalLoad>
         </Modal>
       </AlertNotificationRoot>
@@ -284,33 +298,33 @@ const styles = StyleSheet.create({
     height: 100,
     marginTop: -80,
     borderWidth: 2,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 100,
-    backgroundColor: "#CDCDCD",
+    backgroundColor: '#CDCDCD',
   },
   img: {
-    height: "100%",
-    width: "100%",
+    height: '100%',
+    width: '100%',
     borderRadius: 100,
   },
   buttonContainerModal: {
-    width: "100%",
-    flexDirection: "row",
-    justifyContent: "space-around",
+    width: '100%',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   buttonModal: {
-    width: "40%",
-    height: "100%",
+    width: '40%',
+    height: '100%',
     borderWidth: 1,
     borderRadius: 8,
-    alignItems: "center",
-    borderColor: "#1CADE2",
+    alignItems: 'center',
+    borderColor: '#1CADE2',
   },
   textButtonModal: {
     fontSize: 16,
-    fontWeight: "700",
-    color: "#1CADE2",
+    fontWeight: '700',
+    color: '#1CADE2',
     marginVertical: 10,
   },
 });

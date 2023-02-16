@@ -1,32 +1,29 @@
-import React, { useEffect, useState, useCallback } from "react";
+import { Entypo, Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Text,
-  View,
+  ActivityIndicator,
   FlatList,
   Image,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
   Modal,
-  ActivityIndicator,
-  KeyboardAvoidingView,
-} from "react-native";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { useNavigation } from "@react-navigation/native";
-import { Feather, Entypo } from "@expo/vector-icons";
-import Api from "../../../src/services/Api";
-import { TextInput } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
-import styled from "styled-components/native";
+} from 'react-native-alert-notification';
+import { TextInputMask } from 'react-native-masked-text';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
-  const [infos, setInfos] = useState(["1", "2", "3", "4", "5"]);
+  const [infos, setInfos] = useState(['1', '2', '3', '4', '5']);
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
@@ -38,7 +35,7 @@ export default function RelatorioDeAtestado() {
 
   const [txtInput, setTxtInput] = useState(true);
 
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState('');
 
   const [pis, setPis] = useState();
   const [data, setData] = useState();
@@ -107,13 +104,13 @@ export default function RelatorioDeAtestado() {
 
   const edicao = async () => {
     setButton(false);
-    const assunto = "Solicitação de edição de ponto";
-    const msg = "Um funcionario solicitou edição de ponto";
+    const assunto = 'Solicitação de edição de ponto';
+    const msg = 'Um funcionario solicitou edição de ponto';
     for (let i in token) {
       const ress = await Api.RegisterNotification(
         token[i].token_notification,
         assunto,
-        msg
+        msg,
       );
     }
     const res = Api.SolicitarEditPonto(
@@ -178,7 +175,7 @@ export default function RelatorioDeAtestado() {
       obsentrada9,
       obsSaisa9,
       obsentrada10,
-      obsSaisa10
+      obsSaisa10,
     );
     if (res) {
       setModalimg(false);
@@ -188,16 +185,16 @@ export default function RelatorioDeAtestado() {
 
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Solicitação enviada com Sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Solicitação enviada com Sucesso',
+        button: 'ok',
       });
     }
   };
 
   useEffect(() => {
     if (lista) {
-      if (pesquisa === "") {
+      if (pesquisa === '') {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -207,7 +204,7 @@ export default function RelatorioDeAtestado() {
             } else {
               return false;
             }
-          })
+          }),
         );
       }
     }
@@ -215,7 +212,7 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     if (lista) {
-      if (pesquisaData === "") {
+      if (pesquisaData === '') {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -225,7 +222,7 @@ export default function RelatorioDeAtestado() {
             } else {
               return false;
             }
-          })
+          }),
         );
       }
     }
@@ -348,10 +345,10 @@ export default function RelatorioDeAtestado() {
     return (
       <View
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           borderBottomWidth: 1,
-          borderBottomColor: "#dadada",
-          marginBottom: "5%",
+          borderBottomColor: '#dadada',
+          marginBottom: '5%',
         }}
       >
         <TouchableOpacity
@@ -359,7 +356,7 @@ export default function RelatorioDeAtestado() {
           style={styles.containeratestado}
           onPress={handleClickItem}
         >
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: 'row' }}>
             <Text style={styles.data}>
               Data: {atestado.item.data.substr(8, 9)}/
               {atestado.item.data.substr(5, 2)}/
@@ -368,19 +365,23 @@ export default function RelatorioDeAtestado() {
           </View>
 
           <View style={styles.item}>
-            <Feather name={"check-circle"} size={40} color={"#555555"} />
+            <Feather
+              name={'check-circle'}
+              size={40}
+              color={'#555555'}
+            />
             <View style={styles.conteudo}>
               <Text style={styles.titulo}>{`Ponto Inserido`}</Text>
               <Text style={styles.descricao}>
-                {atestado.item.entrada1} - {atestado.item.saida1} -{" "}
-                {atestado.item.entrada2} - {atestado.item.saida2} -{" "}
-                {atestado.item.entrada3} - {atestado.item.saida3} -{" "}
-                {atestado.item.entrada4} - {atestado.item.saida4}-{" "}
-                {atestado.item.entrada5} - {atestado.item.saida5} -{" "}
-                {atestado.item.entrada6} - {atestado.item.saida6} -{" "}
-                {atestado.item.entrada7} - {atestado.item.saida7} -{" "}
-                {atestado.item.entrada8} - {atestado.item.saida8}-{" "}
-                {atestado.item.entrada9} - {atestado.item.saida9} -{" "}
+                {atestado.item.entrada1} - {atestado.item.saida1} -{' '}
+                {atestado.item.entrada2} - {atestado.item.saida2} -{' '}
+                {atestado.item.entrada3} - {atestado.item.saida3} -{' '}
+                {atestado.item.entrada4} - {atestado.item.saida4}-{' '}
+                {atestado.item.entrada5} - {atestado.item.saida5} -{' '}
+                {atestado.item.entrada6} - {atestado.item.saida6} -{' '}
+                {atestado.item.entrada7} - {atestado.item.saida7} -{' '}
+                {atestado.item.entrada8} - {atestado.item.saida8}-{' '}
+                {atestado.item.entrada9} - {atestado.item.saida9} -{' '}
                 {atestado.item.entrada10} - {atestado.item.saida10}
               </Text>
             </View>
@@ -388,14 +389,18 @@ export default function RelatorioDeAtestado() {
         </TouchableOpacity>
         <TouchableOpacity
           style={{
-            justifyContent: "center",
+            justifyContent: 'center',
             marginRight: 20,
             marginBottom: 30,
           }}
           onPress={handleClickItem}
         >
           <View>
-            <Entypo name="pencil" size={20} color="#666666" />
+            <Entypo
+              name="pencil"
+              size={20}
+              color="#666666"
+            />
           </View>
         </TouchableOpacity>
       </View>
@@ -408,43 +413,50 @@ export default function RelatorioDeAtestado() {
         <ContainerHeaderTitulo>
           <TxtTituloHeader>Gerencia de Pontos</TxtTituloHeader>
         </ContainerHeaderTitulo>
-        <View style={{ position: "absolute", marginTop: 20 }}>
+        <View style={{ position: 'absolute', marginTop: 20 }}>
           <ContainerButtonBack onPress={() => navigation.goBack()}>
-            <Icone size={17} name="arrow-left" color="white" />
+            <Icone
+              size={17}
+              name="arrow-left"
+              color="white"
+            />
           </ContainerButtonBack>
         </View>
         {lista == null && (
           <View
             style={{
               flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
             <Image
               resizeMode="contain"
-              style={{ width: 200, marginTop: "50%" }}
-              source={require("../../../src/icons/historicodeponto.png")}
+              style={{ width: 200, marginTop: '50%' }}
+              source={require('~/icons/historicodeponto.png')}
             />
-            <ActivityIndicator color={"#1CADE2"} size={"large"} />
+            <ActivityIndicator
+              color={'#1CADE2'}
+              size={'large'}
+            />
           </View>
         )}
 
         <View
           style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "center",
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           {listaPesquisa && (
             <TextInputMask
               style={styles.txtInput}
               placeholder="Pesquisar por Data"
-              placeholderTextColor={"black"}
+              placeholderTextColor={'black'}
               value={pesquisaData}
               onChangeText={setPesquisaData}
-              options={{ mask: "9999-99-99", maskType: "BRL" }}
+              options={{ mask: '9999-99-99', maskType: 'BRL' }}
               type="custom"
             />
           )}
@@ -492,7 +504,7 @@ export default function RelatorioDeAtestado() {
                   }}
                   value={entrada11}
                   onChangeText={setEntrada11}
-                  options={{ mask: "99:99", maskType: "BRL" }}
+                  options={{ mask: '99:99', maskType: 'BRL' }}
                   type="custom"
                 />
               </ContainerInfo>
@@ -518,7 +530,7 @@ export default function RelatorioDeAtestado() {
                   }}
                   value={saida11}
                   onChangeText={setSaida11}
-                  options={{ mask: "99:99", maskType: "BRL" }}
+                  options={{ mask: '99:99', maskType: 'BRL' }}
                   type="custom"
                 />
               </ContainerInfo>
@@ -544,7 +556,7 @@ export default function RelatorioDeAtestado() {
                   }}
                   value={entrada22}
                   onChangeText={setEntrada22}
-                  options={{ mask: "99:99", maskType: "BRL" }}
+                  options={{ mask: '99:99', maskType: 'BRL' }}
                   type="custom"
                 />
               </ContainerInfo>
@@ -570,7 +582,7 @@ export default function RelatorioDeAtestado() {
                   placeholder="Saída 2"
                   value={saida22}
                   onChangeText={setSaida22}
-                  options={{ mask: "99:99", maskType: "BRL" }}
+                  options={{ mask: '99:99', maskType: 'BRL' }}
                   type="custom"
                 />
               </ContainerInfo>
@@ -598,7 +610,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 3"
                       value={entrada33}
                       onChangeText={setEntrada33}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -628,7 +640,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 3"
                       value={saida33}
                       onChangeText={setSaida33}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -658,7 +670,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 4"
                       value={entrada44}
                       onChangeText={setEntrada44}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -688,7 +700,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 4"
                       value={saida44}
                       onChangeText={setSaida44}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -718,7 +730,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 5"
                       value={entrada55}
                       onChangeText={setEntrada55}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -748,7 +760,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 5"
                       value={saida55}
                       onChangeText={setSaida55}
-                      options={{ mask: "99:99", maskType: "BRL" }}
+                      options={{ mask: '99:99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -778,7 +790,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 6"
                       value={entrada66}
                       onChangeText={setEntrada66}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -808,7 +820,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 6"
                       value={saida66}
                       onChangeText={setSaida66}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -838,7 +850,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 7"
                       value={entrada77}
                       onChangeText={setEntrada77}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -868,7 +880,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 7"
                       value={saida77}
                       onChangeText={setSaida77}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -898,7 +910,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 8"
                       value={entrada88}
                       onChangeText={setEntrada88}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -928,7 +940,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 8"
                       value={saida88}
                       onChangeText={setSaida88}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -958,7 +970,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 9"
                       value={entrada99}
                       onChangeText={setEntrada99}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -988,7 +1000,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 9"
                       value={saida99}
                       onChangeText={setSaida99}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -1018,7 +1030,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Entrada 10"
                       value={entrada100}
                       onChangeText={setEntrada100}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -1048,7 +1060,7 @@ export default function RelatorioDeAtestado() {
                       placeholder="Saída 10"
                       value={saida100}
                       onChangeText={setSaida100}
-                      options={{ mask: "99-99", maskType: "BRL" }}
+                      options={{ mask: '99-99', maskType: 'BRL' }}
                       type="custom"
                     />
                   </ContainerInfo>
@@ -1069,10 +1081,10 @@ export default function RelatorioDeAtestado() {
                 <ConatinerButton onPress={edicao}>
                   <Text
                     style={{
-                      fontWeight: "bold",
+                      fontWeight: 'bold',
                       padding: 30,
                       fontSize: 20,
-                      color: "white",
+                      color: 'white',
                     }}
                   >
                     Solicitar
@@ -1082,7 +1094,10 @@ export default function RelatorioDeAtestado() {
 
               {button == false && (
                 <ConatinerButton>
-                  <ActivityIndicator size={"large"} color="white" />
+                  <ActivityIndicator
+                    size={'large'}
+                    color="white"
+                  />
                 </ConatinerButton>
               )}
             </ContainerModalSub>
@@ -1186,14 +1201,14 @@ const ConatinerButton = styled.TouchableOpacity`
 const styles = StyleSheet.create({
   containeratestado: {
     flex: 1,
-    marginTop: "3%",
+    marginTop: '3%',
     marginLeft: 10,
     marginRight: 10,
   },
 
   item: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   conteudo: {
     marginTop: 2,
@@ -1201,30 +1216,30 @@ const styles = StyleSheet.create({
   },
   data: {
     fontSize: 12,
-    color: "#0393c7",
-    fontWeight: "bold",
+    color: '#0393c7',
+    fontWeight: 'bold',
   },
   titulo: {
-    fontWeight: "bold",
+    fontWeight: 'bold',
     fontSize: 16,
-    color: "#555555",
+    color: '#555555',
   },
   descricao: {
     fontSize: 12,
-    color: "#555555",
+    color: '#555555',
   },
 
   placeholderInput: {
     marginTop: 10,
-    fontStyle: "Normal",
-    fontWeight: "400",
-    color: "black",
+    fontStyle: 'Normal',
+    fontWeight: '400',
+    color: 'black',
     fontSize: 12,
     lineHeight: 16,
     borderWidth: 2,
-    borderColor: "#0393c7",
+    borderColor: '#0393c7',
     borderRadius: 5,
-    width: "90%",
+    width: '90%',
     padding: 9,
   },
 
@@ -1235,8 +1250,8 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 10,
     marginBottom: 10,
-    width: "90%",
-    backgroundColor: "white",
+    width: '90%',
+    backgroundColor: 'white',
     marginTop: 20,
   },
 

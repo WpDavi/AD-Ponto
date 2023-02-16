@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
 import {
-  View,
-  StatusBar,
   FlatList,
-  RefreshControl,
-  Platform,
   PermissionsAndroid,
-} from "react-native";
-import styled from "styled-components/native";
-import * as Location from "expo-location";
-import Header from "../../../components/Header";
-import Opcoes from "../../../components/Opcoes";
+  Platform,
+  RefreshControl,
+  StatusBar,
+  View,
+} from 'react-native';
+import styled from 'styled-components/native';
+import Header from '~/components/Header';
+import Opcoes from '~/components/Opcoes';
 
-import UltimasMovimentacoes from "../../../components/UltimasAtividades";
-import Acoes from "../../../components/Acoes";
-import Api from "../../../src/services/Api";
-import { useNavigation } from "@react-navigation/native";
-import NetInfo from "@react-native-community/netinfo";
+import NetInfo from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
+import Acoes from '~/components/Acoes';
+import UltimasMovimentacoes from '~/components/UltimasAtividades';
+import Api from '~/services/Api';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -27,14 +27,14 @@ export default function Home() {
   const [tokenn, setTokenn] = useState();
   const [pis, setPis] = useState();
 
-  const [listaa, setListaa] = useState("");
+  const [listaa, setListaa] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [internet, setInternet] = useState();
 
   useEffect(() => {
     async function getEmpresa() {
       const ress = await Api.getEmpresa();
-      await AsyncStorage.setItem("@empresa", ress);
+      await AsyncStorage.setItem('@empresa', ress);
       console.log(ress);
     }
     getEmpresa();
@@ -42,8 +42,8 @@ export default function Home() {
 
   useEffect(() => {
     const delet = async () => {
-      await AsyncStorage.removeItem("rota");
-      await AsyncStorage.removeItem("cord");
+      await AsyncStorage.removeItem('rota');
+      await AsyncStorage.removeItem('cord');
     };
     delet();
   }, []);
@@ -53,7 +53,7 @@ export default function Home() {
   useEffect(() => {
     async function req() {
       const results = await PermissionsAndroid.check(
-        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
       );
       if (results == true) {
         const location = await Location.getCurrentPositionAsync({});
@@ -67,9 +67,9 @@ export default function Home() {
             longitudeDelta: 0.0421,
           };
 
-          await AsyncStorage.setItem("@lat", String(latitude));
-          await AsyncStorage.setItem("@long", String(longitude));
-          await AsyncStorage.setItem("@Coords", JSON.stringify(cord));
+          await AsyncStorage.setItem('@lat', String(latitude));
+          await AsyncStorage.setItem('@long', String(longitude));
+          await AsyncStorage.setItem('@Coords', JSON.stringify(cord));
         }
       }
     }
@@ -90,10 +90,10 @@ export default function Home() {
   useEffect(() => {
     Api.getEmpresa();
     const pontos = async () => {
-      const pontosString = await AsyncStorage.getItem("pontos");
+      const pontosString = await AsyncStorage.getItem('pontos');
       if (internet == true && pontosString !== null) {
         navigation.reset({
-          routes: [{ name: "PontoEmEspera" }],
+          routes: [{ name: 'PontoEmEspera' }],
         });
       }
     };
@@ -120,10 +120,10 @@ export default function Home() {
   useEffect(() => {
     const notification = async () => {
       const info = await Api.getInformacoesPessoais();
-      const token = await AsyncStorage.getItem("@notificationToken");
-      await AsyncStorage.setItem("sFoto", info.ponto_online_foto);
-      await AsyncStorage.setItem("@pis", info.pis);
-      await AsyncStorage.setItem("@email", info.email);
+      const token = await AsyncStorage.getItem('@notificationToken');
+      await AsyncStorage.setItem('sFoto', info.ponto_online_foto);
+      await AsyncStorage.setItem('@pis', info.pis);
+      await AsyncStorage.setItem('@email', info.email);
 
       await setTokenn(token);
       await setPis(info.pis);
@@ -140,10 +140,10 @@ export default function Home() {
     }
 
     const json = await Api.getlestactive();
-    const token = await AsyncStorage.getItem("token");
+    const token = await AsyncStorage.getItem('token');
     if (!token) {
       navigation.reset({
-        routes: [{ name: "Login" }],
+        routes: [{ name: 'Login' }],
       });
     }
     setListaa(json);
@@ -159,7 +159,7 @@ export default function Home() {
 
   return (
     <Container>
-      <StatusBar backgroundColor={"#1CADE2"} />
+      <StatusBar backgroundColor={'#1CADE2'} />
       <View>
         <Header />
 
@@ -171,7 +171,10 @@ export default function Home() {
 
         <FlatList
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={onRefresh}
+            />
           }
           data={listaa}
           keyExtractor={(item) => String(item.id)}

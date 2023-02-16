@@ -1,23 +1,24 @@
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
   ActivityIndicator,
   FlatList,
-  TouchableOpacity,
+  Image,
   Modal,
-  ImageBackground,
-  KeyboardAvoidingView,
-  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { Feather } from '@expo/vector-icons';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 import styled from 'styled-components/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
 export default function GestorSolicitaçõesdePonto() {
   const navigation = useNavigation();
@@ -132,7 +133,7 @@ export default function GestorSolicitaçõesdePonto() {
       entrada10,
       saida10,
       pis,
-      data
+      data,
     );
 
     const status = '2';
@@ -263,11 +264,17 @@ export default function GestorSolicitaçõesdePonto() {
           }}
         >
           <View>
-            <Feather color={'#555555'} name={'check-circle'} size={45} />
+            <Feather
+              color={'#555555'}
+              name={'check-circle'}
+              size={45}
+            />
           </View>
 
           <View>
-            <Text style={{ color: '#1CADE2' }}>Solicitação de edição de ponto</Text>
+            <Text style={{ color: '#1CADE2' }}>
+              Solicitação de edição de ponto
+            </Text>
             <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>FUNCIONÁRIO: </Text>
               <Text style={styles.txtInfo2}>{ItemPonto.item.funcionario}</Text>
@@ -333,23 +340,41 @@ export default function GestorSolicitaçõesdePonto() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={{ flexDirection: 'row', marginLeft: 10, position: 'absolute', marginTop: 10 }}
+          style={{
+            flexDirection: 'row',
+            marginLeft: 10,
+            position: 'absolute',
+            marginTop: 10,
+          }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
         {solicitacaoPonto.length == 0 && (
           <View
-            style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: -90 }}
+            style={{
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              paddingBottom: -90,
+            }}
           >
             <Image
               style={{ width: 210, height: 200 }}
-              source={require('../../../src/icons/solicitacoes.png')}
+              source={require('~/icons/solicitacoes.png')}
             />
 
             {load == true && (
-              <ActivityIndicator style={{ marginTop: 30 }} size={'large'} color="#1CADE2" />
+              <ActivityIndicator
+                style={{ marginTop: 30 }}
+                size={'large'}
+                color="#1CADE2"
+              />
             )}
             {load == false && (
               <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
@@ -361,7 +386,9 @@ export default function GestorSolicitaçõesdePonto() {
         <View>
           {solicitacaoPonto.length !== 0 && (
             <View>
-              <Text style={styles.txtTitulo}>Solicitação de edição de ponto</Text>
+              <Text style={styles.txtTitulo}>
+                Solicitação de edição de ponto
+              </Text>
               <FlatList
                 style={{ borderBottomWidth: 2, borderBottomColor: '#adadad' }}
                 data={solicitacaoPonto}
@@ -386,7 +413,11 @@ export default function GestorSolicitaçõesdePonto() {
                 setModalItemPonto(false);
               }}
             >
-              <Icone size={20} name="arrow-left" color="black" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="black"
+              />
               {data && (
                 <TxtButtonBack>
                   {data.substr(8, 9)}/{data.substr(5, 2)}/{data.substr(0, 4)}
@@ -394,7 +425,9 @@ export default function GestorSolicitaçõesdePonto() {
               )}
             </ButtonBack>
             <ContainerTitulo>
-              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>FUNCIONÁRIO: </Text>
+              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                FUNCIONÁRIO:{' '}
+              </Text>
               <Text>{funcionario}</Text>
             </ContainerTitulo>
 
@@ -742,7 +775,7 @@ export default function GestorSolicitaçõesdePonto() {
                         marginTop: 20,
                         marginBottom: 20,
                       }}
-                      source={require('../../../src/icons/aceite.png')}
+                      source={require('~/icons/aceite.png')}
                     />
                   </TouchableOpacity>
 
@@ -756,13 +789,17 @@ export default function GestorSolicitaçõesdePonto() {
                         marginBottom: 20,
                         marginLeft: 70,
                       }}
-                      source={require('../../../src/icons/negar.png')}
+                      source={require('~/icons/negar.png')}
                     />
                   </TouchableOpacity>
                 </View>
               )}
               {bottonLoad == true && (
-                <ActivityIndicator style={{ padding: 15 }} size={'large'} color="white" />
+                <ActivityIndicator
+                  style={{ padding: 15 }}
+                  size={'large'}
+                  color="white"
+                />
               )}
             </View>
           </ConatinerModal>

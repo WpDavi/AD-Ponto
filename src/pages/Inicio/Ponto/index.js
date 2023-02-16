@@ -1,46 +1,44 @@
-import React, { useEffect, useState } from "react";
-import { useNavigation } from "@react-navigation/native";
-import MapView from "react-native-maps";
-import * as Location from "expo-location";
-import Icone from "@expo/vector-icons/FontAwesome5";
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import * as Location from 'expo-location';
+import React, { useEffect, useState } from 'react';
 import {
-  ALERT_TYPE,
-  Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import {
+  ActivityIndicator,
   Modal,
   PermissionsAndroid,
   TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import NetInfo from "@react-native-community/netinfo";
-import * as ImagePicker from "expo-image-picker";
-import { Camera } from "expo-camera";
-import { BarCodeScanner } from "expo-barcode-scanner";
+} from 'react-native';
 import {
-  Container,
-  ContainerButtonBack,
-  ContainerHeader,
-  TxtHora,
-  TxtName,
-  TxtTitulo,
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import MapView from 'react-native-maps';
+import Mapa from '~/components/Mapa';
+import Api from '~/services/Api';
+import {
   ButtonBack,
+  Container,
   ContainerBody,
   ContainerButton,
-  Txtbutton,
+  ContainerButtonBack,
+  ContainerButtons,
+  ContainerHeader,
+  ContainerInfos,
   ContainerModalPermission,
   Header,
-  TxtHeader,
-  ContainerInfos,
-  TxtInfos,
-  ContainerButtons,
+  Txtbutton,
   TxtButtonModal,
-} from "./styled";
-import Mapa from "../../../components/Mapa";
-import Api from "../../../src/services/Api";
+  TxtHeader,
+  TxtInfos,
+  TxtName,
+  TxtTitulo,
+} from './styled';
 
 export default function Ponto() {
   const navigation = useNavigation();
@@ -56,11 +54,11 @@ export default function Ponto() {
 
   const [informacoesUsuario, setInformacoesUsuario] = useState();
 
-  const [hour, setHour] = useState("");
-  const [lat, setLat] = useState("");
-  const [long, setLong] = useState("");
-  const [pis, setPis] = useState("");
-  const [empresa, setEmpresa] = useState("");
+  const [hour, setHour] = useState('');
+  const [lat, setLat] = useState('');
+  const [long, setLong] = useState('');
+  const [pis, setPis] = useState('');
+  const [empresa, setEmpresa] = useState('');
   const [image, setImage] = useState();
 
   const [internet, setInternet] = useState(false);
@@ -82,11 +80,11 @@ export default function Ponto() {
   const [modalPermission, setModalPermission] = useState(false);
   const sistema = Platform.OS;
 
-  if (sistema == "android") {
+  if (sistema == 'android') {
     useEffect(() => {
       async function req() {
         const results = await PermissionsAndroid.check(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
         if (results == false) {
           setModalPermission(true);
@@ -98,7 +96,7 @@ export default function Ponto() {
 
   const logount = async () => {
     navigation.reset({
-      routes: [{ name: "Home" }],
+      routes: [{ name: 'Home' }],
     });
   };
   const aceiteModal = async () => {
@@ -108,17 +106,17 @@ export default function Ponto() {
     const { statu } = await Location.requestForegroundPermissionsAsync();
     await ImagePicker.requestMediaLibraryPermissionsAsync();
     navigation.reset({
-      routes: [{ name: "Ponto" }],
+      routes: [{ name: 'Ponto' }],
     });
 
-    if (statu !== "granted") {
+    if (statu !== 'granted') {
       return;
     }
-    setHasPermission(status === "granted");
-    setPermissionCamera(statuss === "granted");
+    setHasPermission(status === 'granted');
+    setPermissionCamera(statuss === 'granted');
 
     if (permissionCamera === false) {
-      return alert("Acesso a camera negado!");
+      return alert('Acesso a camera negado!');
     }
   };
   const updateClock = () => {
@@ -130,29 +128,29 @@ export default function Ponto() {
     updateClock();
     const onStart = async () => {
       //Pegando a solicitação de foto no AsyncStorage
-      const sFoto = await AsyncStorage.getItem("sFoto");
+      const sFoto = await AsyncStorage.getItem('sFoto');
       setSFoto(sFoto);
 
       //Pegando email do AsyncStorage
-      const email = await AsyncStorage.getItem("email");
+      const email = await AsyncStorage.getItem('email');
       setEmail(email);
 
       //pegando o nome no AsyncStorage
-      const name = await AsyncStorage.getItem("name");
+      const name = await AsyncStorage.getItem('name');
       setName1(name);
 
       //pegando a empresa do funcionario
-      const ress = await AsyncStorage.getItem("@empresa");
+      const ress = await AsyncStorage.getItem('@empresa');
       setEmpresa(ress);
 
       //pegando infos do funcinario
-      const pis = await AsyncStorage.getItem("@pis");
+      const pis = await AsyncStorage.getItem('@pis');
       await setPis(pis);
 
       //pegando localização async
-      const loc = await AsyncStorage.getItem("@Coords");
-      const lat = await AsyncStorage.getItem("@lat");
-      const long = await AsyncStorage.getItem("@long");
+      const loc = await AsyncStorage.getItem('@Coords');
+      const lat = await AsyncStorage.getItem('@lat');
+      const long = await AsyncStorage.getItem('@long');
 
       if (loc && lat && long) {
         const js = JSON.parse(loc);
@@ -167,8 +165,8 @@ export default function Ponto() {
           const { latitude, longitude } = coords;
           setLat(latitude);
           setLong(longitude);
-          await AsyncStorage.setItem("@lat", String(latitude));
-          await AsyncStorage.setItem("@long", String(longitude));
+          await AsyncStorage.setItem('@lat', String(latitude));
+          await AsyncStorage.setItem('@long', String(longitude));
           setCoords({
             latitude: latitude,
             longitude: longitude,
@@ -183,11 +181,11 @@ export default function Ponto() {
 
   const baterPonto = async () => {
     setLoad(true);
-    if (sFoto == "S") {
-      navigation.navigate("PontoCamera");
+    if (sFoto == 'S') {
+      navigation.navigate('PontoCamera');
       setLoad(false);
-    } else if (sFoto == "Q") {
-      navigation.navigate("PontoQrCode");
+    } else if (sFoto == 'Q') {
+      navigation.navigate('PontoQrCode');
       setLoad(false);
     } else {
       handlePonto();
@@ -205,18 +203,18 @@ export default function Ponto() {
   }, []);
 
   var data = new Date();
-  var dia = String(data.getDate()).padStart(2, "0");
-  var mes = String(data.getMonth() + 1).padStart(2, "0");
+  var dia = String(data.getDate()).padStart(2, '0');
+  var mes = String(data.getMonth() + 1).padStart(2, '0');
   var ano = data.getFullYear();
-  const date = ano + "/" + mes + "/" + dia;
+  const date = ano + '/' + mes + '/' + dia;
 
   const handlePonto = async () => {
     setLoad(true);
     if (internet == true) {
       //Req -----------------------------------------------------------------------------------------
       var dataaa = new Date();
-      var dia = String(dataaa.getDate()).padStart(2, "0");
-      var mes = String(dataaa.getMonth() + 1).padStart(2, "0");
+      var dia = String(dataaa.getDate()).padStart(2, '0');
+      var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
@@ -229,41 +227,41 @@ export default function Ponto() {
       if (json) {
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
 
         if (json.error) {
           Dialog.show({
             type: ALERT_TYPE.WARNING,
-            title: "Erro",
+            title: 'Erro',
             textBody: `${json.error}`,
-            button: "ok",
+            button: 'ok',
           });
         }
         if (json.message) {
           Dialog.show({
             type: ALERT_TYPE.SUCCESS,
-            title: "Sucesso",
-            textBody: "Ponto Inserido com sucesso",
-            button: "ok",
+            title: 'Sucesso',
+            textBody: 'Ponto Inserido com sucesso',
+            button: 'ok',
           });
         }
       }
     } else if (internet == false) {
       var dataaa = new Date();
-      var dia = String(dataaa.getDate()).padStart(2, "0");
-      var mes = String(dataaa.getMonth() + 1).padStart(2, "0");
+      var dia = String(dataaa.getDate()).padStart(2, '0');
+      var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
 
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Alerta",
+        title: 'Alerta',
         textBody:
-          "Sem conexão a internet, ponto será enviado ao retomar conexão",
-        button: "ok",
+          'Sem conexão a internet, ponto será enviado ao retomar conexão',
+        button: 'ok',
       });
       const myArray = [
         {
@@ -278,7 +276,7 @@ export default function Ponto() {
           empresa: empresa,
         },
       ];
-      const pontosString = await AsyncStorage.getItem("pontos");
+      const pontosString = await AsyncStorage.getItem('pontos');
       if (pontosString) {
         const pontos = JSON.parse(pontosString);
         pontos.push({
@@ -292,18 +290,18 @@ export default function Ponto() {
           data: dataa,
           empresa: empresa,
         });
-        await AsyncStorage.setItem("pontos", JSON.stringify(pontos));
+        await AsyncStorage.setItem('pontos', JSON.stringify(pontos));
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
       } else {
-        await AsyncStorage.setItem("pontos", JSON.stringify(myArray));
+        await AsyncStorage.setItem('pontos', JSON.stringify(myArray));
 
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
       }
@@ -321,15 +319,19 @@ export default function Ponto() {
         <ContainerButtonBack>
           <ButtonBack
             onPress={() => {
-              navigation.navigate("Home");
+              navigation.navigate('Home');
             }}
           >
-            <Icone size={20} name="arrow-left" color="white" />
+            <Icone
+              size={20}
+              name="arrow-left"
+              color="white"
+            />
           </ButtonBack>
         </ContainerButtonBack>
         <ContainerBody>
           <MapView
-            style={{ height: "100%", width: "100%" }}
+            style={{ height: '100%', width: '100%' }}
             region={coords}
             showsUserLocation={true}
             loadingEnabled={true}
@@ -338,7 +340,10 @@ export default function Ponto() {
             <ContainerButton onPress={baterPonto}>
               <Txtbutton>
                 BATER PONTO
-                <Icone size={16} name="hand-point-up" />
+                <Icone
+                  size={16}
+                  name="hand-point-up"
+                />
               </Txtbutton>
             </ContainerButton>
           )}
@@ -346,7 +351,7 @@ export default function Ponto() {
             <ContainerButton>
               <Txtbutton>
                 Carregando...
-                <ActivityIndicator color={"white"} />
+                <ActivityIndicator color={'white'} />
               </Txtbutton>
             </ContainerButton>
           )}
