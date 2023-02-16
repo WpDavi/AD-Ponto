@@ -1,3 +1,10 @@
+import Api from '../../../src/services/Api';
+import { Container, InformaçõesPessoais, Nome } from './styled';
+import { Feather } from '@expo/vector-icons';
+import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import {
   SafeAreaView,
@@ -10,17 +17,14 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { Container, InformaçõesPessoais, Nome } from './styled';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-import { Feather } from '@expo/vector-icons';
-
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import * as ImagePicker from 'expo-image-picker';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { TextInputMask } from 'react-native-masked-text';
 import { Modal } from 'react-native';
-import { FontAwesome5, Ionicons } from '@expo/vector-icons';
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from 'react-native-alert-notification';
+import { TextInputMask } from 'react-native-masked-text';
 
 export default function MinhaConta() {
   const [modalImage, setModalImage] = useState(false);
@@ -57,7 +61,7 @@ export default function MinhaConta() {
         button: 'ok',
       });
       navigation.reset({
-        routes: [{ name: 'Deawr' }],
+        routes: [{ name: 'Drawer' }],
       });
     } else {
       Dialog.show({
@@ -68,7 +72,7 @@ export default function MinhaConta() {
       });
       setTimeout(() => {
         navigation.reset({
-          routes: [{ name: 'Deawr' }],
+          routes: [{ name: 'Drawer' }],
         });
       }, 2000);
     }
@@ -88,11 +92,20 @@ export default function MinhaConta() {
     } else {
       setDisabledAlterar(true);
     }
-  }, [nomeInput, emailInput, pisInput, cpfInput, dtNascimentoInput, rgInput, ctpsInput]);
+  }, [
+    nomeInput,
+    emailInput,
+    pisInput,
+    cpfInput,
+    dtNascimentoInput,
+    rgInput,
+    ctpsInput,
+  ]);
 
   useEffect(() => {
     (async () => {
-      const galleryStatus = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const galleryStatus =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
       setHasGaleryPermission(galleryStatus.status === 'granted');
     })();
   }, [uploudd]);
@@ -194,7 +207,9 @@ export default function MinhaConta() {
       id: informacoesUsuario.id,
       cpf: cpfInput ? cpfInput : informacoesUsuario.cpf,
       ctps: ctpsInput ? ctpsInput : informacoesUsuario.ctps,
-      dt_nascimento: dtNascimentoInput ? dtNascimentoInput : informacoesUsuario.dt_nascimento,
+      dt_nascimento: dtNascimentoInput
+        ? dtNascimentoInput
+        : informacoesUsuario.dt_nascimento,
       funcionario: nomeInput ? nomeInput : informacoesUsuario.funcionario,
       rg: rgInput ? rgInput : informacoesUsuario.rg,
     };
@@ -205,9 +220,11 @@ export default function MinhaConta() {
         ]);
       })
       .catch((err) => {
-        Alert.alert('Falha ao atualizar.', 'Falha ao atualizar dados de usuario', [
-          { text: 'OK', onPress: () => console.log('ok') },
-        ]);
+        Alert.alert(
+          'Falha ao atualizar.',
+          'Falha ao atualizar dados de usuario',
+          [{ text: 'OK', onPress: () => console.log('ok') }]
+        );
       });
     setDisabledInput(true);
     setLoadingAlterarButton(false);
@@ -243,7 +260,10 @@ export default function MinhaConta() {
               <TouchableOpacity onPress={() => pickImage()}>
                 <View style={styles.perfilStyled}>
                   {image && (
-                    <Image style={styles.perfil} source={{ uri: image ? image : undefined }} />
+                    <Image
+                      style={styles.perfil}
+                      source={{ uri: image ? image : undefined }}
+                    />
                   )}
                   {!image && <Image style={styles.perfilVazio} />}
                   <Icone size={16} name="edit" style={styles.lapis} />
@@ -253,11 +273,16 @@ export default function MinhaConta() {
               <View style={styles.formTitulo}>
                 <InformaçõesPessoais>Informações pessoais</InformaçõesPessoais>
                 <TouchableOpacity onPress={() => setDisabledInput(false)}>
-                  <Image source={require('../../../assets/edit.png')} style={styles.edit} />
+                  <Image
+                    source={require('../../../assets/edit.png')}
+                    style={styles.edit}
+                  />
                 </TouchableOpacity>
               </View>
               <View style={styles.form}>
-                <View style={disabledInput ? styles.inputDisabled : styles.input}>
+                <View
+                  style={disabledInput ? styles.inputDisabled : styles.input}
+                >
                   <Text style={styles.inputTitle}>Nome</Text>
                   <TextInput
                     placeholder={'Name'}
@@ -295,7 +320,9 @@ export default function MinhaConta() {
                     type="custom"
                   />
                 </View>
-                <View style={disabledInput ? styles.inputDisabled : styles.input}>
+                <View
+                  style={disabledInput ? styles.inputDisabled : styles.input}
+                >
                   <Text style={styles.inputTitle}>Data Nascimento</Text>
                   <TextInputMask
                     placeholder={dtNascimento}
@@ -311,11 +338,15 @@ export default function MinhaConta() {
                     }}
                   />
                 </View>
-                <View style={disabledInput ? styles.inputDisabled : styles.input}>
+                <View
+                  style={disabledInput ? styles.inputDisabled : styles.input}
+                >
                   <Text style={styles.inputTitle}>CPF</Text>
                   <TextInputMask
                     placeholder={formataCPF(
-                      informacoesUsuario.cpf ? informacoesUsuario.cpf : '000000000'
+                      informacoesUsuario.cpf
+                        ? informacoesUsuario.cpf
+                        : '000000000'
                     )}
                     style={styles.placeholderInput}
                     editable={!disabledInput}
@@ -329,7 +360,9 @@ export default function MinhaConta() {
                     type="cpf"
                   />
                 </View>
-                <View style={disabledInput ? styles.inputDisabled : styles.input}>
+                <View
+                  style={disabledInput ? styles.inputDisabled : styles.input}
+                >
                   <Text style={styles.inputTitle}>RG</Text>
                   <TextInputMask
                     placeholder={formataRg(informacoesUsuario.rg)}
@@ -345,7 +378,9 @@ export default function MinhaConta() {
                     type="custom"
                   />
                 </View>
-                <View style={disabledInput ? styles.inputDisabled : styles.input}>
+                <View
+                  style={disabledInput ? styles.inputDisabled : styles.input}
+                >
                   <Text style={styles.inputTitle}>CTPS</Text>
                   <TextInput
                     placeholder={informacoesUsuario.ctps}
@@ -358,12 +393,18 @@ export default function MinhaConta() {
                 </View>
               </View>
               <TouchableOpacity
-                style={disabledAlterar ? styles.alterarDisabled : styles.alterar}
+                style={
+                  disabledAlterar ? styles.alterarDisabled : styles.alterar
+                }
                 onPress={() => handleAlterar()}
                 disabled={disabledAlterar}
               >
-                {loadingAlterarButton && <ActivityIndicator size="large" color="#FFF" />}
-                {!loadingAlterarButton && <Text style={styles.alterarText}>Alterar</Text>}
+                {loadingAlterarButton && (
+                  <ActivityIndicator size="large" color="#FFF" />
+                )}
+                {!loadingAlterarButton && (
+                  <Text style={styles.alterarText}>Alterar</Text>
+                )}
               </TouchableOpacity>
             </View>
           ) : (
@@ -396,7 +437,12 @@ export default function MinhaConta() {
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                 <View style={{ flexDirection: 'row' }}>
                   <Text
-                    style={{ fontWeight: 'bold', marginTop: 10, fontSize: 20, color: '#666666' }}
+                    style={{
+                      fontWeight: 'bold',
+                      marginTop: 10,
+                      fontSize: 20,
+                      color: '#666666',
+                    }}
                   >
                     MUDAR FOTO DO PERFIL
                   </Text>
@@ -411,11 +457,17 @@ export default function MinhaConta() {
                   }}
                   source={{ uri: uploudimg }}
                 />
-                <Text style={{ fontSize: 18, marginTop: 20 }}>Curtiu essa?</Text>
+                <Text style={{ fontSize: 18, marginTop: 20 }}>
+                  Curtiu essa?
+                </Text>
               </View>
 
               {loading == false && (
-                <TouchableOpacity onPress={alterarimg} activeOpacity={0.9} style={styles.criar}>
+                <TouchableOpacity
+                  onPress={alterarimg}
+                  activeOpacity={0.9}
+                  style={styles.criar}
+                >
                   <Text style={styles.textoBotao}>Curti</Text>
                 </TouchableOpacity>
               )}
@@ -425,9 +477,16 @@ export default function MinhaConta() {
                 </TouchableOpacity>
               )}
 
-              <TouchableOpacity onPress={pickImage} style={{ alignItems: 'center', marginTop: 30 }}>
+              <TouchableOpacity
+                onPress={pickImage}
+                style={{ alignItems: 'center', marginTop: 30 }}
+              >
                 <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-                  <Ionicons size={20} name="ios-camera-reverse-outline" color="#666666" />
+                  <Ionicons
+                    size={20}
+                    name="ios-camera-reverse-outline"
+                    color="#666666"
+                  />
                   Escolher outra
                 </Text>
               </TouchableOpacity>
