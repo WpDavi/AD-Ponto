@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import * as Animatable from 'react-native-animatable';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../src/services/Api';
-import styled from 'styled-components/native';
+import React, { useState, useEffect } from "react";
+import * as Animatable from "react-native-animatable";
+import { useNavigation } from "@react-navigation/native";
+import Api from "../../src/services/Api";
+import styled from "styled-components/native";
 
-import * as Location from 'expo-location';
+import * as Location from "expo-location";
 
 import {
   View,
@@ -15,8 +15,12 @@ import {
   ScrollView,
   Platform,
   Image,
-} from 'react-native';
-import { Feather, FontAwesome, MaterialCommunityIcons } from '@expo/vector-icons';
+} from "react-native";
+import {
+  Feather,
+  FontAwesome,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
 
 export default function Acoes() {
   const navigation = useNavigation();
@@ -34,11 +38,15 @@ export default function Acoes() {
   }, [infos]);
 
   const handPont = async () => {
-    navigation.navigate('Ponto');
+    navigation.navigate("Ponto");
   };
 
   return (
-    <ScrollView style={styles.container} horizontal={true} showsHorizontalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      horizontal={true}
+      showsHorizontalScrollIndicator={false}
+    >
       {/*
         <TouchableOpacity
         activeOpacity={0.9}
@@ -56,32 +64,38 @@ export default function Acoes() {
       
       */}
 
-      <TouchableOpacity activeOpacity={0.9} style={styles.botaoAcao} onPress={handPont}>
+      <TouchableOpacity
+        activeOpacity={0.9}
+        style={styles.botaoAcao}
+        onPress={handPont}
+      >
         <AreaAcao>
           <Image
             style={{ width: 25, height: 43 }}
-            source={require('../../assets/bater-ponto.png')}
+            source={require("../../assets/bater-ponto.png")}
           />
         </AreaAcao>
-        <TextAcao>Bater{'\n'}Ponto</TextAcao>
+        <TextAcao>Bater{"\n"}Ponto</TextAcao>
       </TouchableOpacity>
 
-      {/** 
       {infos && (
         <TouchableOpacity
           activeOpacity={0.9}
           style={styles.botaoAcao}
-          onPress={() => navigation.navigate('PontoFaceId2')}
+          onPress={() => navigation.navigate("PontoFaceId2")}
         >
           <AreaAcao>
-            <MaterialCommunityIcons name="face-recognition" size={23} color="black" />
+            <MaterialCommunityIcons
+              name="face-recognition"
+              size={23}
+              color="black"
+            />
           </AreaAcao>
-          <TextAcao>Ponto{'\n'}por FaceID</TextAcao>
+          <TextAcao>Ponto{"\n"}por FaceID</TextAcao>
         </TouchableOpacity>
-      )
-      
+      )}
 
-        
+      {/**    
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.botaoAcao}
@@ -96,46 +110,46 @@ export default function Acoes() {
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.botaoAcao}
-        onPress={() => navigation.navigate('EnviodeAtestado')}
+        onPress={() => navigation.navigate("EnviodeAtestado")}
       >
         <AreaAcao>
           <Image
             style={{ width: 25, height: 33 }}
-            source={require('../../assets/atestado_medico.png')}
+            source={require("../../assets/atestado_medico.png")}
           />
         </AreaAcao>
-        <TextAcao>Envio de{'\n'}Atestado</TextAcao>
+        <TextAcao>Envio de{"\n"}Atestado</TextAcao>
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('HistoricoDePonto')}
+        onPress={() => navigation.navigate("HistoricoDePonto")}
         activeOpacity={0.9}
         style={styles.botaoAcao}
       >
         <AreaAcao>
           <Image
             style={{ width: 28, height: 43 }}
-            source={require('../../assets/historicodeponto.png')}
+            source={require("../../assets/historicodeponto.png")}
           />
         </AreaAcao>
-        <TextAcao>Histórico{'\n'}de Pontos</TextAcao>
+        <TextAcao>Histórico{"\n"}de Pontos</TextAcao>
       </TouchableOpacity>
 
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.botaoAcao}
-        onPress={() => navigation.navigate('HistoricoDeAtestado')}
+        onPress={() => navigation.navigate("HistoricoDeAtestado")}
       >
         <AreaAcao>
           <Feather name="file" size={26} color="#333" />
         </AreaAcao>
-        <TextAcao>Relatórios de{'\n'}atestado</TextAcao>
+        <TextAcao>Relatórios de{"\n"}atestado</TextAcao>
       </TouchableOpacity>
 
       <TouchableOpacity
         activeOpacity={0.9}
         style={styles.botaoAcao}
-        onPress={() => navigation.navigate('MeuQRCode')}
+        onPress={() => navigation.navigate("MeuQRCode")}
       >
         <AreaAcao>
           <FontAwesome name="qrcode" size={26} color="#333" />
@@ -144,7 +158,7 @@ export default function Acoes() {
       </TouchableOpacity>
 
       <TouchableOpacity
-        onPress={() => navigation.navigate('Suporte')}
+        onPress={() => navigation.navigate("Suporte")}
         activeOpacity={0.9}
         style={styles.botaoAcao}
       >
@@ -177,13 +191,13 @@ const TextAcao = styled.Text`
 const styles = StyleSheet.create({
   container: {
     maxHeight: 204,
-    marginBottom: '4%',
-    marginTop: '5%',
+    marginBottom: "4%",
+    marginTop: "5%",
     paddingEnd: 6,
     paddingStart: 14,
   },
   botaoAcao: {
-    alignItems: 'center',
+    alignItems: "center",
     marginRight: 32,
   },
 });

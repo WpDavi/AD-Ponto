@@ -5,9 +5,9 @@ import * as Notifications from "expo-notifications";
 import axios from "axios";
 
 //const BASE_API = "http://66.94.120.192:5001";
-//const BASE_API = 'http://192.168.100.139:5001';
+const BASE_API = "http://192.168.100.139:5001";
 //const BASE_API = 'http://192.168.1.83:5001';
-const BASE_API = "http://192.168.0.61:5001";
+//const BASE_API = "http://192.168.0.61:5001";
 
 export default {
   signIn: async (email, senha, empresa) => {

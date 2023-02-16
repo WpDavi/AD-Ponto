@@ -128,6 +128,7 @@ export default function RelatorioDeAtestado() {
 
   const onChangeFinal = (event, selectedDate) => {
     setModalDataFinal(false);
+    setLoadSec(true);
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === "ios");
     setDataFinal(currentDate);
@@ -148,6 +149,7 @@ export default function RelatorioDeAtestado() {
         dataFinal
       );
       setLoad(false);
+      setLoadSec(false);
       await setLista(jso);
       await setListaPesquisa(jso);
     } else {
@@ -158,6 +160,7 @@ export default function RelatorioDeAtestado() {
         dataFinal
       );
       setLoad(false);
+      setLoadSec(false);
       await setLista(jso);
       await setListaPesquisa(jso);
     }
@@ -168,9 +171,8 @@ export default function RelatorioDeAtestado() {
   }, [funcionario, dataFinal]);
 
   async function handlePerson(itemValue) {
-    console.log(itemValue);
-    setLoad(true);
     AsyncStorage.setItem("@FuncionarioPes", JSON.stringify(itemValue));
+    setLoadSec(true);
     setFuncionario(itemValue);
   }
 
@@ -275,13 +277,13 @@ export default function RelatorioDeAtestado() {
           </ContainerButtonBack>
         </View>
         {listaPesquisa && (
-          <View>
+          <ContainerSelectFuncion>
             <Picker
               selectedValue={pesquisa}
               mode={"dropdown"}
               onValueChange={(itemValue) => handlePerson(itemValue)}
             >
-              <Picker.Item label={funcionario} value="Option 1" />
+              <Picker.Item label={"Funcionario"} value="Option 1" />
               {funcionarios.map((item, index) => (
                 <Picker.Item
                   key={item.id}
@@ -290,7 +292,7 @@ export default function RelatorioDeAtestado() {
                 />
               ))}
             </Picker>
-          </View>
+          </ContainerSelectFuncion>
         )}
         {lista == null && (
           <ContainerBody>
@@ -353,7 +355,7 @@ export default function RelatorioDeAtestado() {
             keyExtractor={(item, index) => index}
           />
         )}
-        {loadSec && <ActivityIndicator size={"large"} />}
+        {loadSec && <ActivityIndicator color={"#1CADE2"} size={"large"} />}
 
         <Modal
           animationType="slide"
@@ -686,6 +688,18 @@ const Container = styled.SafeAreaView`
 `;
 
 //header ----------------------
+
+const ContainerSelectFuncion = styled.View`
+  border-width: 2px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: white;
+  justify-content: center;
+  width: 90%;
+  margin-left: 6%;
+  margin-bottom: 18px;
+`;
+
 const ContainerHeaderTitulo = styled.View`
   background-color: #1cade2;
   align-items: center;
