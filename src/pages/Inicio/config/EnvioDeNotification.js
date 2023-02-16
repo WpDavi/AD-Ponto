@@ -28,6 +28,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function EnvioDeNoification() {
   const [assunto, setAssunto] = useState();
@@ -329,6 +330,7 @@ export default function EnvioDeNoification() {
                     theme={{ colors: { background: '#fff' } }}
                     value={assunto}
                     onChangeText={(t) => setAssunto(t)}
+                    onBlur={() => cleanText(assunto, setAssunto)}
                   />
 
                   <RNPTextInput
@@ -339,6 +341,7 @@ export default function EnvioDeNoification() {
                     theme={{ colors: { background: '#fff' } }}
                     value={msg}
                     onChangeText={(t) => setMsg(t)}
+                    onBlur={() => cleanText(msg, setMsg)}
                   />
                 </View>
                 <View />

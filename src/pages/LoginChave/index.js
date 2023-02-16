@@ -25,6 +25,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 import { SubContainer } from './styled';
 
@@ -116,6 +117,7 @@ const LoginChave = ({ navigation }) => {
                 theme={{ colors: { background: '#fff' } }}
                 value={empresa}
                 onChangeText={(t) => setEmpresa(t)}
+                onBlur={() => cleanText(empresa, setEmpresa)}
               />
 
               <RNPTextInput
@@ -127,6 +129,7 @@ const LoginChave = ({ navigation }) => {
                 theme={{ colors: { background: '#fff' } }}
                 value={chave}
                 onChangeText={(t) => setChave(t)}
+                onBlur={() => cleanText(chave, setChave)}
               />
 
               <TouchableOpacity

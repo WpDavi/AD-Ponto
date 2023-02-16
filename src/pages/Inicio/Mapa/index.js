@@ -29,6 +29,7 @@ import * as Location from 'expo-location';
 import styled from 'styled-components';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function Mapa() {
   const mapEl = useRef(null);
@@ -219,6 +220,7 @@ export default function Mapa() {
               placeholder="Cliente"
               value={cliente}
               onChangeText={(a) => setCliente(a)}
+              onBlur={() => cleanText(cliente, setCliente)}
             />
           </View>
         )}

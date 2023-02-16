@@ -31,6 +31,7 @@ import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function PontoLogin() {
   const camRef = useRef(null);
@@ -347,6 +348,7 @@ export default function PontoLogin() {
               theme={{ colors: { background: '#fff' } }}
               value={empresa}
               onChangeText={(t) => setEmpresa(t)}
+              onBlur={() => cleanText(empresa, setEmpresa)}
             />
             <RNPTextInput
               style={styles.input}
@@ -356,6 +358,7 @@ export default function PontoLogin() {
               theme={{ colors: { background: '#fff' } }}
               value={chave}
               onChangeText={(t) => setChave(t)}
+              onBlur={() => cleanText(chave, setChave)}
             />
           </View>
         </View>

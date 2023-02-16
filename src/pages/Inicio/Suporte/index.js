@@ -21,6 +21,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function Suporte() {
   const navigation = useNavigation();
@@ -118,6 +119,7 @@ export default function Suporte() {
             theme={{ colors: { background: '#fff' } }}
             value={mensagem}
             onChangeText={(t) => setMensagem(t)}
+            onBlur={() => cleanText(mensagem, setMensagem)}
           />
         </View>
         {load === false && (

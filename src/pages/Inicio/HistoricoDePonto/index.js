@@ -24,6 +24,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function RelatorioDeAtestado() {
   const [infos, setInfos] = useState(['1', '2', '3', '4', '5']);
@@ -518,6 +519,7 @@ export default function RelatorioDeAtestado() {
                     placeholder="Observações entrada 1"
                     value={obsentrada1}
                     onChangeText={(a) => setObsentrada1(a)}
+                    onBlur={() => cleanText(obsentrada1, setObsentrada1)}
                   />
                 </ContainerInfo>
               )}
@@ -544,6 +546,7 @@ export default function RelatorioDeAtestado() {
                     placeholder="Observações saida 1"
                     value={obsSaisa1}
                     onChangeText={(a) => setObsSaisa1(a)}
+                    onBlur={() => cleanText(obsSaisa1, setObsSaisa1)}
                   />
                 </ContainerInfo>
               )}
@@ -570,6 +573,7 @@ export default function RelatorioDeAtestado() {
                     placeholder="Observações entrada 2"
                     value={obsentrada2}
                     onChangeText={(a) => setObsentrada2(a)}
+                    onBlur={() => cleanText(obsentrada2, setEntrada2)}
                   />
                 </ContainerInfo>
               )}
@@ -596,6 +600,7 @@ export default function RelatorioDeAtestado() {
                     placeholder="Observações saida 2"
                     value={obsSaisa2}
                     onChangeText={(a) => setObsSaisa2(a)}
+                    onBlur={() => cleanText(obsSaisa2, setObsSaisa2)}
                   />
                 </ContainerInfo>
               )}
@@ -624,6 +629,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 3"
                         value={obsentrada3}
                         onChangeText={(a) => setObsentrada3(a)}
+                        onBlur={() => cleanText(obsentrada3, setObsentrada3)}
                       />
                     </ContainerInfo>
                   )}
@@ -654,6 +660,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 3"
                         value={obsSaisa3}
                         onChangeText={(a) => setObsSaisa3(a)}
+                        onBlur={() => cleanText(obsSaisa3, setObsSaisa3)}
                       />
                     </ContainerInfo>
                   )}
@@ -714,6 +721,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 4"
                         value={obsSaisa4}
                         onChangeText={(a) => setObsSaisa4(a)}
+                        onBlur={() => cleanText(obsSaisa4, setObsSaisa4)}
                       />
                     </ContainerInfo>
                   )}
@@ -744,6 +752,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 5"
                         value={obsentrada5}
                         onChangeText={(a) => setObsentrada5(a)}
+                        onBlur={() => cleanText(obsentrada5, setObsentrada5)}
                       />
                     </ContainerInfo>
                   )}
@@ -774,6 +783,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 5"
                         value={obsSaisa5}
                         onChangeText={(a) => setObsSaisa5(a)}
+                        onBlur={() => cleanText(obsSaisa5, setObsSaisa5)}
                       />
                     </ContainerInfo>
                   )}
@@ -804,6 +814,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 6"
                         value={obsentrada6}
                         onChangeText={(a) => setObsentrada6(a)}
+                        onBlur={() => cleanText(obsentrada6, setObsentrada6)}
                       />
                     </ContainerInfo>
                   )}
@@ -834,6 +845,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 6"
                         value={obsSaisa6}
                         onChangeText={(a) => setObsSaisa6(a)}
+                        onBlur={() => cleanText(obsSaisa6, setObsSaisa6)}
                       />
                     </ContainerInfo>
                   )}
@@ -864,6 +876,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 7"
                         value={obsentrada7}
                         onChangeText={(a) => setObsentrada7(a)}
+                        onBlur={() => cleanText(obsentrada7, setObsentrada7)}
                       />
                     </ContainerInfo>
                   )}
@@ -894,6 +907,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 7"
                         value={obsSaisa7}
                         onChangeText={(a) => setObsSaisa7(a)}
+                        onBlur={() => cleanText(obsSaisa7, setObsSaisa7)}
                       />
                     </ContainerInfo>
                   )}
@@ -924,6 +938,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 8"
                         value={obsentrada8}
                         onChangeText={(a) => setObsentrada8(a)}
+                        onBlur={() => cleanText(obsentrada8, setObsentrada8)}
                       />
                     </ContainerInfo>
                   )}
@@ -954,6 +969,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 8"
                         value={obsSaisa8}
                         onChangeText={(a) => setObsSaisa8(a)}
+                        onBlur={() => cleanText(obsSaisa8, setObsSaisa8)}
                       />
                     </ContainerInfo>
                   )}
@@ -984,6 +1000,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 9"
                         value={obsentrada9}
                         onChangeText={(a) => setObsentrada9(a)}
+                        onBlur={() => cleanText(obsentrada9, setObsentrada9)}
                       />
                     </ContainerInfo>
                   )}
@@ -1014,6 +1031,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 9"
                         value={obsSaisa9}
                         onChangeText={(a) => setObsSaisa9(a)}
+                        onBlur={() => cleanText(obsSaisa9, setObsSaisa9)}
                       />
                     </ContainerInfo>
                   )}
@@ -1044,6 +1062,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações entrada 10"
                         value={obsentrada10}
                         onChangeText={(a) => setObsentrada10(a)}
+                        onBlur={() => cleanText(obsentrada10, setObsentrada10)}
                       />
                     </ContainerInfo>
                   )}
@@ -1074,6 +1093,7 @@ export default function RelatorioDeAtestado() {
                         placeholder="Observações saida 10"
                         value={obsSaisa10}
                         onChangeText={(a) => setObsSaisa10(a)}
+                        onBlur={() => cleanText(obsSaisa10, setObsSaisa10)}
                       />
                     </ContainerInfo>
                   )}

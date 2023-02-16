@@ -31,6 +31,7 @@ import styled from 'styled-components';
 
 import TodoList from '~/components/checklist';
 import Api from '~/services/Api';
+import { cleanText } from '~/utils/text';
 
 export default function VisiitasEmAndamento() {
   const [cliente, setCliente] = useState();
@@ -349,6 +350,7 @@ export default function VisiitasEmAndamento() {
                 theme={{ colors: { background: '#fff' } }}
                 value={task}
                 onChangeText={(t) => setTask(t)}
+                onBlur={() => cleanText(task, setTask)}
               />
               {buttonAddTask && (
                 <ButtonNewTask onPress={NewTask}>
