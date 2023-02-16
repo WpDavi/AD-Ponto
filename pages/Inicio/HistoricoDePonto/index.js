@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback } from "react";
 import {
   Text,
   View,
@@ -10,18 +10,23 @@ import {
   Modal,
   ActivityIndicator,
   KeyboardAvoidingView,
-} from 'react-native';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
-import { Feather, Entypo } from '@expo/vector-icons';
-import Api from '../../../src/services/Api';
-import { TextInput } from 'react-native';
-import { TextInputMask } from 'react-native-masked-text';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-import styled from 'styled-components/native';
+} from "react-native";
+import Icone from "@expo/vector-icons/FontAwesome5";
+import { useNavigation } from "@react-navigation/native";
+import { Feather, Entypo } from "@expo/vector-icons";
+import Api from "../../../src/services/Api";
+import { TextInput } from "react-native";
+import { TextInputMask } from "react-native-masked-text";
+import {
+  ALERT_TYPE,
+  Dialog,
+  AlertNotificationRoot,
+  Toast,
+} from "react-native-alert-notification";
+import styled from "styled-components/native";
 
 export default function RelatorioDeAtestado() {
-  const [infos, setInfos] = useState(['1', '2', '3', '4', '5']);
+  const [infos, setInfos] = useState(["1", "2", "3", "4", "5"]);
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
@@ -33,9 +38,8 @@ export default function RelatorioDeAtestado() {
 
   const [txtInput, setTxtInput] = useState(true);
 
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
 
-  const [observacao, setObservacao] = useState();
   const [pis, setPis] = useState();
   const [data, setData] = useState();
   const [entrada1, setEntrada1] = useState(null);
@@ -103,10 +107,14 @@ export default function RelatorioDeAtestado() {
 
   const edicao = async () => {
     setButton(false);
-    const assunto = 'Solicitação de edição de ponto';
-    const msg = 'Um funcionario solicitou edição de ponto';
+    const assunto = "Solicitação de edição de ponto";
+    const msg = "Um funcionario solicitou edição de ponto";
     for (let i in token) {
-      const ress = await Api.RegisterNotification(token[i].token_notification, assunto, msg);
+      const ress = await Api.RegisterNotification(
+        token[i].token_notification,
+        assunto,
+        msg
+      );
     }
     const res = Api.SolicitarEditPonto(
       entrada11,
@@ -180,16 +188,16 @@ export default function RelatorioDeAtestado() {
 
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Solicitação enviada com Sucesso',
-        button: 'ok',
+        title: "Sucesso",
+        textBody: "Solicitação enviada com Sucesso",
+        button: "ok",
       });
     }
   };
 
   useEffect(() => {
     if (lista) {
-      if (pesquisa === '') {
+      if (pesquisa === "") {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -207,7 +215,7 @@ export default function RelatorioDeAtestado() {
 
   useEffect(() => {
     if (lista) {
-      if (pesquisaData === '') {
+      if (pesquisaData === "") {
         setListaPesquisa(lista);
       } else {
         setListaPesquisa(
@@ -340,10 +348,10 @@ export default function RelatorioDeAtestado() {
     return (
       <View
         style={{
-          flexDirection: 'row',
+          flexDirection: "row",
           borderBottomWidth: 1,
-          borderBottomColor: '#dadada',
-          marginBottom: '5%',
+          borderBottomColor: "#dadada",
+          marginBottom: "5%",
         }}
       >
         <TouchableOpacity
@@ -351,31 +359,39 @@ export default function RelatorioDeAtestado() {
           style={styles.containeratestado}
           onPress={handleClickItem}
         >
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{ flexDirection: "row" }}>
             <Text style={styles.data}>
-              Data: {atestado.item.data.substr(8, 9)}/{atestado.item.data.substr(5, 2)}/
+              Data: {atestado.item.data.substr(8, 9)}/
+              {atestado.item.data.substr(5, 2)}/
               {atestado.item.data.substr(0, 4)}
             </Text>
           </View>
 
           <View style={styles.item}>
-            <Feather name={'check-circle'} size={40} color={'#555555'} />
+            <Feather name={"check-circle"} size={40} color={"#555555"} />
             <View style={styles.conteudo}>
               <Text style={styles.titulo}>{`Ponto Inserido`}</Text>
               <Text style={styles.descricao}>
-                {atestado.item.entrada1} - {atestado.item.saida1} - {atestado.item.entrada2} -{' '}
-                {atestado.item.saida2} - {atestado.item.entrada3} - {atestado.item.saida3} -{' '}
-                {atestado.item.entrada4} - {atestado.item.saida4}- {atestado.item.entrada5} -{' '}
-                {atestado.item.saida5} - {atestado.item.entrada6} - {atestado.item.saida6} -{' '}
-                {atestado.item.entrada7} - {atestado.item.saida7} - {atestado.item.entrada8} -{' '}
-                {atestado.item.saida8}- {atestado.item.entrada9} - {atestado.item.saida9} -{' '}
+                {atestado.item.entrada1} - {atestado.item.saida1} -{" "}
+                {atestado.item.entrada2} - {atestado.item.saida2} -{" "}
+                {atestado.item.entrada3} - {atestado.item.saida3} -{" "}
+                {atestado.item.entrada4} - {atestado.item.saida4}-{" "}
+                {atestado.item.entrada5} - {atestado.item.saida5} -{" "}
+                {atestado.item.entrada6} - {atestado.item.saida6} -{" "}
+                {atestado.item.entrada7} - {atestado.item.saida7} -{" "}
+                {atestado.item.entrada8} - {atestado.item.saida8}-{" "}
+                {atestado.item.entrada9} - {atestado.item.saida9} -{" "}
                 {atestado.item.entrada10} - {atestado.item.saida10}
               </Text>
             </View>
           </View>
         </TouchableOpacity>
         <TouchableOpacity
-          style={{ justifyContent: 'center', marginRight: 20, marginBottom: 30 }}
+          style={{
+            justifyContent: "center",
+            marginRight: 20,
+            marginBottom: 30,
+          }}
           onPress={handleClickItem}
         >
           <View>
@@ -389,689 +405,689 @@ export default function RelatorioDeAtestado() {
   return (
     <Container>
       <AlertNotificationRoot>
-        <KeyboardAvoidingView
-          keyboardVerticalOffset={10}
-          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        >
-          <StatusBar backgroundColor={'#1CADE2'} />
+        <ContainerHeaderTitulo>
+          <TxtTituloHeader>Gerencia de Pontos</TxtTituloHeader>
+        </ContainerHeaderTitulo>
+        <View style={{ position: "absolute", marginTop: 20 }}>
+          <ContainerButtonBack onPress={() => navigation.goBack()}>
+            <Icone size={17} name="arrow-left" color="white" />
+          </ContainerButtonBack>
+        </View>
+        {lista == null && (
           <View
             style={{
-              width: '100%',
-              height: '10%',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 15,
-              backgroundColor: '#1CADE2',
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Text style={{ textAlign: 'center', fontSize: 23, color: 'white', fontWeight: 'bold' }}>
-              Histórico de Pontos
-            </Text>
+            <Image
+              resizeMode="contain"
+              style={{ width: 200, marginTop: "50%" }}
+              source={require("../../../src/icons/historicodeponto.png")}
+            />
+            <ActivityIndicator color={"#1CADE2"} size={"large"} />
           </View>
-          <View style={{ position: 'absolute', marginTop: 20 }}>
-            <TouchableOpacity
-              style={{ flexDirection: 'row', marginLeft: 20 }}
-              onPress={() =>
-                navigation.reset({
-                  routes: [{ name: 'Home' }],
-                })
-              }
-            >
-              <Icone size={20} name="arrow-left" color="white" />
-            </TouchableOpacity>
-          </View>
-          {lista == null && (
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-              <Image
-                resizeMode="contain"
-                style={{ width: 200, marginTop: 500 }}
-                source={require('../../../src/icons/historicodeponto.png')}
-              />
-              <ActivityIndicator color={'#1CADE2'} size={'large'} />
-            </View>
+        )}
+
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          {listaPesquisa && (
+            <TextInputMask
+              style={styles.txtInput}
+              placeholder="Pesquisar por Data"
+              placeholderTextColor={"black"}
+              value={pesquisaData}
+              onChangeText={setPesquisaData}
+              options={{ mask: "9999-99-99", maskType: "BRL" }}
+              type="custom"
+            />
           )}
+        </View>
 
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-            {listaPesquisa && (
-              <TextInputMask
-                style={styles.txtInput}
-                placeholder="Pesquisar por Data"
-                placeholderTextColor={'black'}
-                value={pesquisaData}
-                onChangeText={setPesquisaData}
-                options={{ mask: '9999-99-99', maskType: 'BRL' }}
-                type="custom"
-              />
-            )}
-          </View>
+        <FlatList
+          data={listaPesquisa}
+          renderItem={renderItem}
+          keyExtractor={(item, index) => index}
+        />
 
-          <FlatList
-            data={listaPesquisa}
-            renderItem={renderItem}
-            keyExtractor={(item, index) => index}
-          />
+        <Modal
+          animationType="slide"
+          transparent={false}
+          visible={modalimg}
+          onRequestClose={closeModal}
+        >
+          <ConatinerModal>
+            <ContainerModalSub>
+              <ButtonBack onPress={closeModal}>
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                  style={{ marginLeft: 10 }}
+                />
+                <TxtButtonBack>
+                  {infos[1]} - {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/
+                  {infos[0].substr(0, 4)}
+                </TxtButtonBack>
+              </ButtonBack>
 
-          <Modal
-            animationType="slide"
-            transparent={false}
-            visible={modalimg}
-            onRequestClose={closeModal}
-          >
-            <ConatinerModal>
-              <ContainerModalSub>
-                <ButtonBack onPress={closeModal}>
-                  <Icone size={20} name="arrow-left" color="black" style={{ marginLeft: 10 }} />
-                  <TxtButtonBack>
-                    {infos[1]} - {infos[0].substr(8, 9)}/{infos[0].substr(5, 2)}/
-                    {infos[0].substr(0, 4)}
-                  </TxtButtonBack>
-                </ButtonBack>
+              <ContainerTitulo>
+                <Title>SOLICITAR EDIÇÃO PONTO DE: </Title>
+              </ContainerTitulo>
 
-                <ContainerTitulo>
-                  <Title>SOLICITAR EDIÇÃO PONTO DE: </Title>
-                </ContainerTitulo>
-
+              <ContainerInfo>
+                <TxtEntrada>Entrada 1</TxtEntrada>
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  keyboardType="numeric"
+                  placeholder="Entrada 1"
+                  onPressIn={() => {
+                    setObsentrada1(true);
+                  }}
+                  value={entrada11}
+                  onChangeText={setEntrada11}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+              </ContainerInfo>
+              {obsentrada1 && (
                 <ContainerInfo>
-                  <TxtEntrada>Entrada 1</TxtEntrada>
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    keyboardType="numeric"
-                    placeholder="Entrada 1"
-                    onPressIn={() => {
-                      setObsentrada1(true);
-                    }}
-                    value={entrada11}
-                    onChangeText={setEntrada11}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
-                    type="custom"
+                  <TextInput
+                    style={{ padding: 10 }}
+                    placeholder="Observações entrada 1"
+                    value={obsentrada1}
+                    onChangeText={(a) => setObsentrada1(a)}
                   />
                 </ContainerInfo>
-                {obsentrada1 && (
-                  <ContainerInfo>
-                    <TextInput
-                      style={{ padding: 10 }}
-                      placeholder="Observações entrada 1"
-                      value={obsentrada1}
-                      onChangeText={(a) => setObsentrada1(a)}
-                    />
-                  </ContainerInfo>
-                )}
+              )}
 
+              <ContainerInfo>
+                <TxtEntrada>Saída 1</TxtEntrada>
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  keyboardType="numeric"
+                  placeholder="Saída 1"
+                  onPressIn={() => {
+                    setObsSaisa1(true);
+                  }}
+                  value={saida11}
+                  onChangeText={setSaida11}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+              </ContainerInfo>
+              {obsSaisa1 && (
                 <ContainerInfo>
-                  <TxtEntrada>Saída 1</TxtEntrada>
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    keyboardType="numeric"
-                    placeholder="Saída 1"
-                    onPressIn={() => {
-                      setObsSaisa1(true);
-                    }}
-                    value={saida11}
-                    onChangeText={setSaida11}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
-                    type="custom"
+                  <TextInput
+                    style={{ padding: 10 }}
+                    placeholder="Observações saida 1"
+                    value={obsSaisa1}
+                    onChangeText={(a) => setObsSaisa1(a)}
                   />
                 </ContainerInfo>
-                {obsSaisa1 && (
-                  <ContainerInfo>
-                    <TextInput
-                      style={{ padding: 10 }}
-                      placeholder="Observações saida 1"
-                      value={obsSaisa1}
-                      onChangeText={(a) => setObsSaisa1(a)}
-                    />
-                  </ContainerInfo>
-                )}
+              )}
 
+              <ContainerInfo>
+                <TxtEntrada>Entrada 2</TxtEntrada>
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  keyboardType="numeric"
+                  placeholder="Entrada 2"
+                  onPressIn={() => {
+                    setObsentrada2(true);
+                  }}
+                  value={entrada22}
+                  onChangeText={setEntrada22}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+              </ContainerInfo>
+              {obsentrada2 && (
                 <ContainerInfo>
-                  <TxtEntrada>Entrada 2</TxtEntrada>
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    keyboardType="numeric"
-                    placeholder="Entrada 2"
-                    onPressIn={() => {
-                      setObsentrada2(true);
-                    }}
-                    value={entrada22}
-                    onChangeText={setEntrada22}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
-                    type="custom"
+                  <TextInput
+                    style={{ padding: 10 }}
+                    placeholder="Observações entrada 2"
+                    value={obsentrada2}
+                    onChangeText={(a) => setObsentrada2(a)}
                   />
                 </ContainerInfo>
-                {obsentrada2 && (
-                  <ContainerInfo>
-                    <TextInput
-                      style={{ padding: 10 }}
-                      placeholder="Observações entrada 2"
-                      value={obsentrada2}
-                      onChangeText={(a) => setObsentrada2(a)}
-                    />
-                  </ContainerInfo>
-                )}
+              )}
 
+              <ContainerInfo>
+                <TxtEntrada>Saída 2</TxtEntrada>
+                <TextInputMask
+                  style={styles.txtInputentrada}
+                  onPressIn={() => {
+                    setObsSaisa2(true);
+                  }}
+                  keyboardType="numeric"
+                  placeholder="Saída 2"
+                  value={saida22}
+                  onChangeText={setSaida22}
+                  options={{ mask: "99:99", maskType: "BRL" }}
+                  type="custom"
+                />
+              </ContainerInfo>
+              {obsSaisa2 && (
                 <ContainerInfo>
-                  <TxtEntrada>Saída 2</TxtEntrada>
-                  <TextInputMask
-                    style={styles.txtInputentrada}
-                    onPressIn={() => {
-                      setObsSaisa2(true);
-                    }}
-                    keyboardType="numeric"
-                    placeholder="Saída 2"
-                    value={saida22}
-                    onChangeText={setSaida22}
-                    options={{ mask: '99:99', maskType: 'BRL' }}
-                    type="custom"
+                  <TextInput
+                    style={{ padding: 10 }}
+                    placeholder="Observações saida 2"
+                    value={obsSaisa2}
+                    onChangeText={(a) => setObsSaisa2(a)}
                   />
                 </ContainerInfo>
-                {obsSaisa2 && (
+              )}
+
+              {saida22 && (
+                <ContainerInfos>
                   <ContainerInfo>
-                    <TextInput
-                      style={{ padding: 10 }}
-                      placeholder="Observações saida 2"
-                      value={obsSaisa2}
-                      onChangeText={(a) => setObsSaisa2(a)}
+                    <TxtEntrada>Entrada 3</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada3(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 3"
+                      value={entrada33}
+                      onChangeText={setEntrada33}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
                     />
                   </ContainerInfo>
-                )}
-
-                {saida22 && (
-                  <ContainerInfos>
+                  {obsentrada3 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 3</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada3(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 3"
-                        value={entrada33}
-                        onChangeText={setEntrada33}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 3"
+                        value={obsentrada3}
+                        onChangeText={(a) => setObsentrada3(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada3 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 3"
-                          value={obsentrada3}
-                          onChangeText={(a) => setObsentrada3(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada33 && (
-                  <ContainerInfos>
+              {entrada33 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 3</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa3(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 3"
+                      value={saida33}
+                      onChangeText={setSaida33}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa3 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 3</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa3(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 3"
-                        value={saida33}
-                        onChangeText={setSaida33}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 3"
+                        value={obsSaisa3}
+                        onChangeText={(a) => setObsSaisa3(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa3 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 3"
-                          value={obsSaisa3}
-                          onChangeText={(a) => setObsSaisa3(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida33 && (
-                  <ContainerInfos>
+              {saida33 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 4</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada4(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 4"
+                      value={entrada44}
+                      onChangeText={setEntrada44}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada4 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 4</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada4(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 4"
-                        value={entrada44}
-                        onChangeText={setEntrada44}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 4"
+                        value={obsentrada4}
+                        onChangeText={(a) => setObsentrada4(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada4 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 4"
-                          value={obsentrada4}
-                          onChangeText={(a) => setObsentrada4(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada44 && (
-                  <ContainerInfos>
+              {entrada44 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 4</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa4(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 4"
+                      value={saida44}
+                      onChangeText={setSaida44}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa4 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 4</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa4(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 4"
-                        value={saida44}
-                        onChangeText={setSaida44}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 4"
+                        value={obsSaisa4}
+                        onChangeText={(a) => setObsSaisa4(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa4 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 4"
-                          value={obsSaisa4}
-                          onChangeText={(a) => setObsSaisa4(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida44 && (
-                  <ContainerInfos>
+              {saida44 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 5</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada5(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 5"
+                      value={entrada55}
+                      onChangeText={setEntrada55}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada5 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 5</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada5(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 5"
-                        value={entrada55}
-                        onChangeText={setEntrada55}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 5"
+                        value={obsentrada5}
+                        onChangeText={(a) => setObsentrada5(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada5 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 5"
-                          value={obsentrada5}
-                          onChangeText={(a) => setObsentrada5(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada55 && (
-                  <ContainerInfos>
+              {entrada55 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 5</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa5(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 5"
+                      value={saida55}
+                      onChangeText={setSaida55}
+                      options={{ mask: "99:99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa5 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 5</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa5(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 5"
-                        value={saida55}
-                        onChangeText={setSaida55}
-                        options={{ mask: '99:99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 5"
+                        value={obsSaisa5}
+                        onChangeText={(a) => setObsSaisa5(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa5 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 5"
-                          value={obsSaisa5}
-                          onChangeText={(a) => setObsSaisa5(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida55 && (
-                  <ContainerInfos>
+              {saida55 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 6</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada6(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 6"
+                      value={entrada66}
+                      onChangeText={setEntrada66}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada6 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 6</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada6(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 6"
-                        value={entrada66}
-                        onChangeText={setEntrada66}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 6"
+                        value={obsentrada6}
+                        onChangeText={(a) => setObsentrada6(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada6 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 6"
-                          value={obsentrada6}
-                          onChangeText={(a) => setObsentrada6(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada66 && (
-                  <ContainerInfos>
+              {entrada66 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 6</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa6(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 6"
+                      value={saida66}
+                      onChangeText={setSaida66}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa6 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 6</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa6(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 6"
-                        value={saida66}
-                        onChangeText={setSaida66}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 6"
+                        value={obsSaisa6}
+                        onChangeText={(a) => setObsSaisa6(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa6 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 6"
-                          value={obsSaisa6}
-                          onChangeText={(a) => setObsSaisa6(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida66 && (
-                  <ContainerInfos>
+              {saida66 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 7</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada7(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 7"
+                      value={entrada77}
+                      onChangeText={setEntrada77}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada7 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 7</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada7(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 7"
-                        value={entrada77}
-                        onChangeText={setEntrada77}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 7"
+                        value={obsentrada7}
+                        onChangeText={(a) => setObsentrada7(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada7 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 7"
-                          value={obsentrada7}
-                          onChangeText={(a) => setObsentrada7(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada77 && (
-                  <ContainerInfos>
+              {entrada77 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 7</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa7(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 7"
+                      value={saida77}
+                      onChangeText={setSaida77}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa7 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 7</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa7(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 7"
-                        value={saida77}
-                        onChangeText={setSaida77}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 7"
+                        value={obsSaisa7}
+                        onChangeText={(a) => setObsSaisa7(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa7 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 7"
-                          value={obsSaisa7}
-                          onChangeText={(a) => setObsSaisa7(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida77 && (
-                  <ContainerInfos>
+              {saida77 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 8</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada8(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 8"
+                      value={entrada88}
+                      onChangeText={setEntrada88}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada8 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 8</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada8(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 8"
-                        value={entrada88}
-                        onChangeText={setEntrada88}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 8"
+                        value={obsentrada8}
+                        onChangeText={(a) => setObsentrada8(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada8 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 8"
-                          value={obsentrada8}
-                          onChangeText={(a) => setObsentrada8(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada88 && (
-                  <ContainerInfos>
+              {entrada88 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 8</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa8(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 8"
+                      value={saida88}
+                      onChangeText={setSaida88}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa8 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 8</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa8(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 8"
-                        value={saida88}
-                        onChangeText={setSaida88}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 8"
+                        value={obsSaisa8}
+                        onChangeText={(a) => setObsSaisa8(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa8 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 8"
-                          value={obsSaisa8}
-                          onChangeText={(a) => setObsSaisa8(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida88 && (
-                  <ContainerInfos>
+              {saida88 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 9</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada9(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 9"
+                      value={entrada99}
+                      onChangeText={setEntrada99}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada9 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 9</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada9(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 9"
-                        value={entrada99}
-                        onChangeText={setEntrada99}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 9"
+                        value={obsentrada9}
+                        onChangeText={(a) => setObsentrada9(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada9 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 9"
-                          value={obsentrada9}
-                          onChangeText={(a) => setObsentrada9(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada99 && (
-                  <ContainerInfos>
+              {entrada99 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 9</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa9(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 9"
+                      value={saida99}
+                      onChangeText={setSaida99}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa9 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 9</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa9(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 9"
-                        value={saida99}
-                        onChangeText={setSaida99}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 9"
+                        value={obsSaisa9}
+                        onChangeText={(a) => setObsSaisa9(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa9 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 9"
-                          value={obsSaisa9}
-                          onChangeText={(a) => setObsSaisa9(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {saida99 && (
-                  <ContainerInfos>
+              {saida99 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Entrada 10</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsentrada10(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Entrada 10"
+                      value={entrada100}
+                      onChangeText={setEntrada100}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsentrada10 && (
                     <ContainerInfo>
-                      <TxtEntrada>Entrada 10</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsentrada10(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Entrada 10"
-                        value={entrada100}
-                        onChangeText={setEntrada100}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações entrada 10"
+                        value={obsentrada10}
+                        onChangeText={(a) => setObsentrada10(a)}
                       />
                     </ContainerInfo>
-                    {obsentrada10 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações entrada 10"
-                          value={obsentrada10}
-                          onChangeText={(a) => setObsentrada10(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {entrada100 && (
-                  <ContainerInfos>
+              {entrada100 && (
+                <ContainerInfos>
+                  <ContainerInfo>
+                    <TxtEntrada>Saída 10</TxtEntrada>
+                    <TextInputMask
+                      style={styles.txtInputentrada}
+                      onPressIn={() => {
+                        setObsSaisa10(true);
+                      }}
+                      keyboardType="numeric"
+                      placeholder="Saída 10"
+                      value={saida100}
+                      onChangeText={setSaida100}
+                      options={{ mask: "99-99", maskType: "BRL" }}
+                      type="custom"
+                    />
+                  </ContainerInfo>
+                  {obsSaisa10 && (
                     <ContainerInfo>
-                      <TxtEntrada>Saída 10</TxtEntrada>
-                      <TextInputMask
-                        style={styles.txtInputentrada}
-                        onPressIn={() => {
-                          setObsSaisa10(true);
-                        }}
-                        keyboardType="numeric"
-                        placeholder="Saída 10"
-                        value={saida100}
-                        onChangeText={setSaida100}
-                        options={{ mask: '99-99', maskType: 'BRL' }}
-                        type="custom"
+                      <TextInput
+                        style={{ padding: 10 }}
+                        placeholder="Observações saida 10"
+                        value={obsSaisa10}
+                        onChangeText={(a) => setObsSaisa10(a)}
                       />
                     </ContainerInfo>
-                    {obsSaisa10 && (
-                      <ContainerInfo>
-                        <TextInput
-                          style={{ padding: 10 }}
-                          placeholder="Observações saida 10"
-                          value={obsSaisa10}
-                          onChangeText={(a) => setObsSaisa10(a)}
-                        />
-                      </ContainerInfo>
-                    )}
-                  </ContainerInfos>
-                )}
+                  )}
+                </ContainerInfos>
+              )}
 
-                {button == true && (
-                  <ConatinerButton onPress={edicao}>
-                    <Text style={{ fontWeight: 'bold', padding: 30, fontSize: 20, color: 'white' }}>
-                      Solicitar
-                    </Text>
-                  </ConatinerButton>
-                )}
+              {button == true && (
+                <ConatinerButton onPress={edicao}>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      padding: 30,
+                      fontSize: 20,
+                      color: "white",
+                    }}
+                  >
+                    Solicitar
+                  </Text>
+                </ConatinerButton>
+              )}
 
-                {button == false && (
-                  <ConatinerButton>
-                    <ActivityIndicator size={'large'} color="white" />
-                  </ConatinerButton>
-                )}
-              </ContainerModalSub>
-            </ConatinerModal>
-          </Modal>
-        </KeyboardAvoidingView>
+              {button == false && (
+                <ConatinerButton>
+                  <ActivityIndicator size={"large"} color="white" />
+                </ConatinerButton>
+              )}
+            </ContainerModalSub>
+          </ConatinerModal>
+        </Modal>
       </AlertNotificationRoot>
     </Container>
   );
@@ -1079,6 +1095,25 @@ export default function RelatorioDeAtestado() {
 const Container = styled.SafeAreaView`
   flex: 1;
   background-color: ${(props) => props.theme.background};
+`;
+
+//header -------------
+
+const ContainerHeaderTitulo = styled.View`
+  background-color: #1cade2;
+  align-items: center;
+`;
+const TxtTituloHeader = styled.Text`
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+`;
+
+const ContainerButtonBack = styled.TouchableOpacity`
+  flex-direction: row;
+  position: absolute;
+  padding-left: 20px;
 `;
 
 //Modal -------
@@ -1151,14 +1186,14 @@ const ConatinerButton = styled.TouchableOpacity`
 const styles = StyleSheet.create({
   containeratestado: {
     flex: 1,
-    marginTop: '3%',
+    marginTop: "3%",
     marginLeft: 10,
     marginRight: 10,
   },
 
   item: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   conteudo: {
     marginTop: 2,
@@ -1166,30 +1201,30 @@ const styles = StyleSheet.create({
   },
   data: {
     fontSize: 12,
-    color: '#0393c7',
-    fontWeight: 'bold',
+    color: "#0393c7",
+    fontWeight: "bold",
   },
   titulo: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 16,
-    color: '#555555',
+    color: "#555555",
   },
   descricao: {
     fontSize: 12,
-    color: '#555555',
+    color: "#555555",
   },
 
   placeholderInput: {
     marginTop: 10,
-    fontStyle: 'Normal',
-    fontWeight: '400',
-    color: 'black',
+    fontStyle: "Normal",
+    fontWeight: "400",
+    color: "black",
     fontSize: 12,
     lineHeight: 16,
     borderWidth: 2,
-    borderColor: '#0393c7',
+    borderColor: "#0393c7",
     borderRadius: 5,
-    width: '90%',
+    width: "90%",
     padding: 9,
   },
 
@@ -1199,9 +1234,10 @@ const styles = StyleSheet.create({
     padding: 10,
     marginLeft: 20,
     marginRight: 10,
-    marginBottom: 20,
-    width: '90%',
-    backgroundColor: 'white',
+    marginBottom: 10,
+    width: "90%",
+    backgroundColor: "white",
+    marginTop: 20,
   },
 
   txtInputentrada: {
