@@ -64,6 +64,10 @@ export default function PontoFaceId2() {
 
   useEffect(() => {
     async function getLocation() {
+      //Camera
+      await Camera.requestCameraPermissionsAsync();
+      const { statu } = await Location.requestForegroundPermissionsAsync();
+      //----------------------
       const location = await Location.getCurrentPositionAsync({});
       if (location) {
         const { coords } = location;
