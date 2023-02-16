@@ -1,21 +1,9 @@
 import React, { useState, useEffect } from "react";
-import * as Animatable from "react-native-animatable";
 import { useNavigation } from "@react-navigation/native";
 import Api from "../../src/services/Api";
 import styled from "styled-components/native";
 
-import * as Location from "expo-location";
-
-import {
-  View,
-  StyleSheet,
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  ScrollView,
-  Platform,
-  Image,
-} from "react-native";
+import { StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
 import {
   Feather,
   FontAwesome,
