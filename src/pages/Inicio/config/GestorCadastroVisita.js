@@ -1,24 +1,27 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
-
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Modal,
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import styled from 'styled-components';
+import Api from '~/services/Api';
+
+import config from '@config';
+import * as Location from 'expo-location';
+import {
+  ActivityIndicator,
   PermissionsAndroid,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ActivityIndicator,
 } from 'react-native';
-import MapView from 'react-native-maps';
-import * as Location from 'expo-location';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
-import config from '../../../config.json';
+import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import { TextInputMask } from 'react-native-masked-text';
 
@@ -79,7 +82,7 @@ export default function GestorCadastroVisita() {
       horario,
       cliente,
       nameDestination,
-      JSON.stringify(destination)
+      JSON.stringify(destination),
     );
     setTimeout(() => {
       navigation.navigate('HistoricoSolicitaçãoDeVisitas');
@@ -105,9 +108,11 @@ export default function GestorCadastroVisita() {
         <ContainerTouch onPress={handleFuncionario}>
           <ContainerImg>
             {!funcionarios.item.foto && (
-              <Imgpefil source={require('../../../src/icons/perfil.png')} />
+              <Imgpefil source={require('~/icons/perfil.png')} />
             )}
-            {funcionarios.item.foto && <Imgpefil source={{ uri: funcionarios.item.foto }} />}
+            {funcionarios.item.foto && (
+              <Imgpefil source={{ uri: funcionarios.item.foto }} />
+            )}
           </ContainerImg>
           <ContainerInfos>
             <Nomefuncionario>{funcionarios.item.funcionario}</Nomefuncionario>
@@ -126,17 +131,27 @@ export default function GestorCadastroVisita() {
           <HeaderTitulo>Cadastro de Visita</HeaderTitulo>
         </Header>
         <HeaderConteinerButoon>
-          <HeaderButton onPress={() => navigation.reset({ routes: [{ name: 'Home' }] })}>
-            <Icone size={20} name="arrow-left" color="white" />
+          <HeaderButton
+            onPress={() => navigation.reset({ routes: [{ name: 'Home' }] })}
+          >
+            <Icone
+              size={20}
+              name="arrow-left"
+              color="white"
+            />
           </HeaderButton>
         </HeaderConteinerButoon>
         <ContainerHistorico>
           <HistoricoDeSolicitacao
             onPress={() => navigation.navigate('HistoricoSolicitaçãoDeVisitas')}
           >
-            <TxtSolicitacao>Histórico de solicitações de visitas</TxtSolicitacao>
+            <TxtSolicitacao>
+              Histórico de solicitações de visitas
+            </TxtSolicitacao>
           </HistoricoDeSolicitacao>
-          <HistoricodeRota onPress={() => navigation.navigate('HistoricoDeVisitas')}>
+          <HistoricodeRota
+            onPress={() => navigation.navigate('HistoricoDeVisitas')}
+          >
             <TxtRotaCadastrada>Histórico de visitas</TxtRotaCadastrada>
           </HistoricodeRota>
         </ContainerHistorico>
@@ -161,7 +176,7 @@ export default function GestorCadastroVisita() {
               onMapReady={() => {
                 Platform.OS === 'android'
                   ? PermissionsAndroid.request(
-                      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                     ).then(() => {
                       console.log('usuario aceitou');
                     })
@@ -251,15 +266,27 @@ export default function GestorCadastroVisita() {
             />
 
             <ModalNameFuncionario>{nameFuncionario}</ModalNameFuncionario>
-            {nameDestination && <EndereçoSelect>{nameDestination}</EndereçoSelect>}
+            {nameDestination && (
+              <EndereçoSelect>{nameDestination}</EndereçoSelect>
+            )}
             {cliente && horario && data && loadbutton == false && (
-              <TouchableOpacity onPress={cadastrarVisita} activeOpacity={0.9} style={styles.criar}>
+              <TouchableOpacity
+                onPress={cadastrarVisita}
+                activeOpacity={0.9}
+                style={styles.criar}
+              >
                 <Text style={styles.textoBotao}>CADASTRAR VISITA</Text>
               </TouchableOpacity>
             )}
             {cliente && horario && data && loadbutton == true && (
-              <TouchableOpacity activeOpacity={0.9} style={styles.criar}>
-                <ActivityIndicator size={'large'} color="white" />
+              <TouchableOpacity
+                activeOpacity={0.9}
+                style={styles.criar}
+              >
+                <ActivityIndicator
+                  size={'large'}
+                  color="white"
+                />
               </TouchableOpacity>
             )}
           </ContainerModal>

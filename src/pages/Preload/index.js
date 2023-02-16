@@ -1,21 +1,21 @@
 import asyncstorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
-import Api from '../../src/services/Api';
 import NetInfo from '@react-native-community/netinfo';
+import React, { useEffect, useState } from 'react';
 import {
-  Text,
-  View,
+  ActivityIndicator,
+  Dimensions,
   Image,
   ImageBackground,
-  Dimensions,
-  StyleSheet,
-  ActivityIndicator,
-  Platform,
   Modal,
+  Platform,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
+import Api from '~/services/Api';
 
-import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 import * as LocalAuthentication from 'expo-local-authentication';
 
@@ -94,16 +94,23 @@ const Login = ({ navigation }) => {
       showsVerticalScrollIndicator
     >
       <ImageBackground
-        source={require('../../assets/subtract.png')}
+        source={require('~/assets/subtract.png')}
         style={{ height: Dimensions.get('window').height / 2.5 }}
       >
         <View style={styles.brandView}>
-          <Image style={styles.logo} source={require('../../assets/logo.png')} />
+          <Image
+            style={styles.logo}
+            source={require('~/assets/logo.png')}
+          />
         </View>
       </ImageBackground>
 
       <View style={{ alignItems: 'center' }}>
-        <ActivityIndicator size={'large'} color="#1CADE2" style={{ marginTop: 80 }} />
+        <ActivityIndicator
+          size={'large'}
+          color="#1CADE2"
+          style={{ marginTop: 80 }}
+        />
         <Text style={{ marginTop: 10, color: '#002' }}>Carregando...</Text>
       </View>
 

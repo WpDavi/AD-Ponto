@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot } from 'react-native-alert-notification';
 import Icone from '@expo/vector-icons/FontAwesome5';
-import Api from '../../../src/services/Api';
-import styled from 'styled-components';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Modal, View } from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import styled from 'styled-components';
+import Api from '~/services/Api';
 
 export default function SolicitarFerias() {
   const navigation = useNavigation();
@@ -71,7 +75,11 @@ export default function SolicitarFerias() {
     const assunto = 'Solicitação de Férias';
     const msg = 'Um funcionario solicitou férias';
     for (let i in token) {
-      const ress = await Api.RegisterNotification(token[i].token_notification, assunto, msg);
+      const ress = await Api.RegisterNotification(
+        token[i].token_notification,
+        assunto,
+        msg,
+      );
     }
     const res = await Api.solicitar_Ferias(dataInicial, dataTermino);
     if (res) {
@@ -87,11 +95,18 @@ export default function SolicitarFerias() {
           <TxtTituloHeader>Solicitar Período de Férias</TxtTituloHeader>
         </ContainerHeaderTitulo>
         <ContainerButtonBack onPress={() => navigation.goBack()}>
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </ContainerButtonBack>
 
         <ContainerInfos>
-          <ImgBody resizeMode="contain" source={require('../../../src/icons/ferias.png')} />
+          <ImgBody
+            resizeMode="contain"
+            source={require('~/icons/ferias.png')}
+          />
           <TxtDataInitial>Data de início</TxtDataInitial>
           <Input
             placeholder={placeIncial}
@@ -130,10 +145,15 @@ export default function SolicitarFerias() {
           onRequestClose={handleExitModal}
         >
           <ContainerModal>
-            <ImgModal resizeMode="contain" source={require('../../../src/icons/ferias2.png')} />
+            <ImgModal
+              resizeMode="contain"
+              source={require('~/icons/ferias2.png')}
+            />
             <View>
               <TxtModalSolicitação>Solicitação de Férias</TxtModalSolicitação>
-              <TxtModalRess>Sua solicitação foi enviada com sucesso</TxtModalRess>
+              <TxtModalRess>
+                Sua solicitação foi enviada com sucesso
+              </TxtModalRess>
             </View>
 
             <ButtonExitSuccess onPress={handleExitModal}>

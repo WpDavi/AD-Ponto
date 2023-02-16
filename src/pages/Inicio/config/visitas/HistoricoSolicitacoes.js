@@ -1,20 +1,20 @@
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
+  ActivityIndicator,
   FlatList,
   Image,
   ImageBackground,
-  StyleSheet,
   Modal,
+  StyleSheet,
   Text,
-  View,
   TouchableOpacity,
-  ActivityIndicator,
+  View,
 } from 'react-native';
-import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../../src/services/Api';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Api from '~/services/Api';
 
 export default function HistoricoSolicitaçãoDeVisitas() {
   const [cliente, setCliente] = useState();
@@ -69,14 +69,20 @@ export default function HistoricoSolicitaçãoDeVisitas() {
         <ContainerInfo>
           <View style={{ maxWidth: '95%' }}>
             <View
-              style={{ flexDirection: 'row', borderBottomColor: '#999999', borderBottomWidth: 1 }}
+              style={{
+                flexDirection: 'row',
+                borderBottomColor: '#999999',
+                borderBottomWidth: 1,
+              }}
             >
               <TxtTituloFletList>CLIENTE: </TxtTituloFletList>
               <Text style={{ color: '#1CADE2' }}>{visitas.item.cliente}</Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
               <TxtTituloFletList>FUNCIONARIO: </TxtTituloFletList>
-              <Text style={{ color: '#1CADE2' }}>{visitas.item.nome_funcinario}</Text>
+              <Text style={{ color: '#1CADE2' }}>
+                {visitas.item.nome_funcinario}
+              </Text>
             </View>
             <View style={{ flexDirection: 'row' }}>
               <TxtTituloFletList>DATA: </TxtTituloFletList>
@@ -84,7 +90,9 @@ export default function HistoricoSolicitaçãoDeVisitas() {
             </View>
             <View style={{ flexDirection: 'row' }}>
               <TxtTituloFletList>Horário: </TxtTituloFletList>
-              <Text style={{ color: '#1CADE2' }}>{visitas.item.horario_da_visita}</Text>
+              <Text style={{ color: '#1CADE2' }}>
+                {visitas.item.horario_da_visita}
+              </Text>
             </View>
           </View>
         </ContainerInfo>
@@ -100,26 +108,46 @@ export default function HistoricoSolicitaçãoDeVisitas() {
       </Header>
       <HeaderConteinerButoon>
         <HeaderButton onPress={() => navigation.goBack()}>
-          <Icone size={20} name="arrow-left" color="white" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
         </HeaderButton>
       </HeaderConteinerButoon>
 
       {visitas.length == 0 && (
         <View style={{ alignItems: 'center' }}>
           <Image
-            style={{ width: 250, height: 165, marginBottom: 23, marginTop: 120 }}
-            source={require('../../../../src/icons/visitas.png')}
+            style={{
+              width: 250,
+              height: 165,
+              marginBottom: 23,
+              marginTop: 120,
+            }}
+            source={require('~/icons/visitas.png')}
           />
           {inicioLead == false && (
-            <Text style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}>
+            <Text
+              style={{ fontWeight: 'bold', fontSize: 18, color: '#999999' }}
+            >
               Sem solicitações no momento
             </Text>
           )}
-          {inicioLead == true && <ActivityIndicator size={'large'} color={'#0393c7'} />}
+          {inicioLead == true && (
+            <ActivityIndicator
+              size={'large'}
+              color={'#0393c7'}
+            />
+          )}
         </View>
       )}
 
-      <FlatList data={visitas} renderItem={renderItem} keyExtractor={(item, index) => index} />
+      <FlatList
+        data={visitas}
+        renderItem={renderItem}
+        keyExtractor={(item, index) => index}
+      />
 
       <Modal
         animationType="slide"
@@ -130,7 +158,7 @@ export default function HistoricoSolicitaçãoDeVisitas() {
         }}
       >
         <ImageBackground
-          source={require('../../../../assets/Backgroundblack.jpg')}
+          source={require('~/assets/Backgroundblack.jpg')}
           style={{ height: '110%', alignItems: 'center' }}
         >
           <View
@@ -155,7 +183,11 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                 setModalVisita(false);
               }}
             >
-              <Icone size={20} name="arrow-left" color="black" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="black"
+              />
               <Text
                 style={{
                   marginLeft: 30,
@@ -180,7 +212,9 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                 marginTop: 10,
               }}
             >
-              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>Cliente: </Text>
+              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                Cliente:{' '}
+              </Text>
               <Text>{cliente}</Text>
             </View>
 
@@ -207,7 +241,9 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                 paddingBottom: 10,
               }}
             >
-              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>Horário: </Text>
+              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                Horário:{' '}
+              </Text>
               <Text>{horarioVista}</Text>
             </View>
 
@@ -226,7 +262,7 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                   <Image
                     resizeMode="contain"
                     style={{ height: 20 }}
-                    source={require('../../../../src/icons/gerarrota.png')}
+                    source={require('~/icons/gerarrota.png')}
                   />
                 </TouchableOpacity>
               </View>
@@ -241,7 +277,10 @@ export default function HistoricoSolicitaçãoDeVisitas() {
                   height: 90,
                 }}
               >
-                <ActivityIndicator size={'large'} color="white" />
+                <ActivityIndicator
+                  size={'large'}
+                  color="white"
+                />
               </View>
             )}
           </View>

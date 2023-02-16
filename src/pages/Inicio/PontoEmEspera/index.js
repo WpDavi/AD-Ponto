@@ -1,20 +1,24 @@
 import asyncstorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
-import Api from '../../../src/services/Api';
 import NetInfo from '@react-native-community/netinfo';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import React, { useEffect, useState } from 'react';
 import {
-  Text,
-  View,
+  ActivityIndicator,
+  Dimensions,
   Image,
   ImageBackground,
-  Dimensions,
-  StyleSheet,
-  ActivityIndicator,
   SafeAreaView,
+  StyleSheet,
+  Text,
+  View,
 } from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
-import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 const Login = ({ navigation }) => {
   const { colors } = useTheme();
@@ -32,7 +36,13 @@ const Login = ({ navigation }) => {
     let sucesso = false;
     for (let i = 0; i < pontos.length; i++) {
       const ponto = pontos[i];
-      let php = await Api.PointPhp(ponto.pis, ponto.lat, ponto.long, ponto.dataa, ponto.empresa);
+      let php = await Api.PointPhp(
+        ponto.pis,
+        ponto.lat,
+        ponto.long,
+        ponto.dataa,
+        ponto.empresa,
+      );
 
       let jsonn = await Api.uploudPonto(
         ponto.email,
@@ -40,7 +50,7 @@ const Login = ({ navigation }) => {
         ponto.date,
         ponto.lat,
         ponto.long,
-        ponto.image
+        ponto.image,
       );
       let json = await Api.point(
         ponto.email,
@@ -48,7 +58,7 @@ const Login = ({ navigation }) => {
         ponto.date,
         ponto.lat,
         ponto.long,
-        ponto.token
+        ponto.token,
       );
 
       if (json.error) {
@@ -98,17 +108,26 @@ const Login = ({ navigation }) => {
         showsVerticalScrollIndicator
       >
         <ImageBackground
-          source={require('../../../assets/subtract.png')}
+          source={require('~/assets/subtract.png')}
           style={{ height: Dimensions.get('window').height / 2.5 }}
         >
           <View style={styles.brandView}>
-            <Image style={styles.logo} source={require('../../../assets/logo.png')} />
+            <Image
+              style={styles.logo}
+              source={require('~/assets/logo.png')}
+            />
           </View>
         </ImageBackground>
 
         <View style={{ alignItems: 'center' }}>
-          <ActivityIndicator size={'large'} color="#1CADE2" style={{ marginTop: 80 }} />
-          <Text style={{ marginTop: 10, color: '#002' }}>Pontos em espera encontrado</Text>
+          <ActivityIndicator
+            size={'large'}
+            color="#1CADE2"
+            style={{ marginTop: 80 }}
+          />
+          <Text style={{ marginTop: 10, color: '#002' }}>
+            Pontos em espera encontrado
+          </Text>
           <Text style={{ marginTop: 10, color: '#002' }}>Aguarde</Text>
         </View>
       </SafeAreaView>

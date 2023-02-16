@@ -1,23 +1,27 @@
-import React, { useState, useEffect, useRef } from 'react';
-import {
-  Platform,
-  Text,
-  View,
-  StyleSheet,
-  PermissionsAndroid,
-  StatusBar,
-  TouchableOpacity,
-  SafeAreaView,
-  Modal,
-  Image,
-} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Api from '../../../src/services/Api';
-import MapView from 'react-native-maps';
 import { useNavigation } from '@react-navigation/native';
-import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
 import { BarCodeScanner } from 'expo-barcode-scanner';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  Image,
+  Modal,
+  PermissionsAndroid,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import MapView from 'react-native-maps';
+import { TextInput as RNPTextInput } from 'react-native-paper';
+import Api from '~/services/Api';
 
 import * as Location from 'expo-location';
 import 'react-native-gesture-handler';
@@ -208,9 +212,23 @@ export default function PontoLogin() {
   const handlePonto = async () => {
     setModalimg(false);
 
-    const jsonn = await Api.uploudPontoChave(empresa.toLowerCase(), chave, lat, long, image);
+    const jsonn = await Api.uploudPontoChave(
+      empresa.toLowerCase(),
+      chave,
+      lat,
+      long,
+      image,
+    );
 
-    let json = await Api.pointChave(date, hour, chave, lat, long, image, empresa.toLowerCase());
+    let json = await Api.pointChave(
+      date,
+      hour,
+      chave,
+      lat,
+      long,
+      image,
+      empresa.toLowerCase(),
+    );
 
     //Req -----------------------------------------------------------------------------------------
     var dataaa = new Date();
@@ -311,7 +329,11 @@ export default function PontoLogin() {
           <Text style={styles.txtponto}>Bater Ponto</Text>
           <Text style={styles.txthora}>{hour}</Text>
           <Text style={styles.txtlocalização}>
-            <Icone size={16} name="location-arrow" /> {cidade}
+            <Icone
+              size={16}
+              name="location-arrow"
+            />{' '}
+            {cidade}
           </Text>
           <View style={{ flexDirection: 'row' }}>
             <RNPTextInput
@@ -343,7 +365,11 @@ export default function PontoLogin() {
               })
             }
           >
-            <Icone size={20} name="arrow-left" color="white" />
+            <Icone
+              size={20}
+              name="arrow-left"
+              color="white"
+            />
           </TouchableOpacity>
         </View>
         <View style={styles.footer}>
@@ -352,7 +378,7 @@ export default function PontoLogin() {
             onMapReady={() => {
               Platform.OS === 'android'
                 ? PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
+                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
                   ).then(() => {
                     console.log('usuario aceitou');
                   })
@@ -370,10 +396,16 @@ export default function PontoLogin() {
             loadingEnabled={true}
           />
           {!load && (
-            <TouchableOpacity style={styles.button} onPress={baterPonto}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={baterPonto}
+            >
               <Text style={styles.txtbutton}>
                 BATER PONTO
-                <Icone size={16} name="hand-point-up" />
+                <Icone
+                  size={16}
+                  name="hand-point-up"
+                />
               </Text>
             </TouchableOpacity>
           )}
@@ -395,9 +427,20 @@ export default function PontoLogin() {
             setModalVisible(!modalVisible);
           }}
         >
-          <Camera ref={camRef} type={type} style={{ flex: 1, justifyContent: 'flex-end' }}>
-            <TouchableOpacity style={styles.buttoncamera} onPress={takePicture}>
-              <Icone size={23} name="camera" color="white" />
+          <Camera
+            ref={camRef}
+            type={type}
+            style={{ flex: 1, justifyContent: 'flex-end' }}
+          >
+            <TouchableOpacity
+              style={styles.buttoncamera}
+              onPress={takePicture}
+            >
+              <Icone
+                size={23}
+                name="camera"
+                color="white"
+              />
             </TouchableOpacity>
           </Camera>
         </Modal>
@@ -425,12 +468,23 @@ export default function PontoLogin() {
               <View style={{ marginTop: 40 }}>
                 {loadqr == true && (
                   <TouchableOpacity onPress={QRCODE}>
-                    <Text style={{ fontSize: 20, fontWeight: 'bold', textAlign: 'center' }}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                      }}
+                    >
                       Enviar ponto de {'\n'} {qrEmail}
                     </Text>
                   </TouchableOpacity>
                 )}
-                {loadqr == false && <ActivityIndicator size={'large'} color="#1CADE2" />}
+                {loadqr == false && (
+                  <ActivityIndicator
+                    size={'large'}
+                    color="#1CADE2"
+                  />
+                )}
               </View>
             )}
           </View>
@@ -445,21 +499,37 @@ export default function PontoLogin() {
           }}
         >
           <View style={{ flex: 1, justifyContent: 'center', margin: 20 }}>
-            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-              <TouchableOpacity style={{ margin: 10 }} onPress={modalcameraleft}>
-                <Icone name="angle-double-left" size={35} color="#1CADE2" />
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
+              <TouchableOpacity
+                style={{ margin: 10 }}
+                onPress={modalcameraleft}
+              >
+                <Icone
+                  name="angle-double-left"
+                  size={35}
+                  color="#1CADE2"
+                />
               </TouchableOpacity>
-              <TouchableOpacity style={{ margin: 10 }} onPress={handlePonto}>
+              <TouchableOpacity
+                style={{ margin: 10 }}
+                onPress={handlePonto}
+              >
                 <Image
                   style={{ width: 25, height: 43 }}
-                  source={require('../../../assets/bater-ponto.png')}
+                  source={require('~/assets/bater-ponto.png')}
                 />
               </TouchableOpacity>
               <TouchableOpacity
                 style={{ margin: 10, justifyContent: 'flex-end' }}
                 onPress={modalcamera}
               >
-                <Icone name="window-close" size={35} color="#1CADE2" />
+                <Icone
+                  name="window-close"
+                  size={35}
+                  color="#1CADE2"
+                />
               </TouchableOpacity>
             </View>
 

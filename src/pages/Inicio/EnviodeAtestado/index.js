@@ -1,20 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useRef, useState } from 'react';
 import {
+  ActivityIndicator,
   Image,
+  Modal,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  StyleSheet,
-  Modal,
-  ActivityIndicator,
 } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
-import { Camera } from 'expo-camera';
-import Api from '../../../src/services/Api';
-import Icone from '@expo/vector-icons/FontAwesome5';
-import { useNavigation } from '@react-navigation/native';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 import styled from 'styled-components/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
 export default function EnviodeAtestado() {
   const camRef = useRef(null);
@@ -107,14 +107,18 @@ export default function EnviodeAtestado() {
             })
           }
         >
-          <Icone size={20} name="arrow-left" color="#1CADE2" />
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="#1CADE2"
+          />
         </TouchableOpacity>
       </View>
       <View style={styles.containerimg}>
         <Image
           resizeMode="cover"
           style={{ width: 220, height: 145 }}
-          source={require('../../../assets/logo1.png')}
+          source={require('~/assets/logo1.png')}
         />
       </View>
       <View style={styles.containerinfo}>
@@ -125,38 +129,75 @@ export default function EnviodeAtestado() {
         <View style={{ alignItems: 'center' }}>
           {!image && (
             <View>
-              <TouchableOpacity style={{ width: 400, alignItems: 'center' }} onPress={pickImage}>
+              <TouchableOpacity
+                style={{ width: 400, alignItems: 'center' }}
+                onPress={pickImage}
+              >
                 <Text style={styles.txtbutton}>
-                  <Icone size={16} name="file" /> Escolher Atestado
+                  <Icone
+                    size={16}
+                    name="file"
+                  />{' '}
+                  Escolher Atestado
                 </Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ width: 400, alignItems: 'center' }} onPress={camera}>
+              <TouchableOpacity
+                style={{ width: 400, alignItems: 'center' }}
+                onPress={camera}
+              >
                 <Text style={styles.txtbutton}>
-                  <Icone size={16} name="camera" /> Camera
+                  <Icone
+                    size={16}
+                    name="camera"
+                  />{' '}
+                  Camera
                 </Text>
               </TouchableOpacity>
             </View>
           )}
           {image && (
             <View style={{ alignItems: 'center' }}>
-              <TouchableOpacity style={{ width: 300, alignItems: 'center' }} onPress={pickImage}>
+              <TouchableOpacity
+                style={{ width: 300, alignItems: 'center' }}
+                onPress={pickImage}
+              >
                 <Text style={styles.txtbutton}>Alterar imagem</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={{ width: 300, alignItems: 'center' }} onPress={camera}>
-                <Text style={styles.txtbutton}>Alterar imagem com a camera</Text>
+              <TouchableOpacity
+                style={{ width: 300, alignItems: 'center' }}
+                onPress={camera}
+              >
+                <Text style={styles.txtbutton}>
+                  Alterar imagem com a camera
+                </Text>
               </TouchableOpacity>
-              <Text style={{ color: 'white', marginTop: 10 }}>Imagem Selecionada</Text>
+              <Text style={{ color: 'white', marginTop: 10 }}>
+                Imagem Selecionada
+              </Text>
             </View>
           )}
         </View>
         {button && (
-          <TouchableOpacity style={{ width: 300, alignItems: 'center' }} onPress={enviar}>
+          <TouchableOpacity
+            style={{ width: 300, alignItems: 'center' }}
+            onPress={enviar}
+          >
             <Text style={styles.txtbutton}>
-              <Icone size={16} name="paper-plane" /> ENVIAR
+              <Icone
+                size={16}
+                name="paper-plane"
+              />{' '}
+              ENVIAR
             </Text>
           </TouchableOpacity>
         )}
-        {!button && <ActivityIndicator color={'white'} size={'large'} style={{ marginTop: 20 }} />}
+        {!button && (
+          <ActivityIndicator
+            color={'white'}
+            size={'large'}
+            style={{ marginTop: 20 }}
+          />
+        )}
       </View>
       <Modal
         animationType="slide"
@@ -166,9 +207,20 @@ export default function EnviodeAtestado() {
           setModalVisible(!modalVisible);
         }}
       >
-        <Camera ref={camRef} type={type} style={{ flex: 1, justifyContent: 'flex-end' }}>
-          <TouchableOpacity style={styles.buttoncamera} onPress={takePicture}>
-            <Icone size={23} name="camera" color="white" />
+        <Camera
+          ref={camRef}
+          type={type}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+        >
+          <TouchableOpacity
+            style={styles.buttoncamera}
+            onPress={takePicture}
+          >
+            <Icone
+              size={23}
+              name="camera"
+              color="white"
+            />
           </TouchableOpacity>
         </Camera>
       </Modal>
@@ -182,18 +234,38 @@ export default function EnviodeAtestado() {
         }}
       >
         <View style={{ flex: 1, justifyContent: 'center', margin: 20 }}>
-          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-            <TouchableOpacity style={{ margin: 10 }} onPress={modalcameraleft}>
-              <Icone name="angle-double-left" size={35} color="#1CADE2" />
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+          >
+            <TouchableOpacity
+              style={{ margin: 10 }}
+              onPress={modalcameraleft}
+            >
+              <Icone
+                name="angle-double-left"
+                size={35}
+                color="#1CADE2"
+              />
             </TouchableOpacity>
-            <TouchableOpacity style={{ margin: 10 }} onPress={() => setModalimg(false)}>
-              <Icone name="paper-plane" size={35} color="#1CADE2" />
+            <TouchableOpacity
+              style={{ margin: 10 }}
+              onPress={() => setModalimg(false)}
+            >
+              <Icone
+                name="paper-plane"
+                size={35}
+                color="#1CADE2"
+              />
             </TouchableOpacity>
             <TouchableOpacity
               style={{ margin: 10, justifyContent: 'flex-end' }}
               onPress={modalcamera}
             >
-              <Icone name="window-close" size={35} color="#1CADE2" />
+              <Icone
+                name="window-close"
+                size={35}
+                color="#1CADE2"
+              />
             </TouchableOpacity>
           </View>
 

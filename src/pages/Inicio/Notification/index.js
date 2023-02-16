@@ -1,34 +1,33 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { Entypo } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  KeyboardAvoidingView,
-  View,
-  Text,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-  ImageBackground,
-  FlatList,
-  SafeAreaView,
   ActivityIndicator,
+  FlatList,
+  Image,
+  ImageBackground,
+  KeyboardAvoidingView,
   Modal,
-} from "react-native";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { useNavigation } from "@react-navigation/native";
-import styled from "styled-components/native";
-import Api from "../../../src/services/Api";
-import { Ionicons, Entypo } from "@expo/vector-icons";
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function Notification() {
   const navigation = useNavigation();
   const [lista, setLista] = useState([]);
   const [load, setLoad] = useState(true);
-  const [id, setId] = useState("");
+  const [id, setId] = useState('');
   const [assunto, setAssunto] = useState();
   const [mensagem, setMensagem] = useState();
   const [button, setButton] = useState(true);
@@ -51,9 +50,9 @@ export default function Notification() {
     setButton(true);
     Dialog.show({
       type: ALERT_TYPE.SUCCESS,
-      title: "Sucesso",
-      textBody: "Notificação apagada",
-      button: "ok",
+      title: 'Sucesso',
+      textBody: 'Notificação apagada',
+      button: 'ok',
     });
   };
 
@@ -74,18 +73,22 @@ export default function Notification() {
           </TxtData>
 
           <View
-            style={{ flexDirection: "row", justifyContent: "space-between" }}
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
-            <View style={{ flexDirection: "row", flex: 1 }}>
+            <View style={{ flexDirection: 'row', flex: 1 }}>
               <TouchableOpacity
                 onPress={handleClickItem}
                 style={{
-                  alignItems: "center",
-                  justifyContent: "center",
+                  alignItems: 'center',
+                  justifyContent: 'center',
                   marginRight: 15,
                 }}
               >
-                <Entypo name={"trash"} size={30} color={"#1CADE2"} />
+                <Entypo
+                  name={'trash'}
+                  size={30}
+                  color={'#1CADE2'}
+                />
               </TouchableOpacity>
               <View>
                 <TxtAssunto>{notification.item.assunto}</TxtAssunto>
@@ -101,19 +104,23 @@ export default function Notification() {
   return (
     <Container>
       <AlertNotificationRoot>
-        <View style={{ backgroundColor: "#1CADE2", alignItems: "center" }}>
+        <View style={{ backgroundColor: '#1CADE2', alignItems: 'center' }}>
           <Text style={styles.txtnotification}> Notificação</Text>
         </View>
         <TouchableOpacity
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginLeft: 10,
-            position: "absolute",
+            position: 'absolute',
             marginTop: 10,
           }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
         {lista.length !== 0 && (
           <FlatList
@@ -124,25 +131,25 @@ export default function Notification() {
         )}
 
         <View style={styles.cotainerinfo}>
-          <View style={{ width: "100%", alignItems: "center" }}>
+          <View style={{ width: '100%', alignItems: 'center' }}>
             {lista.length == 0 && (
               <Image
                 resizeMode="stretch"
                 style={styles.imgnotification}
-                source={require("../../../assets/notificacao.png")}
+                source={require('~/assets/notificacao.png')}
               />
             )}
 
             {lista.length == 0 && (
-              <View style={{ alignItems: "center" }}>
+              <View style={{ alignItems: 'center' }}>
                 {load == false && (
-                  <View style={{ alignItems: "center" }}>
+                  <View style={{ alignItems: 'center' }}>
                     <Text
                       style={{
-                        fontWeight: "bold",
+                        fontWeight: 'bold',
                         fontSize: 23,
                         marginTop: 15,
-                        color: "#727376",
+                        color: '#727376',
                       }}
                     >
                       Não há notificação
@@ -150,19 +157,22 @@ export default function Notification() {
 
                     <Text
                       style={{
-                        color: "#727376",
-                        textAlign: "center",
+                        color: '#727376',
+                        textAlign: 'center',
                         marginTop: 5,
                       }}
                     >
-                      Toque no botão de atualizar notificação abaixo e{"\n"}
+                      Toque no botão de atualizar notificação abaixo e{'\n'}
                       verifique novamente
                     </Text>
                   </View>
                 )}
                 {load == true && (
-                  <View style={{ alignItems: "center", marginTop: 30 }}>
-                    <ActivityIndicator size={"large"} color="#1CADE2" />
+                  <View style={{ alignItems: 'center', marginTop: 30 }}>
+                    <ActivityIndicator
+                      size={'large'}
+                      color="#1CADE2"
+                    />
                   </View>
                 )}
               </View>
@@ -179,40 +189,44 @@ export default function Notification() {
           }}
         >
           <ImageBackground
-            source={require("../../../assets/Backgroundblack.jpg")}
-            style={{ height: "110%", alignItems: "center" }}
+            source={require('~/assets/Backgroundblack.jpg')}
+            style={{ height: '110%', alignItems: 'center' }}
           >
             <KeyboardAvoidingView
               keyboardVerticalOffset={20}
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
+              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
               style={{
-                backgroundColor: "white",
+                backgroundColor: 'white',
                 marginTop: 20,
-                width: "95%",
+                width: '95%',
                 borderTopEndRadius: 20,
                 borderTopStartRadius: 20,
               }}
             >
               <TouchableOpacity
                 style={{
-                  flexDirection: "row",
+                  flexDirection: 'row',
                   marginLeft: 10,
                   marginRight: 10,
                   marginTop: 20,
                   borderBottomWidth: 2,
-                  borderBottomColor: "#dadada",
+                  borderBottomColor: '#dadada',
                 }}
                 onPress={() => {
                   setModalimg(false);
                 }}
               >
-                <Icone size={20} name="arrow-left" color="black" />
+                <Icone
+                  size={20}
+                  name="arrow-left"
+                  color="black"
+                />
                 <Text
                   style={{
                     marginLeft: 30,
-                    fontStyle: "Normal",
-                    fontWeight: "700",
-                    color: "black",
+                    fontStyle: 'Normal',
+                    fontWeight: '700',
+                    color: 'black',
                     fontSize: 15,
                   }}
                 >
@@ -221,53 +235,57 @@ export default function Notification() {
               </TouchableOpacity>
               <View
                 style={{
-                  flexDirection: "row",
-                  flexWrap: "wrap",
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
                   marginTop: 15,
                   borderBottomWidth: 2,
-                  borderBottomColor: "#dadada",
+                  borderBottomColor: '#dadada',
                   paddingRight: 70,
                   paddingBottom: 10,
                 }}
               >
-                <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                  ASSUNTO:{" "}
+                <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                  ASSUNTO:{' '}
                 </Text>
                 <Text>{assunto}</Text>
               </View>
 
               <View>
                 <View style={{ marginTop: 15 }}>
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    MENSAGEM:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    MENSAGEM:{' '}
                   </Text>
                   <Text style={{ marginLeft: 20, marginBottom: 20 }}>
                     {mensagem}
                   </Text>
                 </View>
               </View>
-              <View style={{ alignItems: "center" }}></View>
+              <View style={{ alignItems: 'center' }}></View>
 
               <View></View>
               {button == true && (
                 <TouchableOpacity
                   onPress={apagar}
                   style={{
-                    alignItems: "center",
-                    justifyContent: "center",
-                    backgroundColor: "#0393c7",
-                    flexDirection: "row",
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: '#0393c7',
+                    flexDirection: 'row',
                     height: 80,
                   }}
                 >
-                  <Entypo name={"trash"} size={30} color={"white"} />
+                  <Entypo
+                    name={'trash'}
+                    size={30}
+                    color={'white'}
+                  />
                   <Text
                     style={{
                       fontSize: 25,
-                      fontWeight: "bold",
+                      fontWeight: 'bold',
                       marginRight: 25,
                       marginLeft: 10,
-                      color: "white",
+                      color: 'white',
                     }}
                   >
                     Apagar
@@ -278,14 +296,17 @@ export default function Notification() {
               {button == false && (
                 <TouchableOpacity
                   style={{
-                    alignItems: "center",
-                    backgroundColor: "#0393c7",
-                    width: "100%",
+                    alignItems: 'center',
+                    backgroundColor: '#0393c7',
+                    width: '100%',
                     height: 80,
-                    justifyContent: "center",
+                    justifyContent: 'center',
                   }}
                 >
-                  <ActivityIndicator size={"large"} color="white" />
+                  <ActivityIndicator
+                    size={'large'}
+                    color="white"
+                  />
                 </TouchableOpacity>
               )}
             </KeyboardAvoidingView>
@@ -316,22 +337,22 @@ const TxtMessage = styled.Text`
 export const styles = StyleSheet.create({
   cotainerinfo: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "space-around",
-    flexDirection: "column",
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    flexDirection: 'column',
   },
   txtnotification: {
-    color: "white",
+    color: 'white',
     padding: 7,
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   imgnotification: {
-    width: "50%",
+    width: '50%',
     height: 250,
   },
   imgbutton: {
-    width: "80%",
+    width: '80%',
     height: 80,
   },
 });

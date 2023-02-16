@@ -1,20 +1,18 @@
-import { Camera } from "expo-camera";
-import React, { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { Modal, Image, ActivityIndicator } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Api from "../../../src/services/Api";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Location from "expo-location";
-import NetInfo from "@react-native-community/netinfo";
+import Icone from '@expo/vector-icons/FontAwesome5';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import NetInfo from '@react-native-community/netinfo';
+import { useNavigation } from '@react-navigation/native';
+import { Camera } from 'expo-camera';
+import React, { useEffect, useRef, useState } from 'react';
+import { ActivityIndicator, Image, Modal } from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
-import { ChangeCan, ImgChangeCan } from "./styled";
+} from 'react-native-alert-notification';
+import styled from 'styled-components';
+import Api from '~/services/Api';
+import { ChangeCan, ImgChangeCan } from './styled';
 
 export default function PontoCamera() {
   const navigation = useNavigation();
@@ -23,17 +21,17 @@ export default function PontoCamera() {
 
   const [type, setType] = useState(0);
 
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState('');
   const [modalimg, setModalimg] = useState(false);
-  const [load, setLoad] = useState("");
+  const [load, setLoad] = useState('');
   const [loadPonto, setLoadPonto] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [lat, setLat] = useState("");
-  const [long, setLong] = useState("");
-  const [pis, setPis] = useState("");
-  const [empresa, setEmpresa] = useState("");
-  const [hour, setHour] = useState("");
+  const [email, setEmail] = useState('');
+  const [lat, setLat] = useState('');
+  const [long, setLong] = useState('');
+  const [pis, setPis] = useState('');
+  const [empresa, setEmpresa] = useState('');
+  const [hour, setHour] = useState('');
 
   const [internet, setInternet] = useState(false);
 
@@ -56,11 +54,11 @@ export default function PontoCamera() {
     setHour(hour);
 
     //pegando a empresa do funcionario
-    const ress = await AsyncStorage.getItem("@empresa");
+    const ress = await AsyncStorage.getItem('@empresa');
     setEmpresa(ress);
 
     //pegando infos do funcinario
-    const pis = await AsyncStorage.getItem("@pis");
+    const pis = await AsyncStorage.getItem('@pis');
     await setPis(pis);
   };
 
@@ -81,7 +79,7 @@ export default function PontoCamera() {
     setImage();
     setModalimg(false);
     setLoad(false);
-    navigation.navigate("Ponto");
+    navigation.navigate('Ponto');
   };
   const modalcameraleft = () => {
     setImage();
@@ -92,9 +90,9 @@ export default function PontoCamera() {
     handleGetInformacoesPessoais();
     const onStart = async () => {
       //Pegando email do AsyncStorage
-      const email = await AsyncStorage.getItem("email");
-      const lat = await AsyncStorage.getItem("@lat");
-      const long = await AsyncStorage.getItem("@long");
+      const email = await AsyncStorage.getItem('email');
+      const lat = await AsyncStorage.getItem('@lat');
+      const long = await AsyncStorage.getItem('@long');
       setEmail(email);
       setLat(Number(lat));
       setLong(Number(long));
@@ -103,10 +101,10 @@ export default function PontoCamera() {
   }, []);
 
   var data = new Date();
-  var dia = String(data.getDate()).padStart(2, "0");
-  var mes = String(data.getMonth() + 1).padStart(2, "0");
+  var dia = String(data.getDate()).padStart(2, '0');
+  var mes = String(data.getMonth() + 1).padStart(2, '0');
   var ano = data.getFullYear();
-  const date = ano + "/" + mes + "/" + dia;
+  const date = ano + '/' + mes + '/' + dia;
 
   //console.log(email, hour, date, lat, long, image);
 
@@ -115,8 +113,8 @@ export default function PontoCamera() {
     if (internet == true) {
       //Req -----------------------------------------------------------------------------------------
       var dataaa = new Date();
-      var dia = String(dataaa.getDate()).padStart(2, "0");
-      var mes = String(dataaa.getMonth() + 1).padStart(2, "0");
+      var dia = String(dataaa.getDate()).padStart(2, '0');
+      var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
@@ -130,41 +128,41 @@ export default function PontoCamera() {
       if (json) {
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
 
         if (json.error) {
           Dialog.show({
             type: ALERT_TYPE.WARNING,
-            title: "Erro",
+            title: 'Erro',
             textBody: `${json.error}`,
-            button: "ok",
+            button: 'ok',
           });
         }
         if (json.message) {
           Dialog.show({
             type: ALERT_TYPE.SUCCESS,
-            title: "Sucesso",
-            textBody: "Ponto Inserido com sucesso",
-            button: "ok",
+            title: 'Sucesso',
+            textBody: 'Ponto Inserido com sucesso',
+            button: 'ok',
           });
         }
       }
     } else if (internet == false) {
       var dataaa = new Date();
-      var dia = String(dataaa.getDate()).padStart(2, "0");
-      var mes = String(dataaa.getMonth() + 1).padStart(2, "0");
+      var dia = String(dataaa.getDate()).padStart(2, '0');
+      var mes = String(dataaa.getMonth() + 1).padStart(2, '0');
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
 
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Alerta",
+        title: 'Alerta',
         textBody:
-          "Sem conexão a internet, ponto será enviado ao retomar conexão",
-        button: "ok",
+          'Sem conexão a internet, ponto será enviado ao retomar conexão',
+        button: 'ok',
       });
       const myArray = [
         {
@@ -179,7 +177,7 @@ export default function PontoCamera() {
           empresa: empresa,
         },
       ];
-      const pontosString = await AsyncStorage.getItem("pontos");
+      const pontosString = await AsyncStorage.getItem('pontos');
       if (pontosString) {
         const pontos = JSON.parse(pontosString);
         pontos.push({
@@ -193,18 +191,18 @@ export default function PontoCamera() {
           data: dataa,
           empresa: empresa,
         });
-        await AsyncStorage.setItem("pontos", JSON.stringify(pontos));
+        await AsyncStorage.setItem('pontos', JSON.stringify(pontos));
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
       } else {
-        await AsyncStorage.setItem("pontos", JSON.stringify(myArray));
+        await AsyncStorage.setItem('pontos', JSON.stringify(myArray));
 
         setTimeout(() => {
           navigation.reset({
-            routes: [{ name: "Home" }],
+            routes: [{ name: 'Home' }],
           });
         }, 2000);
       }
@@ -216,13 +214,17 @@ export default function PontoCamera() {
       <Camera
         ref={camRef}
         type={type}
-        style={{ flex: 1, justifyContent: "flex-end" }}
+        style={{ flex: 1, justifyContent: 'flex-end' }}
       >
         <ButtomCamera onPress={takePicture}>
-          <Icone size={23} name="camera" color="white" />
+          <Icone
+            size={23}
+            name="camera"
+            color="white"
+          />
         </ButtomCamera>
         <ChangeCan onPress={TogleCan}>
-          <ImgChangeCan source={require("../../../src/icons/can.png")} />
+          <ImgChangeCan source={require('~/icons/can.png')} />
         </ChangeCan>
 
         <Modal
@@ -236,23 +238,31 @@ export default function PontoCamera() {
           <ContainerModal>
             <ContainerButtons>
               <Button onPress={modalcameraleft}>
-                <Icone name="angle-double-left" size={35} color="#1CADE2" />
+                <Icone
+                  name="angle-double-left"
+                  size={35}
+                  color="#1CADE2"
+                />
               </Button>
               {!loadPonto && lat && (
                 <Button onPress={handlePonto}>
                   <Image
                     style={{ width: 25, height: 43 }}
-                    source={require("../../../assets/bater-ponto.png")}
+                    source={require('~/assets/bater-ponto.png')}
                   />
                 </Button>
               )}
               {loadPonto && (
                 <Button>
-                  <ActivityIndicator size={"large"} />
+                  <ActivityIndicator size={'large'} />
                 </Button>
               )}
               <Button onPress={modalcamera}>
-                <Icone name="window-close" size={35} color="#1CADE2" />
+                <Icone
+                  name="window-close"
+                  size={35}
+                  color="#1CADE2"
+                />
               </Button>
             </ContainerButtons>
 

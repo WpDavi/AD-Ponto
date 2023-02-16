@@ -1,11 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
-import { StyleSheet, Text, View, Image, ActivityIndicator } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import Api from '../../../src/services/Api';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
-import { Feather, AntDesign } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function SolicitaçõesPonto() {
   const navigation = useNavigation();
@@ -33,10 +40,19 @@ export default function SolicitaçõesPonto() {
         <Text style={styles.headertxt}>Solicitações edição de ponto </Text>
       </View>
       <TouchableOpacity
-        style={{ flexDirection: 'row', marginLeft: 10, position: 'absolute', marginTop: 10 }}
+        style={{
+          flexDirection: 'row',
+          marginLeft: 10,
+          position: 'absolute',
+          marginTop: 10,
+        }}
         onPress={() => navigation.goBack()}
       >
-        <Icone size={17} name="arrow-left" color="white" />
+        <Icone
+          size={17}
+          name="arrow-left"
+          color="white"
+        />
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => {
@@ -60,15 +76,24 @@ export default function SolicitaçõesPonto() {
 
       {ferias.length == 0 && solicitacaoPonto.length == 0 && (
         <View
-          style={{ flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: -90 }}
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingBottom: -90,
+          }}
         >
           <Image
             style={{ width: 210, height: 200 }}
-            source={require('../../../src/icons/solicitacoes.png')}
+            source={require('~/icons/solicitacoes.png')}
           />
 
           {load == true && (
-            <ActivityIndicator style={{ marginTop: 30 }} size={'large'} color="#1CADE2" />
+            <ActivityIndicator
+              style={{ marginTop: 30 }}
+              size={'large'}
+              color="#1CADE2"
+            />
           )}
           {load == false && (
             <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
@@ -99,20 +124,39 @@ export default function SolicitaçõesPonto() {
                   >
                     <View>
                       {item.status == '1' && (
-                        <AntDesign color={'#555555'} name={'reload1'} size={45} />
+                        <AntDesign
+                          color={'#555555'}
+                          name={'reload1'}
+                          size={45}
+                        />
                       )}
                       {item.status == '2' && (
-                        <Feather color={'#555555'} name={'check-circle'} size={45} />
+                        <Feather
+                          color={'#555555'}
+                          name={'check-circle'}
+                          size={45}
+                        />
                       )}
-                      {item.status == '3' && <Feather color={'#555555'} name={'x'} size={45} />}
+                      {item.status == '3' && (
+                        <Feather
+                          color={'#555555'}
+                          name={'x'}
+                          size={45}
+                        />
+                      )}
                     </View>
 
                     <View>
-                      <Text style={{ color: '#1CADE2' }}>Solicitação enviada</Text>
+                      <Text style={{ color: '#1CADE2' }}>
+                        Solicitação enviada
+                      </Text>
                       <View style={{ flexDirection: 'row' }}>
-                        <Text style={styles.txtInfo}>Data de solicitação: </Text>
+                        <Text style={styles.txtInfo}>
+                          Data de solicitação:{' '}
+                        </Text>
                         <Text style={styles.txtInfo2}>
-                          {item.data_solicitacao.substr(8, 2)}/{item.data_solicitacao.substr(5, 2)}/
+                          {item.data_solicitacao.substr(8, 2)}/
+                          {item.data_solicitacao.substr(5, 2)}/
                           {item.data_solicitacao.substr(0, 4)}
                         </Text>
                       </View>
@@ -120,7 +164,8 @@ export default function SolicitaçõesPonto() {
                       <View style={{ flexDirection: 'row' }}>
                         <Text style={styles.txtInfo}>Data de marcação: </Text>
                         <Text style={styles.txtInfo2}>
-                          {item.data_marcacao.substr(8, 9)}/{item.data_marcacao.substr(5, 2)}/
+                          {item.data_marcacao.substr(8, 9)}/
+                          {item.data_marcacao.substr(5, 2)}/
                           {item.data_marcacao.substr(0, 4)}
                         </Text>
                       </View>

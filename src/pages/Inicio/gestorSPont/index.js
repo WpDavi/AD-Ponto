@@ -1,28 +1,24 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { Feather } from '@expo/vector-icons';
+import Icone from '@expo/vector-icons/FontAwesome5';
+import { useNavigation } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
   ActivityIndicator,
   FlatList,
-  TouchableOpacity,
+  Image,
   Modal,
-  ImageBackground,
-  KeyboardAvoidingView,
-  ScrollView,
-} from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Api from "../../../src/services/Api";
-import Icone from "@expo/vector-icons/FontAwesome5";
-import { Feather } from "@expo/vector-icons";
-import styled from "styled-components/native";
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function GestorSolicitaçõesdePonto() {
   const navigation = useNavigation();
@@ -137,10 +133,10 @@ export default function GestorSolicitaçõesdePonto() {
       entrada10,
       saida10,
       pis,
-      data
+      data,
     );
 
-    const status = "2";
+    const status = '2';
     const ress = await Api.StatusSolicitarEditPonto(pis, data, status);
     setBottonLoad(false);
 
@@ -149,16 +145,16 @@ export default function GestorSolicitaçõesdePonto() {
 
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Ponto Alterado com sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Ponto Alterado com sucesso',
+        button: 'ok',
       });
     }
   };
 
   const negarPonto = async () => {
     setBottonLoad(true);
-    const status = "3";
+    const status = '3';
     const ress = await Api.StatusSolicitarEditPonto(pis, data, status);
     if (ress) {
       setModalItemPonto(false);
@@ -166,9 +162,9 @@ export default function GestorSolicitaçõesdePonto() {
 
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Solicitação de alteração de ponto negado",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Solicitação de alteração de ponto negado',
+        button: 'ok',
       });
     }
   };
@@ -248,11 +244,11 @@ export default function GestorSolicitaçõesdePonto() {
       console.log(ItemPonto.item.data_marcacao);
     };
 
-    var status = "Pendente";
-    if (ItemPonto.item.status == "2") {
-      status = "Aceito";
-    } else if (ItemPonto.item.status == "3") {
-      status = "Negado";
+    var status = 'Pendente';
+    if (ItemPonto.item.status == '2') {
+      status = 'Aceito';
+    } else if (ItemPonto.item.status == '3') {
+      status = 'Negado';
     }
 
     return (
@@ -261,26 +257,30 @@ export default function GestorSolicitaçõesdePonto() {
           style={{
             marginLeft: 20,
             marginTop: 8,
-            flexDirection: "row",
+            flexDirection: 'row',
             borderBottomWidth: 2,
             paddingBottom: 10,
-            borderBottomColor: "#dadada",
+            borderBottomColor: '#dadada',
           }}
         >
           <View>
-            <Feather color={"#555555"} name={"check-circle"} size={45} />
+            <Feather
+              color={'#555555'}
+              name={'check-circle'}
+              size={45}
+            />
           </View>
 
           <View>
-            <Text style={{ color: "#1CADE2" }}>
+            <Text style={{ color: '#1CADE2' }}>
               Solicitação de edição de ponto
             </Text>
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>FUNCIONÁRIO: </Text>
               <Text style={styles.txtInfo2}>{ItemPonto.item.funcionario}</Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>DATA DA MARCAÇÃO: </Text>
               <Text style={styles.txtInfo2}>
                 {ItemPonto.item.data_marcacao.substr(8, 2)}/
@@ -289,7 +289,7 @@ export default function GestorSolicitaçõesdePonto() {
               </Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>DATA DA SOLICITAÇÃO </Text>
               <Text style={styles.txtInfo2}>
                 {ItemPonto.item.data_solicitacao.substr(8, 2)}/
@@ -298,12 +298,12 @@ export default function GestorSolicitaçõesdePonto() {
               </Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Status </Text>
               <Text style={styles.txtInfo2}>{status}</Text>
             </View>
 
-            <View style={{ flexDirection: "row" }}>
+            <View style={{ flexDirection: 'row' }}>
               <Text style={styles.txtInfo}>Observação </Text>
               <Text style={styles.txtInfo2}>{ItemPonto.item.observacao}</Text>
             </View>
@@ -316,20 +316,20 @@ export default function GestorSolicitaçõesdePonto() {
   return (
     <Container>
       <AlertNotificationRoot>
-        <View style={{ backgroundColor: "#1CADE2", alignItems: "center" }}>
+        <View style={{ backgroundColor: '#1CADE2', alignItems: 'center' }}>
           <Text style={styles.headertxt}> Solicitações de funcionários </Text>
         </View>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate("GestorSolicitacoes");
+            navigation.navigate('GestorSolicitacoes');
           }}
-          style={{ alignItems: "center" }}
+          style={{ alignItems: 'center' }}
         >
           <Text
             style={{
-              backgroundColor: "#1CADE2",
-              color: "white",
-              fontWeight: "bold",
+              backgroundColor: '#1CADE2',
+              color: 'white',
+              fontWeight: 'bold',
               padding: 10,
               borderBottomLeftRadius: 20,
               borderBottomRightRadius: 20,
@@ -341,39 +341,43 @@ export default function GestorSolicitaçõesdePonto() {
 
         <TouchableOpacity
           style={{
-            flexDirection: "row",
+            flexDirection: 'row',
             marginLeft: 10,
-            position: "absolute",
+            position: 'absolute',
             marginTop: 10,
           }}
           onPress={() => navigation.goBack()}
         >
-          <Icone size={17} name="arrow-left" color="white" />
+          <Icone
+            size={17}
+            name="arrow-left"
+            color="white"
+          />
         </TouchableOpacity>
 
         {solicitacaoPonto.length == 0 && (
           <View
             style={{
               flex: 1,
-              alignItems: "center",
-              justifyContent: "center",
+              alignItems: 'center',
+              justifyContent: 'center',
               paddingBottom: -90,
             }}
           >
             <Image
               style={{ width: 210, height: 200 }}
-              source={require("../../../src/icons/solicitacoes.png")}
+              source={require('~/icons/solicitacoes.png')}
             />
 
             {load == true && (
               <ActivityIndicator
                 style={{ marginTop: 30 }}
-                size={"large"}
+                size={'large'}
                 color="#1CADE2"
               />
             )}
             {load == false && (
-              <Text style={{ marginTop: 30, fontWeight: "bold", fontSize: 20 }}>
+              <Text style={{ marginTop: 30, fontWeight: 'bold', fontSize: 20 }}>
                 Sem solicitações ate o momento
               </Text>
             )}
@@ -386,7 +390,7 @@ export default function GestorSolicitaçõesdePonto() {
                 Solicitação de edição de ponto
               </Text>
               <FlatList
-                style={{ borderBottomWidth: 2, borderBottomColor: "#adadad" }}
+                style={{ borderBottomWidth: 2, borderBottomColor: '#adadad' }}
                 data={solicitacaoPonto}
                 keyExtractor={(item) => item.id}
                 renderItem={renderItemPonto}
@@ -409,7 +413,11 @@ export default function GestorSolicitaçõesdePonto() {
                 setModalItemPonto(false);
               }}
             >
-              <Icone size={20} name="arrow-left" color="black" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="black"
+              />
               {data && (
                 <TxtButtonBack>
                   {data.substr(8, 9)}/{data.substr(5, 2)}/{data.substr(0, 4)}
@@ -417,8 +425,8 @@ export default function GestorSolicitaçõesdePonto() {
               )}
             </ButtonBack>
             <ContainerTitulo>
-              <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                FUNCIONÁRIO:{" "}
+              <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                FUNCIONÁRIO:{' '}
               </Text>
               <Text>{funcionario}</Text>
             </ContainerTitulo>
@@ -432,7 +440,7 @@ export default function GestorSolicitaçõesdePonto() {
             {entrada1 && entrada11 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Entrada 1 ${" "}`} </TxtInfos>
+                  <TxtInfos>{`Entrada 1 ${' '}`} </TxtInfos>
                   <TxtInfos>{entrada11.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{entrada1.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -448,7 +456,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida1 && saida11 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 1 ${"     "}`} </TxtInfos>
+                  <TxtInfos>{`Saida 1 ${'     '}`} </TxtInfos>
                   <TxtInfos>{saida11.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida1.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -464,7 +472,7 @@ export default function GestorSolicitaçõesdePonto() {
             {entrada2 && entrada22 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Entrada 2 ${" "}`} </TxtInfos>
+                  <TxtInfos>{`Entrada 2 ${' '}`} </TxtInfos>
                   <TxtInfos>{entrada22.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{entrada2.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -480,7 +488,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida2 && saida22 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 2 ${"     "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 2 ${'     '}`}</TxtInfos>
                   <TxtInfos>{saida22.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida2.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -495,7 +503,7 @@ export default function GestorSolicitaçõesdePonto() {
             {entrada3 && entrada33 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Entrada 3 ${""}`} </TxtInfos>
+                  <TxtInfos>{`Entrada 3 ${''}`} </TxtInfos>
                   <TxtInfos>{entrada33.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{entrada3.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -511,7 +519,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida3 && saida33 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 3 ${"    "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 3 ${'    '}`}</TxtInfos>
                   <TxtInfos>{saida33.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida3.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -527,7 +535,7 @@ export default function GestorSolicitaçõesdePonto() {
             {entrada4 && entrada44 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Entrada 4 ${""}`}</TxtInfos>
+                  <TxtInfos>{`Entrada 4 ${''}`}</TxtInfos>
                   <TxtInfos>{entrada44.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{entrada4.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -543,7 +551,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida4 && saida44 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 4 ${"    "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 4 ${'    '}`}</TxtInfos>
                   <TxtInfos>{saida44.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida4.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -575,7 +583,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida5 && saida55 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 5 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 5 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida55.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida5.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -607,7 +615,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida6 && saida66 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 6 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 6 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida66.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida6.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -639,7 +647,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida7 && saida77 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 7 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 7 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida77.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida7.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -671,7 +679,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida8 && saida88 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 8 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 8 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida88.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida8.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -703,7 +711,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida9 && saida99 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 9 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 9 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida99.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida9.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -735,7 +743,7 @@ export default function GestorSolicitaçõesdePonto() {
             {saida10 && saida100 && (
               <View>
                 <ContainerInfo>
-                  <TxtInfos>{`Saida 10 ${"  "}`}</TxtInfos>
+                  <TxtInfos>{`Saida 10 ${'  '}`}</TxtInfos>
                   <TxtInfos>{saida100.substr(0, 5)}</TxtInfos>
                   <TxtInfos>{saida10.substr(0, 5)}</TxtInfos>
                 </ContainerInfo>
@@ -750,24 +758,24 @@ export default function GestorSolicitaçõesdePonto() {
 
             <View
               style={{
-                backgroundColor: "#0393c7",
-                flexDirection: "row",
-                justifyContent: "space-around",
+                backgroundColor: '#0393c7',
+                flexDirection: 'row',
+                justifyContent: 'space-around',
                 marginTop: 15,
               }}
             >
               {bottonLoad == false && (
-                <View style={{ flexDirection: "row" }}>
+                <View style={{ flexDirection: 'row' }}>
                   <TouchableOpacity onPress={aceitarPonto}>
                     <Image
                       style={{
                         width: 100,
                         height: 20,
-                        justifyContent: "center",
+                        justifyContent: 'center',
                         marginTop: 20,
                         marginBottom: 20,
                       }}
-                      source={require("../../../src/icons/aceite.png")}
+                      source={require('~/icons/aceite.png')}
                     />
                   </TouchableOpacity>
 
@@ -776,12 +784,12 @@ export default function GestorSolicitaçõesdePonto() {
                       style={{
                         width: 100,
                         height: 22,
-                        justifyContent: "center",
+                        justifyContent: 'center',
                         marginTop: 20,
                         marginBottom: 20,
                         marginLeft: 70,
                       }}
-                      source={require("../../../src/icons/negar.png")}
+                      source={require('~/icons/negar.png')}
                     />
                   </TouchableOpacity>
                 </View>
@@ -789,7 +797,7 @@ export default function GestorSolicitaçõesdePonto() {
               {bottonLoad == true && (
                 <ActivityIndicator
                   style={{ padding: 15 }}
-                  size={"large"}
+                  size={'large'}
                   color="white"
                 />
               )}
@@ -868,39 +876,39 @@ const ContainerObs = styled.View`
 
 const TxtInfos = styled.Text`
   padding: 10px;
-  color: "black";
+  color: 'black';
 `;
 
 const TxtInfoss = styled.Text`
   font-weight: bold;
   padding: 10px;
-  color: "black";
+  color: 'black';
 `;
 
 const styles = StyleSheet.create({
   headertxt: {
-    color: "white",
+    color: 'white',
     padding: 7,
     fontSize: 20,
-    fontWeight: "bold",
+    fontWeight: 'bold',
   },
   //fletList Ferias
   txtTitulo: {
     marginTop: 20,
     marginLeft: 20,
-    color: "#1CADE2",
-    fontWeight: "bold",
+    color: '#1CADE2',
+    fontWeight: 'bold',
     fontSize: 17,
     borderBottomWidth: 2,
-    borderBottomColor: "#dadada",
+    borderBottomColor: '#dadada',
   },
   txtInfo: {
     marginLeft: 5,
-    fontWeight: "bold",
-    color: "#555555",
+    fontWeight: 'bold',
+    color: '#555555',
   },
   txtInfo2: {
-    color: "#1CADE2",
+    color: '#1CADE2',
   },
 
   txtPonts: {

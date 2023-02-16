@@ -1,33 +1,32 @@
-import React, { useEffect, useState, useCallback, useRef } from "react";
+import Icone from '@expo/vector-icons/FontAwesome5';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  Text,
-  View,
+  ActivityIndicator,
   FlatList,
   Image,
-  StyleSheet,
-  StatusBar,
-  TouchableOpacity,
-  Modal,
-  ActivityIndicator,
   KeyboardAvoidingView,
+  Modal,
   SafeAreaView,
-} from "react-native";
-import Icone from "@expo/vector-icons/FontAwesome5";
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {
+  AlertNotificationRoot,
   ALERT_TYPE,
   Dialog,
-  AlertNotificationRoot,
-  Toast,
-} from "react-native-alert-notification";
+} from 'react-native-alert-notification';
 
-import { useNavigation } from "@react-navigation/native";
-import { Feather, Entypo } from "@expo/vector-icons";
-import Api from "../../../src/services/Api";
-import { ImageBackground } from "react-native";
-import { TextInputMask } from "react-native-masked-text";
-import styled from "styled-components/native";
-import { Camera } from "expo-camera";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Entypo } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { Camera } from 'expo-camera';
+import { ImageBackground } from 'react-native';
+import { TextInputMask } from 'react-native-masked-text';
+import styled from 'styled-components/native';
+import Api from '~/services/Api';
 
 export default function RelatorioDefuncionario() {
   const camRef = useRef(null);
@@ -36,8 +35,8 @@ export default function RelatorioDefuncionario() {
 
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
-  const [ponto, setPonto] = useState("");
-  const [pis, setPis] = useState("");
+  const [ponto, setPonto] = useState('');
+  const [pis, setPis] = useState('');
 
   const [modalLoad, setModalLoad] = useState(false);
   const [image, setImage] = useState();
@@ -55,31 +54,31 @@ export default function RelatorioDefuncionario() {
     const id = res.uuid;
     const url = res.url;
     await Api.postinfosFaceID(id, url);
-    if (res.status == "failure") {
+    if (res.status == 'failure') {
       Dialog.show({
         type: ALERT_TYPE.WARNING,
-        title: "Alerta",
-        textBody: "Rosto não identificado",
-        button: "ok",
+        title: 'Alerta',
+        textBody: 'Rosto não identificado',
+        button: 'ok',
       });
       setModalLoad(false);
-    } else if (res.status == "success") {
+    } else if (res.status == 'success') {
       setModalLoad(false);
       setModalcan(true);
       Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Rosto cadastrado com sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Rosto cadastrado com sucesso',
+        button: 'ok',
       });
     }
   }
 
   const localização = async () => {
     setButton(false);
-    let foto = "N";
-    await AsyncStorage.removeItem("sFoto");
-    await AsyncStorage.setItem("sFoto", "N");
+    let foto = 'N';
+    await AsyncStorage.removeItem('sFoto');
+    await AsyncStorage.setItem('sFoto', 'N');
     const res = await Api.gerenciarBaterPonto(foto, pis);
     const jso = await Api.getAllFuncionarios();
     await setListaPesquisa(jso);
@@ -88,17 +87,17 @@ export default function RelatorioDefuncionario() {
     if (res) {
       await Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Atualização feita com sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Atualização feita com sucesso',
+        button: 'ok',
       });
     }
   };
   const qrfoto = async () => {
     setButton(false);
-    let foto = "Q";
-    await AsyncStorage.removeItem("sFoto");
-    await AsyncStorage.setItem("sFoto", "Q");
+    let foto = 'Q';
+    await AsyncStorage.removeItem('sFoto');
+    await AsyncStorage.setItem('sFoto', 'Q');
     const res = await Api.gerenciarBaterPonto(foto, pis);
     const jso = await Api.getAllFuncionarios();
     await setListaPesquisa(jso);
@@ -107,17 +106,17 @@ export default function RelatorioDefuncionario() {
     if (res) {
       await Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Atualização feita com sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Atualização feita com sucesso',
+        button: 'ok',
       });
     }
   };
   const fotoloc = async () => {
     setButton(false);
-    let foto = "S";
-    await AsyncStorage.removeItem("sFoto");
-    await AsyncStorage.setItem("sFoto", "S");
+    let foto = 'S';
+    await AsyncStorage.removeItem('sFoto');
+    await AsyncStorage.setItem('sFoto', 'S');
     const res = await Api.gerenciarBaterPonto(foto, pis);
     const jso = await Api.getAllFuncionarios();
     await setListaPesquisa(jso);
@@ -126,9 +125,9 @@ export default function RelatorioDefuncionario() {
     if (res) {
       await Dialog.show({
         type: ALERT_TYPE.SUCCESS,
-        title: "Sucesso",
-        textBody: "Atualização feita com sucesso",
-        button: "ok",
+        title: 'Sucesso',
+        textBody: 'Atualização feita com sucesso',
+        button: 'ok',
       });
     }
   };
@@ -156,20 +155,20 @@ export default function RelatorioDefuncionario() {
       setModalimg(true);
     };
 
-    let formadebaterponto = "Localização";
-    if (funcionario.item.ponto_online_foto == "S") {
-      formadebaterponto = "Localização + Foto";
-    } else if (funcionario.item.ponto_online_foto == "Q") {
-      formadebaterponto = "QR Code + Foto";
+    let formadebaterponto = 'Localização';
+    if (funcionario.item.ponto_online_foto == 'S') {
+      formadebaterponto = 'Localização + Foto';
+    } else if (funcionario.item.ponto_online_foto == 'Q') {
+      formadebaterponto = 'QR Code + Foto';
     }
 
     return (
       <SafeAreaView
         style={{
-          flexDirection: "row",
+          flexDirection: 'row',
           borderBottomWidth: 1,
-          borderBottomColor: "#dadada",
-          marginBottom: "5%",
+          borderBottomColor: '#dadada',
+          marginBottom: '5%',
         }}
       >
         <View
@@ -186,7 +185,7 @@ export default function RelatorioDefuncionario() {
                   marginRight: 8,
                   borderRadius: 100,
                 }}
-                source={require("../../../src/icons/perfil.png")}
+                source={require('~/icons/perfil.png')}
               />
             )}
             {funcionario.item.foto && (
@@ -205,43 +204,43 @@ export default function RelatorioDefuncionario() {
               <Text
                 style={styles.titulo}
               >{`${funcionario.item.funcionario}`}</Text>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Batendo ponto por:</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
                   {formadebaterponto}
                 </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Email:</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
                   {funcionario.item.email}
                 </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Data de nascimento</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
                   {`${String(funcionario.item.dt_nascimento).substr(
                     8,
-                    9
+                    9,
                   )}-${String(funcionario.item.dt_nascimento).substr(
                     5,
-                    2
+                    2,
                   )}-${String(funcionario.item.dt_nascimento).substr(0, 4)}`}
                 </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Pis</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>
                   {funcionario.item.pis}
                 </Text>
               </View>
-              <View style={{ flexDirection: "row" }}>
+              <View style={{ flexDirection: 'row' }}>
                 <Text style={styles.descricao}>Data de admissão</Text>
                 <Text style={{ fontSize: 12, marginLeft: 5 }}>{`${String(
-                  funcionario.item.dt_admissao
+                  funcionario.item.dt_admissao,
                 ).substr(8, 9)}-${String(funcionario.item.dt_admissao).substr(
                   5,
-                  2
+                  2,
                 )}-${String(funcionario.item.dt_admissao).substr(0, 4)}`}</Text>
               </View>
             </View>
@@ -250,27 +249,31 @@ export default function RelatorioDefuncionario() {
         <View
           style={{
             flex: 1,
-            alignItems: "center",
-            justifyContent: "center",
-            alignSelf: "center",
+            alignItems: 'center',
+            justifyContent: 'center',
+            alignSelf: 'center',
           }}
         >
           <TouchableOpacity
             style={{
-              justifyContent: "center",
+              justifyContent: 'center',
               marginRight: 20,
               marginBottom: 30,
             }}
             onPress={handleClickItem}
           >
             <View>
-              <Entypo name="pencil" size={20} color="#666666" />
+              <Entypo
+                name="pencil"
+                size={20}
+                color="#666666"
+              />
             </View>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={{
-              justifyContent: "center",
+              justifyContent: 'center',
               marginRight: 20,
               marginBottom: 30,
             }}
@@ -281,12 +284,12 @@ export default function RelatorioDefuncionario() {
     );
   }, []);
 
-  if (!ponto || ponto == "N") {
-    setPonto("Localização");
-  } else if (ponto == "S") {
-    setPonto("Foto + Localização");
-  } else if (ponto == "Q") {
-    setPonto("QR Code + Foto");
+  if (!ponto || ponto == 'N') {
+    setPonto('Localização');
+  } else if (ponto == 'S') {
+    setPonto('Foto + Localização');
+  } else if (ponto == 'Q') {
+    setPonto('QR Code + Foto');
   }
 
   return (
@@ -294,56 +297,63 @@ export default function RelatorioDefuncionario() {
       <AlertNotificationRoot>
         <KeyboardAvoidingView
           keyboardVerticalOffset={10}
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
-          <StatusBar backgroundColor={"#1CADE2"} />
+          <StatusBar backgroundColor={'#1CADE2'} />
           <View
             style={{
-              width: "100%",
-              height: "7%",
-              alignItems: "center",
-              justifyContent: "center",
+              width: '100%',
+              height: '7%',
+              alignItems: 'center',
+              justifyContent: 'center',
               marginBottom: 15,
-              backgroundColor: "#1CADE2",
+              backgroundColor: '#1CADE2',
             }}
           >
             <Text
               style={{
-                textAlign: "center",
+                textAlign: 'center',
                 fontSize: 20,
-                color: "white",
-                fontWeight: "bold",
+                color: 'white',
+                fontWeight: 'bold',
               }}
             >
               Gerenciar forma de bater ponto
             </Text>
           </View>
-          <View style={{ position: "absolute", marginTop: 20 }}>
+          <View style={{ position: 'absolute', marginTop: 20 }}>
             <TouchableOpacity
-              style={{ flexDirection: "row", marginLeft: 20 }}
+              style={{ flexDirection: 'row', marginLeft: 20 }}
               onPress={() =>
                 navigation.reset({
-                  routes: [{ name: "Home" }],
+                  routes: [{ name: 'Home' }],
                 })
               }
             >
-              <Icone size={20} name="arrow-left" color="white" />
+              <Icone
+                size={20}
+                name="arrow-left"
+                color="white"
+              />
             </TouchableOpacity>
           </View>
           {listaPesquisa == null && (
             <View
               style={{
                 flex: 1,
-                alignItems: "center",
-                justifyContent: "center",
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
             >
               <Image
                 resizeMode="contain"
                 style={{ width: 200, marginTop: 500 }}
-                source={require("../../../src/icons/historicodeponto.png")}
+                source={require('~/icons/historicodeponto.png')}
               />
-              <ActivityIndicator color={"#1CADE2"} size={"large"} />
+              <ActivityIndicator
+                color={'#1CADE2'}
+                size={'large'}
+              />
             </View>
           )}
           <FlatList
@@ -362,7 +372,10 @@ export default function RelatorioDefuncionario() {
             <ContainerModalLoad>
               <TxtModalLoad>Cadastrando rosto</TxtModalLoad>
               <TxtModalLoad>Aguarde</TxtModalLoad>
-              <ActivityIndicator size={"large"} color={"#1CADE2"} />
+              <ActivityIndicator
+                size={'large'}
+                color={'#1CADE2'}
+              />
             </ContainerModalLoad>
           </Modal>
           <Modal
@@ -377,10 +390,14 @@ export default function RelatorioDefuncionario() {
               ref={camRef}
               //onFacesDetected={handleFacesDetected}
               type={type}
-              style={{ flex: 1, justifyContent: "flex-end" }}
+              style={{ flex: 1, justifyContent: 'flex-end' }}
             >
               <PikerButton onPress={takePicture}>
-                <Icone size={23} name="camera" color="white" />
+                <Icone
+                  size={23}
+                  name="camera"
+                  color="white"
+                />
               </PikerButton>
             </Camera>
           </Modal>
@@ -394,40 +411,44 @@ export default function RelatorioDefuncionario() {
             }}
           >
             <ImageBackground
-              source={require("../../../assets/Backgroundblack.jpg")}
-              style={{ height: "110%", alignItems: "center" }}
+              source={require('~/assets/Backgroundblack.jpg')}
+              style={{ height: '110%', alignItems: 'center' }}
             >
               <KeyboardAvoidingView
                 keyboardVerticalOffset={20}
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 style={{
-                  backgroundColor: "white",
+                  backgroundColor: 'white',
                   marginTop: 20,
-                  width: "95%",
+                  width: '95%',
                   borderTopEndRadius: 20,
                   borderTopStartRadius: 20,
                 }}
               >
                 <TouchableOpacity
                   style={{
-                    flexDirection: "row",
+                    flexDirection: 'row',
                     marginLeft: 10,
                     marginRight: 10,
                     marginTop: 20,
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                   }}
                   onPress={() => {
                     setModalimg(false);
                   }}
                 >
-                  <Icone size={20} name="arrow-left" color="black" />
+                  <Icone
+                    size={20}
+                    name="arrow-left"
+                    color="black"
+                  />
                   <Text
                     style={{
                       marginLeft: 30,
-                      fontStyle: "Normal",
-                      fontWeight: "700",
-                      color: "black",
+                      fontStyle: 'Normal',
+                      fontWeight: '700',
+                      color: 'black',
                       fontSize: 15,
                     }}
                   >
@@ -437,31 +458,31 @@ export default function RelatorioDefuncionario() {
 
                 <View
                   style={{
-                    flexDirection: "row",
-                    flexWrap: "wrap",
+                    flexDirection: 'row',
+                    flexWrap: 'wrap',
                     marginTop: 15,
                     borderBottomWidth: 2,
-                    borderBottomColor: "#dadada",
+                    borderBottomColor: '#dadada',
                     paddingRight: 70,
                     paddingBottom: 10,
                   }}
                 >
-                  <Text style={{ fontWeight: "bold", marginLeft: 20 }}>
-                    PONTO POR:{" "}
+                  <Text style={{ fontWeight: 'bold', marginLeft: 20 }}>
+                    PONTO POR:{' '}
                   </Text>
                   <Text>{ponto}</Text>
                   <TextInputMask
                     style={styles.txtInputentrada}
                     placeholder=""
                     value={ponto}
-                    options={{ mask: "9", maskType: "BRL" }}
+                    options={{ mask: '9', maskType: 'BRL' }}
                     type="custom"
                   />
                 </View>
 
-                <View style={{ alignItems: "center" }}>
+                <View style={{ alignItems: 'center' }}>
                   <Text
-                    style={{ fontWeight: "bold", margin: 15, fontSize: 25 }}
+                    style={{ fontWeight: 'bold', margin: 15, fontSize: 25 }}
                   >
                     Alterar para
                   </Text>
@@ -471,10 +492,10 @@ export default function RelatorioDefuncionario() {
                 {button == true && (
                   <View
                     style={{
-                      alignItems: "center",
-                      backgroundColor: "#0393c7",
-                      flexDirection: "row",
-                      justifyContent: "space-around",
+                      alignItems: 'center',
+                      backgroundColor: '#0393c7',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
                       height: 90,
                     }}
                   >
@@ -483,13 +504,13 @@ export default function RelatorioDefuncionario() {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={fotoloc}>
                       <Text style={styles.txtButton}>
-                        LOCALIZAÇÃO{"\n"}+ FOTO
+                        LOCALIZAÇÃO{'\n'}+ FOTO
                       </Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity onPress={qrfoto}>
                       <Text style={styles.txtButton}>
-                        QR CODE{"\n"}+ LOCALIZAÇÃO
+                        QR CODE{'\n'}+ LOCALIZAÇÃO
                       </Text>
                     </TouchableOpacity>
                   </View>
@@ -497,14 +518,17 @@ export default function RelatorioDefuncionario() {
                 {button == false && (
                   <View
                     style={{
-                      alignItems: "center",
-                      backgroundColor: "#0393c7",
-                      flexDirection: "row",
-                      justifyContent: "space-around",
+                      alignItems: 'center',
+                      backgroundColor: '#0393c7',
+                      flexDirection: 'row',
+                      justifyContent: 'space-around',
                       height: 90,
                     }}
                   >
-                    <ActivityIndicator size={"large"} color="white" />
+                    <ActivityIndicator
+                      size={'large'}
+                      color="white"
+                    />
                   </View>
                 )}
               </KeyboardAvoidingView>
@@ -550,14 +574,14 @@ const TxtModalLoad = styled.Text`
 const styles = StyleSheet.create({
   containerfuncionario: {
     flex: 5,
-    marginTop: "3%",
+    marginTop: '3%',
     marginLeft: 10,
     marginRight: 10,
   },
 
   item: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   conteudo: {
     marginTop: 2,
@@ -566,18 +590,18 @@ const styles = StyleSheet.create({
 
   titulo: {
     fontSize: 16,
-    flexWrap: "wrap",
-    fontWeight: "bold",
-    color: "#555555",
+    flexWrap: 'wrap',
+    fontWeight: 'bold',
+    color: '#555555',
   },
   descricao: {
     fontSize: 12,
-    color: "#555555",
-    fontWeight: "bold",
+    color: '#555555',
+    fontWeight: 'bold',
   },
   txtButton: {
-    fontWeight: "bold",
-    color: "white",
-    textAlign: "center",
+    fontWeight: 'bold',
+    color: 'white',
+    textAlign: 'center',
   },
 });

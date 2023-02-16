@@ -1,25 +1,28 @@
-import React, { useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Api from '../../src/services/Api';
-import {
-  Text,
-  View,
-  Image,
-  ScrollView,
-  ImageBackground,
-  Dimensions,
-  StyleSheet,
-  TouchableOpacity,
-  KeyboardAvoidingView,
-  ActivityIndicator,
-  SafeAreaView,
-  StatusBar,
-  Switch,
-} from 'react-native';
-import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
-import { SubContainer } from './styled';
 import { useNavigation } from '@react-navigation/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import React, { useEffect, useState } from 'react';
+import {
+  ActivityIndicator,
+  Dimensions,
+  Image,
+  ImageBackground,
+  KeyboardAvoidingView,
+  SafeAreaView,
+  ScrollView,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
+import { TextInput as RNPTextInput, useTheme } from 'react-native-paper';
+import Api from '~/services/Api';
+import { SubContainer } from './styled';
 
 const LoginChave = ({ navigation }) => {
   const navigationn = useNavigation();
@@ -83,11 +86,14 @@ const LoginChave = ({ navigation }) => {
         <StatusBar backgroundColor={'#1CADE2'} />
         <SubContainer showsVerticalScrollIndicator>
           <ImageBackground
-            source={require('../../assets/subtract.png')}
+            source={require('~/assets/subtract.png')}
             style={{ height: Dimensions.get('window').height / 3.5 }}
           >
             <View style={styles.brandView}>
-              <Image style={styles.logo} source={require('../../assets/logo.png')} />
+              <Image
+                style={styles.logo}
+                source={require('~/assets/logo.png')}
+              />
             </View>
           </ImageBackground>
 
@@ -125,14 +131,23 @@ const LoginChave = ({ navigation }) => {
                 onPress={buttonSignIn}
                 disabled={disabledEntrar}
               >
-                {loadingEntrar && <ActivityIndicator size="small" color="#FFF" />}
-                {!loadingEntrar && <Text style={styles.textoBotao}>ENTRAR</Text>}
+                {loadingEntrar && (
+                  <ActivityIndicator
+                    size="small"
+                    color="#FFF"
+                  />
+                )}
+                {!loadingEntrar && (
+                  <Text style={styles.textoBotao}>ENTRAR</Text>
+                )}
               </TouchableOpacity>
             </ScrollView>
           </KeyboardAvoidingView>
 
           <TouchableOpacity onPress={() => navigationn.navigate('Suporte')}>
-            <Text style={{ textAlign: 'center', padding: 25, color: '#64748B' }}>
+            <Text
+              style={{ textAlign: 'center', padding: 25, color: '#64748B' }}
+            >
               PRECISA DE SUPORTE?
             </Text>
           </TouchableOpacity>

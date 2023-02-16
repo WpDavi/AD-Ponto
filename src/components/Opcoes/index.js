@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import Api from '../../src/services/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import styled from 'styled-components/native';
-import { View, StyleSheet, Text, StatusBar, TouchableOpacity, Button } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import Api from '~/services/Api';
 
 var data = new Date();
 var dia = String(data.getDate()).padStart(2, '0');

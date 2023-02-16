@@ -1,12 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import * as FileSystem from 'expo-file-system';
 import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Modal } from 'react-native';
+import { Modal } from 'react-native';
+import {
+  AlertNotificationRoot,
+  ALERT_TYPE,
+  Dialog,
+} from 'react-native-alert-notification';
 import SignatureScreen from 'react-native-signature-canvas';
 import styled from 'styled-components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as FileSystem from 'expo-file-system';
-import Api from '../../../src/services/Api';
-import { useNavigation } from '@react-navigation/native';
-import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
+import Api from '~/services/Api';
 
 export default function Assinatura(onOK) {
   const navigation = useNavigation();
@@ -30,9 +34,13 @@ export default function Assinatura(onOK) {
     //console.log(signature);
 
     const path = FileSystem.cacheDirectory + 'sign.png';
-    FileSystem.writeAsStringAsync(path, signature.replace('data:image/png;base64,', ''), {
-      encoding: FileSystem.EncodingType.Base64,
-    })
+    FileSystem.writeAsStringAsync(
+      path,
+      signature.replace('data:image/png;base64,', ''),
+      {
+        encoding: FileSystem.EncodingType.Base64,
+      },
+    )
       .then(() => FileSystem.getInfoAsync(path))
       .then(console.log)
       .catch(console.error);
