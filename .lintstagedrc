@@ -1,0 +1,6 @@
+{
+  "*.[jt]s?(x)": [
+    "prettier -w",
+    "eslint --fix"
+  ]
+}

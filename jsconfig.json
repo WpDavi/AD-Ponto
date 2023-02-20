@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "jsx": "react-native",
+    "target": "es2022",
+    "rootDir": ".",
+    "baseUrl": "./",
+    "paths": {
+      "~/*": [
+        "./src/*"
+      ],
+      "@config": [
+        "./config.json"
+      ]
+    }
+  }
+}
