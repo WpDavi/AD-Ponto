@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   FlatList,
   PermissionsAndroid,
@@ -130,7 +130,7 @@ export default function Home() {
       await setTokenn(token);
       await setPis(info.pis);
       if (pis) {
-        await Api.puhNotification(pis, tokenn);
+        await Api.pushNotification(pis, tokenn);
       }
     };
     notification();

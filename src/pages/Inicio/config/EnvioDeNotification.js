@@ -55,7 +55,7 @@ export default function EnvioDeNoification() {
       setButton(false);
       const ress = await Api.notification(pis, assunto, msg);
 
-      const res = await Api.RegisterNotification(token, assunto, msg);
+      const res = await Api.createPushNotification(token, assunto, msg);
       if (res) {
         Dialog.show({
           type: ALERT_TYPE.SUCCESS,

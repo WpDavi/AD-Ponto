@@ -111,7 +111,7 @@ export default function RelatorioDeAtestado() {
     const assunto = 'Solicitação de edição de ponto';
     const msg = 'Um funcionario solicitou edição de ponto';
     for (let i in token) {
-      const ress = await Api.RegisterNotification(
+      const ress = await Api.createPushNotification(
         token[i].token_notification,
         assunto,
         msg,

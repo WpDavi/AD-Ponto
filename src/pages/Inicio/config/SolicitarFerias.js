@@ -78,7 +78,7 @@ export default function SolicitarFerias() {
     const assunto = 'Solicitação de Férias';
     const msg = 'Um funcionario solicitou férias';
     for (let i in token) {
-      const ress = await Api.RegisterNotification(
+      const ress = await Api.createPushNotification(
         token[i].token_notification,
         assunto,
         msg,
