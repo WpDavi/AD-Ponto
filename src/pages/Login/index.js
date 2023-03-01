@@ -175,7 +175,7 @@ const Login = ({ navigation }) => {
               Esqueceu sua senha?
             </Text>
 
-            <TouchableOpacity onPress={() => navigationn.navigate('Suporte')}>
+            <TouchableOpacity onPress={() => navigationn.navigate('Support')}>
               <Text
                 style={{ textAlign: 'center', padding: 25, color: '#64748B' }}
               >

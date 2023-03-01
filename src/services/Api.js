@@ -866,7 +866,7 @@ export default {
     return json;
   },
 
-  suporte: async (nome_usuario, mensagem, idFuncionario) => {
+  suporte: async (nome_usuario, email, mensagem, idFuncionario) => {
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/suporte`, {
       method: 'POST',
@@ -874,6 +874,17 @@ export default {
         nome_usuario,
         mensagem,
         idFuncionario,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const reqSendMail = await fetch(`${BASE_API}/user/sandEmail`, {
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        mensagem,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -1218,21 +1229,6 @@ export default {
     });
     const json = await req.json();
     return json;
-  },
-
-  sandEmail: async (email, mensagem) => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/user/sandEmail`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        mensagem,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`,
-      },
-    });
   },
 
   getFotoEmail: async (email) => {

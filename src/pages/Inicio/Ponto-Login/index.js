@@ -7,7 +7,6 @@ import {
   PermissionsAndroid,
   Platform,
   SafeAreaView,
-  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -335,15 +334,13 @@ export default function PontoLogin() {
   return (
     <AlertNotificationRoot>
       <SafeAreaView style={styles.container}>
-        <StatusBar backgroundColor={'#1CADE2'} />
         <View style={styles.header2}>
-          <Text style={styles.txtponto}>Bater Ponto</Text>
           <Text style={styles.txthora}>{hour}</Text>
           <Text style={styles.txtlocalização}>
             <Icone
               size={16}
               name="location-arrow"
-            />{' '}
+            />
             {cidade}
           </Text>
           <View style={{ flexDirection: 'row' }}>
@@ -368,22 +365,6 @@ export default function PontoLogin() {
               onBlur={() => cleanText(chave, setChave)}
             />
           </View>
-        </View>
-        <View style={{ position: 'absolute', marginTop: 20, marginLeft: 20 }}>
-          <TouchableOpacity
-            style={{ flexDirection: 'row' }}
-            onPress={() =>
-              navigation.reset({
-                routes: [{ name: 'Home' }],
-              })
-            }
-          >
-            <Icone
-              size={20}
-              name="arrow-left"
-              color="white"
-            />
-          </TouchableOpacity>
         </View>
         <View style={styles.footer}>
           <MapView
@@ -560,16 +541,6 @@ export default function PontoLogin() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  iconVoltar: {
-    width: 24,
-    height: 24,
-  },
-  voltar: {
-    marginLeft: 20,
-    fontStyle: 'Normal',
-    fontWeight: '700',
-    color: 'white',
   },
   header2: {
     backgroundColor: '#1CADE2',

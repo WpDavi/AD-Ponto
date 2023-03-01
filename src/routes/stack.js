@@ -1,6 +1,7 @@
 //import GestorSolicitacoes from "~/pages/Inicio/config/GestorSolicitações";
 import { createStackNavigator } from '@react-navigation/stack';
 
+import { GoBack } from '~/components/GoBack/index';
 import BancodeHoras from '~/pages/Inicio/BancodeHoras/index.js';
 import EnviodeAtestado from '~/pages/Inicio/EnviodeAtestado';
 import HistoricoDePonto from '~/pages/Inicio/HistoricoDePonto';
@@ -14,7 +15,7 @@ import Ponto from '~/pages/Inicio/Ponto/index';
 import PontoQrCode from '~/pages/Inicio/Ponto/qrcode.js';
 import PontoEmEspera from '~/pages/Inicio/PontoEmEspera';
 import HistoricoDeAtestado from '~/pages/Inicio/RelatorioDeAtestado';
-import Suporte from '~/pages/Inicio/Suporte';
+import { Support } from '~/pages/Inicio/Support';
 import SolicitaçãoDeVisitas from '~/pages/Inicio/Visitas';
 import EnvioDeNoification from '~/pages/Inicio/config/EnvioDeNotification';
 import GestorGPonto from '~/pages/Inicio/config/GestorAllPontos/GestorGPonto';
@@ -32,7 +33,6 @@ import ImgAssinatura from '~/pages/Inicio/config/visitas/Assinatura';
 //import SolicitaçãoDeVisitas from "~/pages/Inicio/Mapa/SolicitaçãoDeVisitas";
 import HistoricoSolicitaçãoDeVisitas from '~/pages/Inicio/config/visitas/HistoricoSolicitacoes';
 import HistoricoDeVisitas from '~/pages/Inicio/config/visitas/HistricoVisitas';
-//import GestorSolicitaçõesdePonto from "~/pages/Inicio/config/GestorSolicitaçõesPonto";
 import GestorSolicitaçõesdePonto from '~/pages/Inicio/gestorSPont';
 import GestorSolicitacoes from '~/pages/Inicio/gestorSolic';
 import Login from '~/pages/Login';
@@ -43,27 +43,43 @@ import { Tabs } from '~/routes/tabs';
 
 const { Screen, Navigator } = createStackNavigator();
 
+const screenOptions = {
+  process: true,
+  gestureEnabled: true,
+  animationEnabled: true,
+  headerMode: 'float',
+  headerStyle: {
+    backgroundColor: '#1CADE2',
+  },
+  headerTitleAlign: 'center',
+  headerTintColor: '#ffffff',
+  headerBackImage: () => <GoBack />,
+};
+
 export const Stack = () => {
   return (
     <Navigator
       initialRouteName="Preload"
-      screenOptions={{ headerShown: false }}
+      screenOptions={screenOptions}
     >
       <Screen
+        options={{ headerShown: false }}
+        name="Preload"
+        component={Preload}
+      />
+      <Screen
+        options={{ headerShown: false }}
         name="Login"
         component={Login}
       />
       <Screen
+        options={{ headerShown: false }}
         name="LoginChave"
         component={LoginChave}
       />
       <Screen
         name="Home"
         component={Tabs}
-      />
-      <Screen
-        name="Preload"
-        component={Preload}
       />
       <Screen
         name="Ponto"
@@ -102,14 +118,15 @@ export const Stack = () => {
         component={Drawer}
       />
       <Screen
-        name="Suporte"
-        component={Suporte}
+        name="Support"
+        component={Support}
       />
       <Screen
         name="PontoEmEspera"
         component={PontoEmEspera}
       />
       <Screen
+        options={{ title: 'Bater Ponto' }}
         name="PontoLogin"
         component={PontoLogin}
       />
