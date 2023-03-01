@@ -33,7 +33,7 @@ import * as Location from 'expo-location';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
-export default function PontoLogin() {
+export const RegisterPointDisconnected = () => {
   const camRef = useRef(null);
   const navigation = useNavigation();
 
@@ -536,7 +536,7 @@ export default function PontoLogin() {
       </SafeAreaView>
     </AlertNotificationRoot>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

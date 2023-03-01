@@ -9,11 +9,11 @@ import Mapa from '~/pages/Inicio/Mapa';
 import Assinatura from '~/pages/Inicio/Mapa/Assinatura';
 import VisiitasEmAndamento from '~/pages/Inicio/Mapa/VisiitasEmAndamento';
 import Notification from '~/pages/Inicio/Notification';
-import PontoLogin from '~/pages/Inicio/Ponto-Login';
 import PontoCamera from '~/pages/Inicio/Ponto/PontoCamera';
 import Ponto from '~/pages/Inicio/Ponto/index';
 import PontoQrCode from '~/pages/Inicio/Ponto/qrcode.js';
 import PontoEmEspera from '~/pages/Inicio/PontoEmEspera';
+import { RegisterPointDisconnected } from '~/pages/Inicio/RegisterPointDisconnected';
 import HistoricoDeAtestado from '~/pages/Inicio/RelatorioDeAtestado';
 import { Support } from '~/pages/Inicio/Support';
 import SolicitaçãoDeVisitas from '~/pages/Inicio/Visitas';
@@ -34,9 +34,9 @@ import ImgAssinatura from '~/pages/Inicio/config/visitas/Assinatura';
 import HistoricoSolicitaçãoDeVisitas from '~/pages/Inicio/config/visitas/HistoricoSolicitacoes';
 import HistoricoDeVisitas from '~/pages/Inicio/config/visitas/HistricoVisitas';
 import GestorSolicitaçõesdePonto from '~/pages/Inicio/gestorSPont';
+//import GestorSolicitaçõesdePonto from "~/pages/Inicio/config/GestorSolicitaçõesPonto";
 import GestorSolicitacoes from '~/pages/Inicio/gestorSolic';
-import Login from '~/pages/Login';
-import LoginChave from '~/pages/LoginChave';
+import { Login } from '~/pages/Login';
 import Preload from '~/pages/Preload';
 import { Drawer } from '~/routes/drawer';
 import { Tabs } from '~/routes/tabs';
@@ -71,11 +71,6 @@ export const Stack = () => {
         options={{ headerShown: false }}
         name="Login"
         component={Login}
-      />
-      <Screen
-        options={{ headerShown: false }}
-        name="LoginChave"
-        component={LoginChave}
       />
       <Screen
         name="Home"
@@ -127,8 +122,8 @@ export const Stack = () => {
       />
       <Screen
         options={{ title: 'Bater Ponto' }}
-        name="PontoLogin"
-        component={PontoLogin}
+        name="RegisterPointDisconnected"
+        component={RegisterPointDisconnected}
       />
       <Screen
         name="Mapa"
