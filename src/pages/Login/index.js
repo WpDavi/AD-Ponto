@@ -7,7 +7,7 @@ import { useNavigation } from '@react-navigation/native';
 import { DialogAlert } from '~/components/DialogAlert';
 import { FilledButton } from '~/components/FilledButton';
 import { HeaderPublic } from '~/components/HeaderPublic';
-import { Input } from '~/components/Input';
+import { InputLabel } from '~/components/InputLabel';
 import { RecoverPassword } from '~/components/RecoverPassword/index';
 import { UnfilledButton } from '~/components/UnfilledButton';
 import Api from '~/services/Api';
@@ -54,19 +54,19 @@ export const Login = () => {
       <Content>
         <Form behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <TitleForm>ENTRAR NO SISTEMA</TitleForm>
-          <Input
+          <InputLabel
             text={company}
             setText={setCompany}
             label={'Empresa'}
           />
           {!loginByKey ? (
             <>
-              <Input
+              <InputLabel
                 text={email}
                 setText={setEmail}
                 label={'Email'}
               />
-              <Input
+              <InputLabel
                 text={password}
                 setText={setPassword}
                 label={'Senha'}
@@ -82,7 +82,7 @@ export const Login = () => {
             </>
           ) : (
             <>
-              <Input
+              <InputLabel
                 text={key}
                 setText={setKey}
                 label={'Chave'}
