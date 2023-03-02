@@ -36,6 +36,8 @@ export default function RelatorioDefuncionario() {
 
   const [type, setType] = useState(Camera.Constants.Type.front);
 
+  const [load, setLoad] = useState(false);
+
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
   const [ponto, setPonto] = useState('');
@@ -141,6 +143,7 @@ export default function RelatorioDefuncionario() {
     const onStart = async () => {
       const jso = await Api.getAllFuncionarios();
       await setListaPesquisa(jso);
+      setLoad(true);
     };
     onStart();
   }, []);
@@ -340,7 +343,7 @@ export default function RelatorioDefuncionario() {
               />
             </TouchableOpacity>
           </View>
-          {listaPesquisa === null && (
+          {!load && (
             <View
               style={{
                 flex: 1,

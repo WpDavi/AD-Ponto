@@ -31,6 +31,8 @@ export default function RelatorioDeAtestado() {
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
+  const [load, setLoad] = useState(false);
+
   const [informacao, setInformacao] = useState();
   const [lista, setLista] = useState();
   const [pesquisa, setPesquisa] = useState();
@@ -243,6 +245,7 @@ export default function RelatorioDeAtestado() {
       await setLista(jso);
       await setListaPesquisa(jso);
       setToken(ress);
+      setLoad(true);
     };
     onStart();
   }, []);
@@ -426,18 +429,19 @@ export default function RelatorioDeAtestado() {
             />
           </ContainerButtonBack>
         </View>
-        {lista === null && (
+        {load === false && (
           <View
             style={{
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
+              marginTop: -20,
             }}
           >
             <Image
               resizeMode="contain"
               style={{ width: 200, marginTop: 500 }}
-              source={require('~/icons/historicodeponto.png')}
+              source={require('../../../icons/historicodeponto.png')}
             />
             <ActivityIndicator
               color={'#1CADE2'}

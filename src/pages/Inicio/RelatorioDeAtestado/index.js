@@ -136,22 +136,22 @@ export default function RelatorioDeAtestado() {
         </TouchableOpacity>
       </View>
 
-      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-        {listaaa.length === '0' && (
+      {load && (
+        <View
+          style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+        >
           <Image
             resizeMode="contain"
             style={{ width: 300 }}
             source={require('~/icons/atestado.png')}
           />
-        )}
 
-        {load && (
           <ActivityIndicator
             color={'#1CADE2'}
             size={'large'}
           />
-        )}
-      </View>
+        </View>
+      )}
 
       <FlatList
         data={listaaa}

@@ -36,6 +36,8 @@ export default function RelatorioDeAtestado() {
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);
 
+  const [loadd, setLoadd] = useState(false);
+
   const [lista, setLista] = useState();
   const [pesquisa, setPesquisa] = useState();
   const [pesquisaData, setPesquisaData] = useState();
@@ -152,6 +154,7 @@ export default function RelatorioDeAtestado() {
         dataInicial,
         dataFinal,
       );
+      setLoadd(true);
       setLoad(false);
       setLoadSec(false);
       await setLista(jso);
@@ -313,7 +316,7 @@ export default function RelatorioDeAtestado() {
             </Picker>
           </ContainerSelectFuncion>
         )}
-        {lista === null && (
+        {loadd === false && (
           <ContainerBody>
             <Image
               resizeMode="contain"
