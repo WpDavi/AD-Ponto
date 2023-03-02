@@ -1,25 +1,18 @@
-import React, { useContext, useEffect, useState } from 'react';
-import {
-  FlatList,
-  PermissionsAndroid,
-  Platform,
-  RefreshControl,
-  StatusBar,
-  View,
-} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { PermissionsAndroid, Platform, RefreshControl } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 
 import * as Location from 'expo-location';
-import styled from 'styled-components/native';
 
-import Acoes from '~/components/Acoes';
-import Header from '~/components/Header';
-import Opcoes from '~/components/Opcoes';
-import UltimasMovimentacoes from '~/components/UltimasAtividades';
+import { Actions } from '~/components/Actions';
+import { HeaderHome } from '~/components/HeaderHome';
+import { LatestActivities } from '~/components/LatestActivities';
 import Api from '~/services/Api';
+
+import { Container, Divider, List, Title } from './styles';
 
 export default function Home() {
   const navigation = useNavigation();
@@ -159,45 +152,36 @@ export default function Home() {
     onStart();
   };
 
+  const [name, setName] = useState();
+  useEffect(() => {
+    async function loadEmail() {
+      const name = await AsyncStorage.getItem('name');
+      setName(name);
+    }
+    loadEmail();
+  }, []);
+
   return (
     <Container>
-      <StatusBar backgroundColor={'#1CADE2'} />
-      <View>
-        <Header />
+      <HeaderHome name={name} />
 
-        <Opcoes />
+      <Actions />
 
-        <Acoes />
+      <Title>Últimas Atividades</Title>
 
-        <Titulo>Últimas Atividades</Titulo>
-
-        <FlatList
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={onRefresh}
-            />
-          }
-          data={listaa}
-          keyExtractor={(item) => String(item.id)}
-          showsVerticalScrollIndicator={false}
-          renderItem={({ item }) => <UltimasMovimentacoes data={item} />}
-        />
-      </View>
+      <List
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+          />
+        }
+        ItemSeparatorComponent={<Divider />}
+        data={listaa}
+        keyExtractor={(item) => String(item.id)}
+        renderItem={({ item }) => <LatestActivities data={item} />}
+      />
     </Container>
   );
 }
-
-const Container = styled.SafeAreaView`
-  flex: 1;
-  background-color: ${(props) => props.theme.background};
-`;
-const Titulo = styled.Text`
-  margin-top: -15px;
-  font-size: 18px;
-  font-weight: bold;
-  margin-left: 14px;
-  margin-right: 14px;
-  padding-bottom: 10px;
-  color: ${(props) => props.theme.color};
-`;

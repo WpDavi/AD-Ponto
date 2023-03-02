@@ -73,6 +73,7 @@ export const Stack = () => {
         component={Login}
       />
       <Screen
+        options={{ headerShown: false }}
         name="Home"
         component={Tabs}
       />
