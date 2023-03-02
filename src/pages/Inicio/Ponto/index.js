@@ -4,9 +4,9 @@ import {
   Alert,
   Modal,
   PermissionsAndroid,
+  Platform,
   TouchableOpacity,
 } from 'react-native';
-import { Platform } from 'react-native';
 import {
   ALERT_TYPE,
   AlertNotificationRoot,
@@ -94,7 +94,10 @@ export default function Ponto() {
         const results = await PermissionsAndroid.check(
           PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
         );
-        if (results === false) {
+        const camera = await PermissionsAndroid.check(
+          PermissionsAndroid.PERMISSIONS.CAMERA,
+        );
+        if (results === false && camera === false) {
           setModalPermission(true);
         }
       }

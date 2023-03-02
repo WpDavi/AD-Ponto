@@ -12,6 +12,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 import { useNavigation } from '@react-navigation/native';
 
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import { Camera } from 'expo-camera';
+import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 import styled from 'styled-components/native';
 
@@ -25,6 +28,18 @@ export default function Home() {
   const navigation = useNavigation();
 
   const sistema = Platform.OS;
+
+  useEffect(() => {
+    if (sistema === 'ios') {
+      async function req() {
+        const { statuss } = await Camera.requestCameraPermissionsAsync();
+        const { status } = await BarCodeScanner.requestPermissionsAsync();
+        const { statu } = await Location.requestForegroundPermissionsAsync();
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      }
+      req();
+    }
+  }, []);
 
   const [tokenn, setTokenn] = useState();
   const [pis, setPis] = useState();
