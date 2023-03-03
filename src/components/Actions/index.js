@@ -40,7 +40,7 @@ export const Actions = () => {
         showsHorizontalScrollIndicator={false}
       >
         <Action
-          onPress={() => navigation.navigate('BancodeHoras')}
+          onPress={() => navigation.navigate('Reports')}
           text={'Banco\nde Horas'}
           Icon={
             <Image

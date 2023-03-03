@@ -1,8 +1,6 @@
-//import GestorSolicitacoes from "~/pages/Inicio/config/GestorSolicitações";
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { GoBack } from '~/components/GoBack/index';
-import BancodeHoras from '~/pages/Inicio/BancodeHoras/index.js';
 import EnviodeAtestado from '~/pages/Inicio/EnviodeAtestado';
 import HistoricoDePonto from '~/pages/Inicio/HistoricoDePonto';
 import Mapa from '~/pages/Inicio/Mapa';
@@ -15,6 +13,7 @@ import PontoQrCode from '~/pages/Inicio/Ponto/qrcode.js';
 import PontoEmEspera from '~/pages/Inicio/PontoEmEspera';
 import { RegisterPointDisconnected } from '~/pages/Inicio/RegisterPointDisconnected';
 import HistoricoDeAtestado from '~/pages/Inicio/RelatorioDeAtestado';
+import { Reports } from '~/pages/Inicio/Reports';
 import { Support } from '~/pages/Inicio/Support';
 import SolicitaçãoDeVisitas from '~/pages/Inicio/Visitas';
 import EnvioDeNoification from '~/pages/Inicio/config/EnvioDeNotification';
@@ -30,11 +29,9 @@ import Solicitacoes from '~/pages/Inicio/config/Solicitacoes';
 import SolicitarFerias from '~/pages/Inicio/config/SolicitarFerias';
 import SolicitaçõesPonto from '~/pages/Inicio/config/solicitacoesPonto';
 import ImgAssinatura from '~/pages/Inicio/config/visitas/Assinatura';
-//import SolicitaçãoDeVisitas from "~/pages/Inicio/Mapa/SolicitaçãoDeVisitas";
 import HistoricoSolicitaçãoDeVisitas from '~/pages/Inicio/config/visitas/HistoricoSolicitacoes';
 import HistoricoDeVisitas from '~/pages/Inicio/config/visitas/HistricoVisitas';
 import GestorSolicitaçõesdePonto from '~/pages/Inicio/gestorSPont';
-//import GestorSolicitaçõesdePonto from "~/pages/Inicio/config/GestorSolicitaçõesPonto";
 import GestorSolicitacoes from '~/pages/Inicio/gestorSolic';
 import { Login } from '~/pages/Login';
 import Preload from '~/pages/Preload';
@@ -94,8 +91,9 @@ export const Stack = () => {
         component={EnviodeAtestado}
       />
       <Screen
-        name="BancodeHoras"
-        component={BancodeHoras}
+        options={{ title: 'Banco de Horas' }}
+        name="Reports"
+        component={Reports}
       />
       <Screen
         name="HistoricoDePonto"
