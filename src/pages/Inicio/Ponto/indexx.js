@@ -7,11 +7,7 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -23,6 +19,8 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Mapa from '~/components/Mapa';
 import Api from '~/services/Api';
 
@@ -217,20 +215,10 @@ export default function Ponto() {
         }, 2000);
 
         if (json.error) {
-          Dialog.show({
-            type: ALERT_TYPE.WARNING,
-            title: 'Erro',
-            textBody: `${json.error}`,
-            button: 'ok',
-          });
+          DialogAlert(`${json.error}`);
         }
         if (json.message) {
-          Dialog.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: 'Sucesso',
-            textBody: 'Ponto Inserido com sucesso',
-            button: 'ok',
-          });
+          DialogSuccess('Ponto Inserido com sucesso');
         }
       }
     } else if (internet === false) {
@@ -240,14 +228,9 @@ export default function Ponto() {
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
-
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody:
-          'Sem conexão a internet, ponto será enviado ao retomar conexão',
-        button: 'ok',
-      });
+      DialogAlert(
+        'Sem conexão a internet, ponto será enviado ao retomar conexão',
+      );
       const myArray = [
         {
           email: email,

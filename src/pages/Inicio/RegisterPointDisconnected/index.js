@@ -12,11 +12,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
 import 'react-native-gesture-handler';
 import MapView from 'react-native-maps';
 import { TextInput as RNPTextInput } from 'react-native-paper';
@@ -30,6 +25,8 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -92,20 +89,13 @@ export const RegisterPointDisconnected = () => {
   async function QRCODE() {
     setLoadqr(false);
     let json = await Api.pointQr(qrEmail, hour, date, lat, long, image);
-
-    if (json) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: `Ponto de ${qrEmail} inserido com sucesso`,
-        button: 'ok',
-      });
+    json &&
+      DialogSuccess(`Ponto de ${qrEmail} inserido com sucesso`) &&
       setTimeout(() => {
         navigation.reset({
           routes: [{ name: 'Home' }],
         });
       }, 2000);
-    }
   }
 
   const getcit = async () => {
@@ -183,25 +173,13 @@ export const RegisterPointDisconnected = () => {
 
   const baterPonto = async () => {
     if (!empresa || !chave) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Campos obrigatorios',
-        button: 'ok',
-      });
+      DialogAlert('Campos obrigatórios');
       return;
     }
     setLoad(true);
     const res = await Api.getInfoChave(chave, empresa.toLowerCase());
-    if (res.error) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Empresa ou Chave incorreto',
-        button: 'ok',
-      });
-      setLoad(false);
-    }
+    res.error && DialogAlert('Empresa ou Chave incorreto') && setLoad(false);
+
     var foto = res[0].ponto_online_foto;
 
     if (foto) {
@@ -250,25 +228,11 @@ export const RegisterPointDisconnected = () => {
 
     //Req ----------------------------------------------------------------------------------------
 
-    navigation.reset({
-      routes: [{ name: 'Login' }],
-    });
+    navigation.reset({ routes: [{ name: 'Login' }] });
+    json.error && DialogAlert(`${json.error}`);
 
-    if (json.error) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: `${json.error}`,
-        button: 'ok',
-      });
-    }
     if (json.message) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Ponto Inserido com sucesso',
-        button: 'ok',
-      });
+      DialogSuccess('Ponto Inserido com sucesso');
     } else if (internet === false) {
       var dataaa = new Date();
       var dia = String(dataaa.getDate()).padStart(2, '0');
@@ -276,14 +240,9 @@ export const RegisterPointDisconnected = () => {
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
-
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody:
-          'Sem conexão a internet, ponto será enviado ao retomar conexão',
-        button: 'ok',
-      });
+      DialogAlert(
+        'Sem conexão a internet, ponto será enviado ao retomar conexão',
+      );
       const myArray = [
         {
           email: email,
@@ -332,209 +291,207 @@ export const RegisterPointDisconnected = () => {
   }
 
   return (
-    <AlertNotificationRoot>
-      <SafeAreaView style={styles.container}>
-        <View style={styles.header2}>
-          <Text style={styles.txthora}>{hour}</Text>
-          <Text style={styles.txtlocalização}>
-            <Icone
-              size={16}
-              name="location-arrow"
-            />
-            {cidade}
-          </Text>
-          <View style={{ flexDirection: 'row' }}>
-            <RNPTextInput
-              style={styles.input}
-              placeholder="Empresa"
-              label="Empresa"
-              mode="outlined"
-              theme={{ colors: { background: '#fff' } }}
-              value={empresa}
-              onChangeText={(t) => setEmpresa(t)}
-              onBlur={() => cleanText(empresa, setEmpresa)}
-            />
-            <RNPTextInput
-              style={styles.input}
-              placeholder="Chave"
-              label="Chave"
-              mode="outlined"
-              theme={{ colors: { background: '#fff' } }}
-              value={chave}
-              onChangeText={(t) => setChave(t)}
-              onBlur={() => cleanText(chave, setChave)}
-            />
-          </View>
-        </View>
-        <View style={styles.footer}>
-          <MapView
-            style={{ height: '100%', width: '100%', position: 'absolute' }}
-            onMapReady={() => {
-              Platform.OS === 'android'
-                ? PermissionsAndroid.request(
-                    PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                  ).then(() => {
-                    console.log('usuario aceitou');
-                  })
-                : '';
-            }}
-            region={{
-              latitude: lat,
-              longitude: long,
-              latitudeDelta: 0.022,
-              longitudeDelta: 0.0421,
-            }}
-            zoomEnabled={true}
-            minZoomLevel={17}
-            showsUserLocation={true}
-            loadingEnabled={true}
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header2}>
+        <Text style={styles.txthora}>{hour}</Text>
+        <Text style={styles.txtlocalização}>
+          <Icone
+            size={16}
+            name="location-arrow"
           />
-          {!load && (
-            <TouchableOpacity
-              style={styles.button}
-              onPress={baterPonto}
-            >
-              <Text style={styles.txtbutton}>
-                BATER PONTO
-                <Icone
-                  size={16}
-                  name="hand-point-up"
-                />
-              </Text>
-            </TouchableOpacity>
+          {cidade}
+        </Text>
+        <View style={{ flexDirection: 'row' }}>
+          <RNPTextInput
+            style={styles.input}
+            placeholder="Empresa"
+            label="Empresa"
+            mode="outlined"
+            theme={{ colors: { background: '#fff' } }}
+            value={empresa}
+            onChangeText={(t) => setEmpresa(t)}
+            onBlur={() => cleanText(empresa, setEmpresa)}
+          />
+          <RNPTextInput
+            style={styles.input}
+            placeholder="Chave"
+            label="Chave"
+            mode="outlined"
+            theme={{ colors: { background: '#fff' } }}
+            value={chave}
+            onChangeText={(t) => setChave(t)}
+            onBlur={() => cleanText(chave, setChave)}
+          />
+        </View>
+      </View>
+      <View style={styles.footer}>
+        <MapView
+          style={{ height: '100%', width: '100%', position: 'absolute' }}
+          onMapReady={() => {
+            Platform.OS === 'android'
+              ? PermissionsAndroid.request(
+                  PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                ).then(() => {
+                  console.log('usuario aceitou');
+                })
+              : '';
+          }}
+          region={{
+            latitude: lat,
+            longitude: long,
+            latitudeDelta: 0.022,
+            longitudeDelta: 0.0421,
+          }}
+          zoomEnabled={true}
+          minZoomLevel={17}
+          showsUserLocation={true}
+          loadingEnabled={true}
+        />
+        {!load && (
+          <TouchableOpacity
+            style={styles.button}
+            onPress={baterPonto}
+          >
+            <Text style={styles.txtbutton}>
+              BATER PONTO
+              <Icone
+                size={16}
+                name="hand-point-up"
+              />
+            </Text>
+          </TouchableOpacity>
+        )}
+        {load && (
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.txtbutton}>
+              Carregando...
+              <ActivityIndicator color={'white'} />
+            </Text>
+          </TouchableOpacity>
+        )}
+      </View>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <Camera
+          ref={camRef}
+          type={type}
+          style={{ flex: 1, justifyContent: 'flex-end' }}
+        >
+          <TouchableOpacity
+            style={styles.buttoncamera}
+            onPress={takePicture}
+          >
+            <Icone
+              size={23}
+              name="camera"
+              color="white"
+            />
+          </TouchableOpacity>
+        </Camera>
+      </Modal>
+
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalQr}
+        onRequestClose={() => {
+          setModalQr(!modalQr);
+        }}
+      >
+        <View style={{ flex: 1, alignItems: 'center' }}>
+          {!scanned && (
+            <Text style={{ marginTop: 40, fontSize: 20, fontWeight: 'bold' }}>
+              Coloque o CODE QR dentro do quadrado
+            </Text>
           )}
-          {load && (
-            <TouchableOpacity style={styles.button}>
-              <Text style={styles.txtbutton}>
-                Carregando...
-                <ActivityIndicator color={'white'} />
-              </Text>
-            </TouchableOpacity>
+
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={StyleSheet.absoluteFillObject}
+          />
+          {scanned && (
+            <View style={{ marginTop: 40 }}>
+              {loadqr === true && (
+                <TouchableOpacity onPress={QRCODE}>
+                  <Text
+                    style={{
+                      fontSize: 20,
+                      fontWeight: 'bold',
+                      textAlign: 'center',
+                    }}
+                  >
+                    Enviar ponto de {'\n'} {qrEmail}
+                  </Text>
+                </TouchableOpacity>
+              )}
+              {loadqr === false && (
+                <ActivityIndicator
+                  size={'large'}
+                  color="#1CADE2"
+                />
+              )}
+            </View>
           )}
         </View>
+      </Modal>
 
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => {
-            setModalVisible(!modalVisible);
-          }}
-        >
-          <Camera
-            ref={camRef}
-            type={type}
-            style={{ flex: 1, justifyContent: 'flex-end' }}
+      <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalimg}
+        onRequestClose={() => {
+          setModalimg(!modalimg);
+        }}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', margin: 20 }}>
+          <View
+            style={{ flexDirection: 'row', justifyContent: 'space-between' }}
           >
             <TouchableOpacity
-              style={styles.buttoncamera}
-              onPress={takePicture}
+              style={{ margin: 10 }}
+              onPress={modalcameraleft}
             >
               <Icone
-                size={23}
-                name="camera"
-                color="white"
+                name="angle-double-left"
+                size={35}
+                color="#1CADE2"
               />
             </TouchableOpacity>
-          </Camera>
-        </Modal>
-
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalQr}
-          onRequestClose={() => {
-            setModalQr(!modalQr);
-          }}
-        >
-          <View style={{ flex: 1, alignItems: 'center' }}>
-            {!scanned && (
-              <Text style={{ marginTop: 40, fontSize: 20, fontWeight: 'bold' }}>
-                Coloque o CODE QR dentro do quadrado
-              </Text>
-            )}
-
-            <BarCodeScanner
-              onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-              style={StyleSheet.absoluteFillObject}
-            />
-            {scanned && (
-              <View style={{ marginTop: 40 }}>
-                {loadqr === true && (
-                  <TouchableOpacity onPress={QRCODE}>
-                    <Text
-                      style={{
-                        fontSize: 20,
-                        fontWeight: 'bold',
-                        textAlign: 'center',
-                      }}
-                    >
-                      Enviar ponto de {'\n'} {qrEmail}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-                {loadqr === false && (
-                  <ActivityIndicator
-                    size={'large'}
-                    color="#1CADE2"
-                  />
-                )}
-              </View>
-            )}
-          </View>
-        </Modal>
-
-        <Modal
-          animationType="slide"
-          transparent={false}
-          visible={modalimg}
-          onRequestClose={() => {
-            setModalimg(!modalimg);
-          }}
-        >
-          <View style={{ flex: 1, justifyContent: 'center', margin: 20 }}>
-            <View
-              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            <TouchableOpacity
+              style={{ margin: 10 }}
+              onPress={handlePonto}
             >
-              <TouchableOpacity
-                style={{ margin: 10 }}
-                onPress={modalcameraleft}
-              >
-                <Icone
-                  name="angle-double-left"
-                  size={35}
-                  color="#1CADE2"
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ margin: 10 }}
-                onPress={handlePonto}
-              >
-                <Image
-                  style={{ width: 25, height: 43 }}
-                  source={require('~/assets/bater-ponto.png')}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{ margin: 10, justifyContent: 'flex-end' }}
-                onPress={modalcamera}
-              >
-                <Icone
-                  name="window-close"
-                  size={35}
-                  color="#1CADE2"
-                />
-              </TouchableOpacity>
-            </View>
-
-            <Image
-              style={{ width: '100%', height: '80%', borderRadius: 20 }}
-              source={{ uri: image }}
-            />
+              <Image
+                style={{ width: 25, height: 43 }}
+                source={require('~/assets/bater-ponto.png')}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={{ margin: 10, justifyContent: 'flex-end' }}
+              onPress={modalcamera}
+            >
+              <Icone
+                name="window-close"
+                size={35}
+                color="#1CADE2"
+              />
+            </TouchableOpacity>
           </View>
-        </Modal>
-      </SafeAreaView>
-    </AlertNotificationRoot>
+
+          <Image
+            style={{ width: '100%', height: '80%', borderRadius: 20 }}
+            source={{ uri: image }}
+          />
+        </View>
+      </Modal>
+    </SafeAreaView>
   );
 };
 

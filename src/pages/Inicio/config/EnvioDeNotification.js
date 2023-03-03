@@ -14,11 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
@@ -27,6 +23,8 @@ import { Entypo, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -45,24 +43,14 @@ export default function EnvioDeNoification() {
 
   const Enviar = async () => {
     if (!assunto || !msg) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Campos obrigatorios',
-        button: 'ok',
-      });
+      DialogAlert('Campos obrigatórios');
     } else if (assunto || msg) {
       setButton(false);
       const ress = await Api.notification(pis, assunto, msg);
 
       const res = await Api.createPushNotification(token, assunto, msg);
       if (res) {
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: 'Sucesso',
-          textBody: 'Notificação enviada com sucesso',
-          button: 'ok',
-        });
+        DialogSuccess('Notificação enviada com sucesso');
         setTimeout(() => {
           navigation.navigate('Home');
         }, 1500);

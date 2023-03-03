@@ -11,7 +11,7 @@ import {
 
 import Api from '~/services/Api';
 
-import { Action } from '../Action/index';
+import { Action } from '../Action';
 import { Container, Content } from './styles';
 
 export const Actions = () => {

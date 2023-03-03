@@ -13,11 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +25,7 @@ import { Entypo, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function RelatorioDeAtestado() {
@@ -113,13 +110,7 @@ export default function RelatorioDeAtestado() {
       setTimeout(() => {
         navigation.goBack();
       }, 2000);
-
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Ponto Alterado com sucesso',
-        button: 'ok',
-      });
+      DialogSuccess('Ponto Alterado com sucesso');
     }
   };
   const onChangeInicio = (event, selectedDate) => {

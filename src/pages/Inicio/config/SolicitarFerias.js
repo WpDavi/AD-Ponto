@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Modal, Platform, View } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
@@ -12,6 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components';
 
+import { DialogAlert } from '~/components/DialogAlert';
 import Api from '~/services/Api';
 
 export default function SolicitarFerias() {
@@ -66,12 +63,7 @@ export default function SolicitarFerias() {
 
   async function handleRequest() {
     if (!dataInicial || !dataTermino) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alert',
-        textBody: 'Preencha todos os campos',
-        button: 'ok',
-      });
+      DialogAlert('Preencha todos os campos');
       return;
     }
     setLoad(true);

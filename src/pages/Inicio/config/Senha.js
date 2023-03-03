@@ -8,11 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 
 import { useNavigation } from '@react-navigation/native';
@@ -20,6 +16,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogAlert } from '~/components/DialogAlert';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -36,21 +33,11 @@ export default function Senha() {
 
   const alterar = async () => {
     if (!senhaAtual || !novaSenha || !confirmarSenha) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alert',
-        textBody: 'Preencha todos os campos',
-        button: 'ok',
-      });
+      DialogAlert('Preencha todos os campos');
       return;
     }
     if (novaSenha !== confirmarSenha) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alert',
-        textBody: 'Nova senha e confirmar senha nao conferem',
-        button: 'ok',
-      });
+      DialogAlert('Nova senha e confirmar senha não conferem');
       return;
     }
     setLoad(true);
@@ -60,12 +47,7 @@ export default function Senha() {
       setPassmodal(true);
     } else {
       setLoad(false);
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Senha atual incorreta',
-        button: 'ok',
-      });
+      DialogAlert('Senha atual incorreta');
     }
   };
   const sair = () => {

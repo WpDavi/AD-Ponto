@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -18,6 +17,7 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function EnviodeAtestado() {
@@ -58,12 +58,7 @@ export default function EnviodeAtestado() {
       const json = await Api.uploudFiles(image);
       setJson(json);
       setButton(false);
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'imagem enviada',
-        button: 'ok',
-      });
+      DialogSuccess('Imagem enviada');
       setTimeout(() => {
         navigation.navigate('Home');
       }, 2000);

@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Modal } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import SignatureScreen from 'react-native-signature-canvas';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -13,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import * as FileSystem from 'expo-file-system';
 import styled from 'styled-components';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function Assinatura(onOK) {
@@ -54,12 +51,7 @@ export default function Assinatura(onOK) {
   const handleToSend = async () => {
     setBottonLoad(true);
     const ress = await Api.uploudAssinatura(image);
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Assinatura enviada',
-      button: 'ok',
-    });
+    DialogSuccess('Assinatura enviada');
     const res = await Api.uploudAssinatura2(id);
     navigation.navigate('Mapa');
   };

@@ -8,7 +8,7 @@ import { DialogAlert } from '~/components/DialogAlert';
 import { FilledButton } from '~/components/FilledButton';
 import { HeaderPublic } from '~/components/HeaderPublic';
 import { InputLabel } from '~/components/InputLabel';
-import { RecoverPassword } from '~/components/RecoverPassword/index';
+import { RecoverPassword } from '~/components/RecoverPassword';
 import { UnfilledButton } from '~/components/UnfilledButton';
 import Api from '~/services/Api';
 

@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native';
 
-import { MapButton } from '../MapButton/index';
+import { MapButton } from '../MapButton';
 import { Container, MapLocation } from './styles';
 
 export const Map = ({ lat, lon, loading, onPress }) => {

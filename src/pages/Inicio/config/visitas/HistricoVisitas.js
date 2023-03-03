@@ -10,11 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -28,6 +24,7 @@ import {
 } from '@gorhom/bottom-sheet';
 import styled from 'styled-components';
 
+import { DialogAlert } from '~/components/DialogAlert';
 import TodoList from '~/components/checklist';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
@@ -87,40 +84,20 @@ export default function VisiitasEmAndamento() {
     }
     function check() {
       if (!visitas.item.check_in) {
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: 'Alerta',
-          textBody: 'Check-in ainda não foi registrado',
-          button: 'ok',
-        });
+        DialogAlert('Check-in ainda não foi registrado');
         setModalVisita(false);
       } else if (!visitas.item.check_out) {
-        Dialog.show({
-          type: ALERT_TYPE.DANGER,
-          title: 'Alerta',
-          textBody: 'Check-out ainda não foi registrado',
-          button: 'ok',
-        });
+        DialogAlert('Check-out ainda não foi registrado');
         setModalVisita(false);
         setButton(true);
       } else {
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: 'Atenção',
-          textBody: 'Check-in e Check-out já cadastrado',
-          button: 'ok',
-        });
+        DialogAlert('Check-in e Check-out já cadastrado');
       }
     }
 
     const handleSignature = async () => {
       if (!visitas.item.assinatura) {
-        Dialog.show({
-          type: ALERT_TYPE.WARNING,
-          title: 'Alerta',
-          textBody: 'Assinatura não coletada',
-          button: 'ok',
-        });
+        DialogAlert('Assinatura não coletada');
       } else {
         await AsyncStorage.setItem(
           '@imgAssinatura',

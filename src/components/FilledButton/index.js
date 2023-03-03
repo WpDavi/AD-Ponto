@@ -1,4 +1,4 @@
-import { Loader } from '~/components/Loader/index';
+import { Loader } from '~/components/Loader';
 
 import { Container, TextButton } from './styles';
 

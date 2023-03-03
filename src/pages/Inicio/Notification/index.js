@@ -13,11 +13,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -25,6 +21,7 @@ import { Entypo } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function Notification() {
@@ -52,12 +49,7 @@ export default function Notification() {
     setLista(notification);
     setModalimg(false);
     setButton(true);
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Notificação apagada',
-      button: 'ok',
-    });
+    DialogSuccess('Notificação apagada');
   };
 
   const renderItem = useCallback((notification) => {

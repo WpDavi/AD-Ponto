@@ -14,11 +14,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +25,8 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import { Camera } from 'expo-camera';
 import styled from 'styled-components/native';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function RelatorioDefuncionario() {
@@ -58,22 +56,12 @@ export default function RelatorioDefuncionario() {
     const url = res.url;
     await Api.postinfosFaceID(id, url);
     if (res.status === 'failure') {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Rosto não identificado',
-        button: 'ok',
-      });
+      DialogAlert('Rosto não identificado');
       setModalLoad(false);
     } else if (res.status === 'success') {
       setModalLoad(false);
       setModalcan(true);
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Rosto cadastrado com sucesso',
-        button: 'ok',
-      });
+      DialogSuccess('Rosto cadastrado com sucesso');
     }
   }
 
@@ -87,14 +75,7 @@ export default function RelatorioDefuncionario() {
     await setListaPesquisa(jso);
     setModalimg(false);
     setButton(true);
-    if (res) {
-      await Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Atualização feita com sucesso',
-        button: 'ok',
-      });
-    }
+    res && DialogSuccess('Atualização feita com sucesso');
   };
   const qrfoto = async () => {
     setButton(false);
@@ -106,14 +87,7 @@ export default function RelatorioDefuncionario() {
     await setListaPesquisa(jso);
     setModalimg(false);
     setButton(true);
-    if (res) {
-      await Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Atualização feita com sucesso',
-        button: 'ok',
-      });
-    }
+    res && DialogSuccess('Atualização feita com sucesso');
   };
   const fotoloc = async () => {
     setButton(false);
@@ -125,14 +99,7 @@ export default function RelatorioDefuncionario() {
     await setListaPesquisa(jso);
     setModalimg(false);
     setButton(true);
-    if (res) {
-      await Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Atualização feita com sucesso',
-        button: 'ok',
-      });
-    }
+    res && DialogSuccess('Atualização feita com sucesso');
   };
 
   const navigation = useNavigation();

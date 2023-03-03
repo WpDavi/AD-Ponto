@@ -1,6 +1,6 @@
 import Icon from '@expo/vector-icons/FontAwesome5';
 
-import { Loader } from '~/components/Loader/index';
+import { Loader } from '~/components/Loader';
 
 import { Container, TextButton } from './styles';
 

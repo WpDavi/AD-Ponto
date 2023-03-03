@@ -5,11 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
@@ -19,6 +15,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import { Camera } from 'expo-camera';
 import styled from 'styled-components';
 
+import { DialogAlert } from '~/components/DialogAlert';
 import Api from '~/services/Api';
 
 export default function PontoQrCode() {
@@ -90,19 +87,13 @@ export default function PontoQrCode() {
     const php = await Api.PointPhp(pis, lat, long, dataa, empresa);
     let json = await Api.pointQr(email, hour, date, lat, long);
     const jsonn = Api.uploudPonto(email, hour, date, lat, long, image);
-    if (json) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: `Ponto de ${email} inserido com sucesso`,
-        button: 'ok',
-      });
+    json &&
+      DialogAlert(`Ponto de ${email} inserido com sucesso`) &&
       setTimeout(() => {
         navigation.reset({
           routes: [{ name: 'Home' }],
         });
       }, 2000);
-    }
   }
 
   function TogleCan() {

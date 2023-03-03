@@ -1,10 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Image, Modal } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
@@ -14,6 +10,8 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import { Camera } from 'expo-camera';
 import styled from 'styled-components';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 import { ChangeCan, ImgChangeCan } from './styled';
@@ -135,23 +133,8 @@ export default function PontoCamera() {
             routes: [{ name: 'Home' }],
           });
         }, 2000);
-
-        if (json.error) {
-          Dialog.show({
-            type: ALERT_TYPE.WARNING,
-            title: 'Erro',
-            textBody: `${json.error}`,
-            button: 'ok',
-          });
-        }
-        if (json.message) {
-          Dialog.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: 'Sucesso',
-            textBody: 'Ponto Inserido com sucesso',
-            button: 'ok',
-          });
-        }
+        json.error && DialogAlert(`${json.error}`);
+        json.message && DialogSuccess('Ponto Inserido com sucesso');
       }
     } else if (internet === false) {
       var dataaa = new Date();
@@ -160,14 +143,9 @@ export default function PontoCamera() {
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
-
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody:
-          'Sem conexão a internet, ponto será enviado ao retomar conexão',
-        button: 'ok',
-      });
+      DialogAlert(
+        'Sem conexão a internet, ponto será enviado ao retomar conexão',
+      );
       const myArray = [
         {
           email: email,
