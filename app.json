@@ -2,7 +2,7 @@
   "expo": {
     "name": "AD-Ponto",
     "slug": "ad-ponto",
-    "version": "2.1.6",
+    "version": "2.1.7",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -23,7 +23,7 @@
       "config": {
         "googleMapsApiKey": "AIzaSyBfG7cc3zRsgouwQLydU-Z3QRLyk2qQLO4"
       },
-      "buildNumber": "16",
+      "buildNumber": "17",
       "infoPlist": {
         "NSCameraUsageDescription": "The photograph is used in the electronic point resource, with the purpose of registering the user who submitted it.",
         "NSPhotoLibraryUsageDescription": "Access to cell phone photos is used to send medical certificates, a new profile picture and point functions.",
@@ -43,18 +43,13 @@
           "apiKey": "AIzaSyBfG7cc3zRsgouwQLydU-Z3QRLyk2qQLO4"
         }
       },
-      "versionCode": 16,
+      "versionCode": 17,
       "blockedPermissions": [
         "android.permission.ACCESS_BACKGROUND_LOCATION"
       ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "extra": {
-      "eas": {
-        "projectId": "1be7cf8c-aa84-4f75-b55c-55a12307f8ef"
-      }
     }
   }
 }
