@@ -11,11 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInput as RNPTextInput } from 'react-native-paper';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -29,6 +25,8 @@ import {
 } from '@gorhom/bottom-sheet';
 import styled from 'styled-components';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import TodoList from '~/components/checklist';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
@@ -72,37 +70,18 @@ export default function VisiitasEmAndamento() {
       const res = await Api.checkIn(id);
       getVisitas();
       setButton(true);
-      if (res) {
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: 'Sucesso',
-          textBody: 'Check-in Feito',
-          button: 'ok',
-        });
-        setModalVisita(false);
-      }
+      res && DialogSuccess('Check-in Feito') && setModalVisita(false);
     } else if (!check_out) {
       setButton(false);
       const res = await Api.checkOut(id);
       setButton(true);
       getVisitas();
-      if (res) {
-        Dialog.show({
-          type: ALERT_TYPE.SUCCESS,
-          title: 'Sucesso',
-          textBody: 'Check-out Feito',
-          button: 'ok',
-        });
-        setModalVisita(false);
+      res &&
+        DialogSuccess('Check-out Feito') &&
+        setModalVisita(false) &&
         setButton(true);
-      }
     } else {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Atenção',
-        textBody: 'Check-in e Check-out já cadastrado',
-        button: 'ok',
-      });
+      DialogAlert('Check-in e Check-out já cadastrado');
     }
   }
   async function NewTask() {

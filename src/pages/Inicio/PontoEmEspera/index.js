@@ -9,16 +9,14 @@ import {
   Text,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { useTheme } from 'react-native-paper';
 
 import asyncstorage from '@react-native-async-storage/async-storage';
 import NetInfo from '@react-native-community/netinfo';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 const Login = ({ navigation }) => {
@@ -61,30 +59,16 @@ const Login = ({ navigation }) => {
         ponto.long,
         ponto.token,
       );
-
-      if (json.error) {
-        Dialog.show({
-          type: ALERT_TYPE.WARNING,
-          title: 'Error',
-          textBody: `${json.error}`,
-          button: 'ok',
-        });
-      }
+      json.error && DialogAlert(`${json.error}`);
       sucesso = json.message ? true : false;
     }
-    if (sucesso) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Ponto em espera enviado',
-        button: 'ok',
-      });
+    sucesso &&
+      DialogSuccess('Ponto em espera enviado') &&
       setTimeout(() => {
         navigation.reset({
           routes: [{ name: 'Home' }],
         });
       }, 2000);
-    }
   };
 
   useEffect(() => {

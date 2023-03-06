@@ -10,11 +10,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { View } from 'react-native-animatable';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView from 'react-native-maps';
@@ -28,6 +24,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import * as Location from 'expo-location';
 import styled from 'styled-components';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -117,23 +114,13 @@ export default function Mapa() {
       timeRota,
       prince,
     );
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Visita cadastrada',
-      button: 'ok',
-    });
+    DialogSuccess('Visita cadastrada');
     setPlaceClient(false);
     if (id) {
       await Api.deleteVisita(id);
     }
     setOffButton(true);
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Rota cadastrada',
-      button: 'ok',
-    });
+    DialogSuccess('Rota cadastrada');
   };
 
   const shareCordinates = async () => {

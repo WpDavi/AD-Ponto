@@ -11,11 +11,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { useNavigation } from '@react-navigation/native';
@@ -24,6 +20,7 @@ import { Feather, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import * as ImagePicker from 'expo-image-picker';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -57,22 +54,12 @@ export default function MinhaConta() {
     setUploudd(uploud);
 
     if (uploudd) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Imagem enviada',
-        button: 'ok',
-      });
+      DialogSuccess('Imagem enviada');
       navigation.reset({
         routes: [{ name: 'Drawer' }],
       });
     } else {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Imagem enviada',
-        button: 'ok',
-      });
+      DialogSuccess('Imagem enviada');
       setTimeout(() => {
         navigation.reset({
           routes: [{ name: 'Drawer' }],

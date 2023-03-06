@@ -1,5 +1,5 @@
 export const dark = {
-  background: 'black',
-  color: 'white',
+  background: '#000000',
+  color: '#ffffff',
   draw: '#AAAAAA',
 };

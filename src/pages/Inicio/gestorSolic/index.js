@@ -12,11 +12,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -24,6 +20,7 @@ import { Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function Senha() {
@@ -65,14 +62,7 @@ export default function Senha() {
     const res = await Api.PutFerias(id, aceite);
     setModaItemFerias(false);
     setBottonLoad(false);
-    if (res) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Você Aceitou a solicitação de ferias',
-        button: 'ok',
-      });
-    }
+    res && DialogSuccess('Você aceitou a solicitação de ferias');
   };
   const negarFerias = async () => {
     setBottonLoad(true);
@@ -81,15 +71,7 @@ export default function Senha() {
     const res = await Api.PutFerias(id, aceite);
     setModaItemFerias(false);
     setBottonLoad(false);
-
-    if (res) {
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Você negou a solicitação de férias',
-        button: 'ok',
-      });
-    }
+    res && DialogSuccess('Você negou a solicitação de férias');
   };
 
   //FletList Ferias

@@ -7,11 +7,6 @@ import {
   Platform,
   TouchableOpacity,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
 import MapView from 'react-native-maps';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -24,6 +19,8 @@ import { Camera } from 'expo-camera';
 import * as ImagePicker from 'expo-image-picker';
 import * as Location from 'expo-location';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Mapa from '~/components/Mapa';
 import Api from '~/services/Api';
 
@@ -243,20 +240,10 @@ export default function Ponto() {
         }, 2000);
 
         if (json.error) {
-          Dialog.show({
-            type: ALERT_TYPE.WARNING,
-            title: 'Erro',
-            textBody: `${json.error}`,
-            button: 'ok',
-          });
+          DialogAlert(`${json.error}`);
         }
         if (json.message) {
-          Dialog.show({
-            type: ALERT_TYPE.SUCCESS,
-            title: 'Sucesso',
-            textBody: 'Ponto Inserido com sucesso',
-            button: 'ok',
-          });
+          DialogSuccess('Ponto Inserido com sucesso');
         }
       }
     } else if (internet === false) {
@@ -266,14 +253,9 @@ export default function Ponto() {
       var ano = dataaa.getFullYear();
       var hourr = new Date().toLocaleTimeString();
       const dataa = ano + mes + dia;
-
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody:
-          'Sem conexão a internet, ponto será enviado ao retomar conexão',
-        button: 'ok',
-      });
+      DialogAlert(
+        'Sem conexão a internet, ponto será enviado ao retomar conexão',
+      );
       const myArray = [
         {
           email: email,
@@ -321,89 +303,86 @@ export default function Ponto() {
 
   return (
     <Container>
-      <AlertNotificationRoot>
-        <ContainerHeader>
-          <TxtTitulo>Bater Ponto</TxtTitulo>
-          <TxtName>{name1}</TxtName>
-          <Mapa />
-        </ContainerHeader>
-        <ContainerButtonBack>
-          <ButtonBack
-            onPress={() => {
-              navigation.navigate('Home');
-            }}
-          >
-            <Icone
-              size={20}
-              name="arrow-left"
-              color="white"
-            />
-          </ButtonBack>
-        </ContainerButtonBack>
-        <ContainerBody>
-          <MapView
-            style={{ height: '100%', width: '100%' }}
-            region={coords}
-            showsUserLocation={true}
-            loadingEnabled={true}
-          />
-          {!load && (
-            <ContainerButton onPress={baterPonto}>
-              <Txtbutton>
-                BATER PONTO
-                <Icone
-                  size={16}
-                  name="hand-point-up"
-                />
-              </Txtbutton>
-            </ContainerButton>
-          )}
-          {load && (
-            <ContainerButton>
-              <Txtbutton>
-                Carregando...
-                <ActivityIndicator color={'white'} />
-              </Txtbutton>
-            </ContainerButton>
-          )}
-        </ContainerBody>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalPermission}
-          onRequestClose={() => {
-            setModalPermission(!modalPermission);
+      <ContainerHeader>
+        <TxtTitulo>Bater Ponto</TxtTitulo>
+        <TxtName>{name1}</TxtName>
+        <Mapa />
+      </ContainerHeader>
+      <ContainerButtonBack>
+        <ButtonBack
+          onPress={() => {
+            navigation.navigate('Home');
           }}
         >
-          <ContainerModalPermission>
-            <Header>
-              <TxtHeader>PERMISSÕES</TxtHeader>
-            </Header>
-            <ContainerInfos>
-              <TxtInfos>
-                Vamos solicitar a permissão para acesso a câmera afim de
-                registro do ponto eletrônico, envio de imagens e atestados
-                médicos.
-              </TxtInfos>
-            </ContainerInfos>
-            <ContainerInfos>
-              <TxtInfos>
-                Vamos solicitar permissão de acesso a localização e a
-                localização em segundo plano do seu dispositivo para a
-                finalidade de registro do ponto.
-              </TxtInfos>
-            </ContainerInfos>
-            <ContainerButtons>
-              <TouchableOpacity onPress={logount}>
-                <TxtButtonModal>Sair</TxtButtonModal>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={aceiteModal}>
-                <TxtButtonModal>Avançar</TxtButtonModal>
-              </TouchableOpacity>
-            </ContainerButtons>
-          </ContainerModalPermission>
-        </Modal>
-      </AlertNotificationRoot>
+          <Icone
+            size={20}
+            name="arrow-left"
+            color="white"
+          />
+        </ButtonBack>
+      </ContainerButtonBack>
+      <ContainerBody>
+        <MapView
+          style={{ height: '100%', width: '100%' }}
+          region={coords}
+          showsUserLocation={true}
+          loadingEnabled={true}
+        />
+        {!load && (
+          <ContainerButton onPress={baterPonto}>
+            <Txtbutton>
+              BATER PONTO
+              <Icone
+                size={16}
+                name="hand-point-up"
+              />
+            </Txtbutton>
+          </ContainerButton>
+        )}
+        {load && (
+          <ContainerButton>
+            <Txtbutton>
+              Carregando...
+              <ActivityIndicator color={'white'} />
+            </Txtbutton>
+          </ContainerButton>
+        )}
+      </ContainerBody>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalPermission}
+        onRequestClose={() => {
+          setModalPermission(!modalPermission);
+        }}
+      >
+        <ContainerModalPermission>
+          <Header>
+            <TxtHeader>PERMISSÕES</TxtHeader>
+          </Header>
+          <ContainerInfos>
+            <TxtInfos>
+              Vamos solicitar a permissão para acesso a câmera afim de registro
+              do ponto eletrônico, envio de imagens e atestados médicos.
+            </TxtInfos>
+          </ContainerInfos>
+          <ContainerInfos>
+            <TxtInfos>
+              Vamos solicitar permissão de acesso a localização e a localização
+              em segundo plano do seu dispositivo para a finalidade de registro
+              do ponto.
+            </TxtInfos>
+          </ContainerInfos>
+          <ContainerButtons>
+            <TouchableOpacity onPress={logount}>
+              <TxtButtonModal>Sair</TxtButtonModal>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={aceiteModal}>
+              <TxtButtonModal>Avançar</TxtButtonModal>
+            </TouchableOpacity>
+          </ContainerButtons>
+        </ContainerModalPermission>
+      </Modal>
     </Container>
   );
 }
