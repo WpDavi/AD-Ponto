@@ -1,15 +1,15 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
-import { GoBack } from '~/components/GoBack/index';
+import { GoBack } from '~/components/GoBack';
 import EnviodeAtestado from '~/pages/Inicio/EnviodeAtestado';
 import HistoricoDePonto from '~/pages/Inicio/HistoricoDePonto';
 import Mapa from '~/pages/Inicio/Mapa';
 import Assinatura from '~/pages/Inicio/Mapa/Assinatura';
 import VisiitasEmAndamento from '~/pages/Inicio/Mapa/VisiitasEmAndamento';
 import Notification from '~/pages/Inicio/Notification';
+import Ponto from '~/pages/Inicio/Ponto';
 import PontoCamera from '~/pages/Inicio/Ponto/PontoCamera';
-import Ponto from '~/pages/Inicio/Ponto/index';
-import PontoQrCode from '~/pages/Inicio/Ponto/qrcode.js';
+import PontoQrCode from '~/pages/Inicio/Ponto/qrcode';
 import PontoEmEspera from '~/pages/Inicio/PontoEmEspera';
 import { RegisterPointDisconnected } from '~/pages/Inicio/RegisterPointDisconnected';
 import HistoricoDeAtestado from '~/pages/Inicio/RelatorioDeAtestado';
@@ -75,20 +75,8 @@ export const Stack = () => {
         component={Tabs}
       />
       <Screen
-        name="Ponto"
-        component={Ponto}
-      />
-      <Screen
-        name="PontoCamera"
-        component={PontoCamera}
-      />
-      <Screen
-        name="PontoQrCode"
-        component={PontoQrCode}
-      />
-      <Screen
-        name="EnviodeAtestado"
-        component={EnviodeAtestado}
+        name="Support"
+        component={Support}
       />
       <Screen
         options={{ title: 'Banco de Horas' }}
@@ -96,112 +84,153 @@ export const Stack = () => {
         component={Reports}
       />
       <Screen
-        name="HistoricoDePonto"
-        component={HistoricoDePonto}
-      />
-      <Screen
-        name="HistoricoDeAtestado"
-        component={HistoricoDeAtestado}
-      />
-      <Screen
-        name="Notification"
-        component={Notification}
-      />
-      <Screen
-        name="Drawer"
-        component={Drawer}
-      />
-      <Screen
-        name="Support"
-        component={Support}
-      />
-      <Screen
-        name="PontoEmEspera"
-        component={PontoEmEspera}
-      />
-      <Screen
         options={{ title: 'Bater Ponto' }}
         name="RegisterPointDisconnected"
         component={RegisterPointDisconnected}
       />
       <Screen
+        options={{ headerShown: false }}
+        name="Ponto"
+        component={Ponto}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="PontoCamera"
+        component={PontoCamera}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="PontoQrCode"
+        component={PontoQrCode}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="EnviodeAtestado"
+        component={EnviodeAtestado}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="HistoricoDePonto"
+        component={HistoricoDePonto}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="HistoricoDeAtestado"
+        component={HistoricoDeAtestado}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="Notification"
+        component={Notification}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="Drawer"
+        component={Drawer}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="PontoEmEspera"
+        component={PontoEmEspera}
+      />
+      <Screen
+        options={{ headerShown: false }}
         name="Mapa"
         component={Mapa}
       />
       <Screen
+        options={{ headerShown: false }}
         name="VisiitasEmAndamento"
         component={VisiitasEmAndamento}
       />
       <Screen
+        options={{ headerShown: false }}
         name="SolicitaçãoDeVisitas"
         component={SolicitaçãoDeVisitas}
       />
       <Screen
+        options={{ headerShown: false }}
         name="HistoricoDeVisitas"
         component={HistoricoDeVisitas}
       />
       <Screen
+        options={{ headerShown: false }}
         name="Assinatura"
         component={Assinatura}
       />
       <Screen
+        options={{ headerShown: false }}
         name="ImgAssinatura"
         component={ImgAssinatura}
       />
 
       <Screen
+        options={{ headerShown: false }}
         name="SolicitarFerias"
         component={SolicitarFerias}
       />
       <Screen
+        options={{ headerShown: false }}
         name="Senha"
         component={Senha}
       />
       <Screen
+        options={{ headerShown: false }}
         name="Solicitacoes"
         component={Solicitacoes}
       />
       <Screen
+        options={{ headerShown: false }}
         name="SolicitaçõesPonto"
         component={SolicitaçõesPonto}
       />
       <Screen
+        options={{ headerShown: false }}
         name="GestorSolicitacoes"
         component={GestorSolicitacoes}
       />
       <Screen
+        options={{ headerShown: false }}
         name="GestorSolicitaçõesdePonto"
         component={GestorSolicitaçõesdePonto}
       />
       <Screen
+        options={{ headerShown: false }}
         name="GestorGPonto"
         component={GestorGPonto}
       />
       <Screen
+        options={{ headerShown: false }}
         name="GestorBaterPonto"
         component={GestorBaterPonto}
       />
       <Screen
+        options={{ headerShown: false }}
         name="EnvioDeNoification"
         component={EnvioDeNoification}
       />
       <Screen
+        options={{ headerShown: false }}
         name="MeuQRCode"
         component={MeuQRCode}
       />
       <Screen
+        options={{ headerShown: false }}
         name="GestorCadastroVisita"
         component={GestorCadastroVisita}
       />
       <Screen
+        options={{ headerShown: false }}
         name="HistoricoSolicitaçãoDeVisitas"
         component={HistoricoSolicitaçãoDeVisitas}
       />
       <Screen
+        options={{ headerShown: false }}
         name="PontoFaceId"
         component={PontoFaceId}
       />
       <Screen
+        options={{ headerShown: false }}
         name="PontoFaceId2"
         component={PontoFaceId2}
       />
