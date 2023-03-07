@@ -115,7 +115,7 @@ export const Actions = () => {
           }
         />
         <Action
-          onPress={() => navigation.navigate('Suporte')}
+          onPress={() => navigation.navigate('Support')}
           text={'Suporte'}
           Icon={
             <Feather
