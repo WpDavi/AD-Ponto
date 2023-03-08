@@ -34,6 +34,16 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(()=>{
+    async function delet(){
+      console.log('remove')
+      await AsyncStorage.removeItem('@FuncionarioPes');
+      await AsyncStorage.removeItem('@DataFinal');
+      await AsyncStorage.removeItem('@DataInicial');
+    }
+    delet()
+  },[])
+
   const [tokenn, setTokenn] = useState();
   const [pis, setPis] = useState();
 

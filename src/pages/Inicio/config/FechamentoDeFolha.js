@@ -28,7 +28,7 @@ import styled from 'styled-components/native';
 import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
-export default function RelatorioDeAtestado() {
+export default function FechamentoDeFolha() {
   const [infos, setInfos] = useState(['1', '2', '3', '4', '5']);
   const [modalimg, setModalimg] = useState(false);
   const [button, setButton] = useState(true);

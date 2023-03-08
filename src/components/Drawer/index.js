@@ -6,7 +6,7 @@ import {
   Switch,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 
 import { DrawerItem } from '@react-navigation/drawer';
@@ -15,10 +15,9 @@ import { useNavigation } from '@react-navigation/native';
 import {
   AntDesign,
   Entypo,
-  FontAwesome,
-  Fontisto,
+  FontAwesome, FontAwesome5, Fontisto,
   MaterialCommunityIcons,
-  MaterialIcons,
+  MaterialIcons
 } from '@expo/vector-icons';
 
 import { ThemeContext } from '~/context/ThemeContext';
@@ -220,6 +219,19 @@ export function DrawerContent(props) {
               )}
               label="Envio de notificação para funcionário"
               onPress={() => navigation.navigate('EnvioDeNoification')}
+            />
+
+        <DrawerItem
+              labelStyle={{ marginLeft: -12 }}
+              icon={({ color, size }) => (
+                <FontAwesome5
+                  name="newspaper"
+                  size={23}
+                  color="black"
+                />
+              )}
+              label="Fechamento de folha"
+              onPress={() => navigation.navigate('FechamentoDeFolha')}
             />
 
             {/**
