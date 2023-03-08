@@ -167,7 +167,7 @@ export default function FechamentoDeFolha() {
     <Container>
       <AlertNotificationRoot>
         <ContainerHeaderTitulo>
-          <TxtTituloHeader>Gerencia de Pontos</TxtTituloHeader>
+          <TxtTituloHeader>Encerrar o período de fechamento</TxtTituloHeader>
         </ContainerHeaderTitulo>
         <View style={{ position: 'absolute', marginTop: 20 }}>
           <ContainerButtonBack onPress={() => navigation.goBack()}>
@@ -256,12 +256,24 @@ export default function FechamentoDeFolha() {
           />
         )}
 
-        {!load && (
+        {!load && funcionario && dataInicial && dataFinal && (
           <FlatList
             data={listaPesquisa}
             renderItem={renderItem}
             keyExtractor={(item, index) => index}
           />
+        )}
+
+        <ButtonFolha>
+          <TxtButton>Encerrar período</TxtButton>
+        </ButtonFolha>
+        {listaPesquisa && (
+          <ContainerMsg>
+            {!funcionario && <TextMsg>Selecione um Funcionario</TextMsg>}
+            {!dataInicial && !dataFinal && funcionario && (
+              <TextMsg>Selecione a data</TextMsg>
+            )}
+          </ContainerMsg>
         )}
         {loadSec && (
           <ActivityIndicator
@@ -315,6 +327,31 @@ const ContainerBody = styled.View`
   position: absolute;
   width: 100%;
   padding-bottom: 50%;
+`;
+
+const ContainerMsg = styled.View`
+  align-items: center;
+  margin-top: 70px;
+`;
+
+const TextMsg = styled.Text`
+  font-size: 20px;
+`;
+
+const ButtonFolha = styled.TouchableOpacity`
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  background-color: red;
+  border-radius: 10px;
+`;
+
+const TxtButton = styled.Text`
+  font-size: 15px;
+  color: white;
+  padding: 7px;
+  padding-left: 10px;
+  padding-right: 10px;
 `;
 
 const styles = StyleSheet.create({
