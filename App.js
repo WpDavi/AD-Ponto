@@ -9,8 +9,7 @@ const App = () => {
     <ThemeProvider>
       <AlertNotificationRoot>
         <StatusBar
-          translucent
-          backgroundColor="transparent"
+          backgroundColor="#1cade2"
           barStyle="light-content"
         />
         <Routes />

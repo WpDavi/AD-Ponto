@@ -170,9 +170,14 @@ export default function RelatorioDeAtestado() {
   }, [funcionario, dataFinal]);
 
   async function handlePerson(itemValue) {
-    AsyncStorage.setItem('@FuncionarioPes', JSON.stringify(itemValue));
-    setLoadSec(true);
-    setFuncionario(itemValue);
+    if (itemValue == 'Option 1') {
+      console.log('nao faz nd');
+    } else {
+      console.log(itemValue);
+      AsyncStorage.setItem('@FuncionarioPes', JSON.stringify(itemValue));
+      setLoadSec(true);
+      setFuncionario(itemValue);
+    }
   }
 
   const renderItem = useCallback((atestado) => {

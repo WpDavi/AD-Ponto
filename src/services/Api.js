@@ -495,6 +495,7 @@ export default {
   },
 
   getGestorhourss: async (funcionario, dataInicial, dataFinal) => {
+    console.log(funcionario, dataInicial, dataFinal);
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/newhoursDate`, {
       method: 'POST',
