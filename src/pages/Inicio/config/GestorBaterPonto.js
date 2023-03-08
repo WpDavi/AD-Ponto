@@ -12,7 +12,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
@@ -31,6 +31,8 @@ import Api from '~/services/Api';
 
 export default function RelatorioDefuncionario() {
   const camRef = useRef(null);
+  
+  const navigation = useNavigation();
 
   const [type, setType] = useState(Camera.Constants.Type.front);
 
@@ -65,6 +67,11 @@ export default function RelatorioDefuncionario() {
       setModalcan(true);
       DialogSuccess('Rosto cadastrado com sucesso');
     }
+    setTimeout(() => {navigation.reset({
+      routes: [{ name: 'Home' }],
+    })}, 1000)
+    
+   
   }
 
   const localização = async () => {
@@ -104,7 +111,6 @@ export default function RelatorioDefuncionario() {
     res && DialogSuccess('Atualização feita com sucesso');
   };
 
-  const navigation = useNavigation();
 
   useEffect(() => {
     const onStart = async () => {
@@ -246,12 +252,17 @@ export default function RelatorioDefuncionario() {
 
           <TouchableOpacity
             style={{
-              justifyContent: 'center',
+              justifyContent: "center",
               marginRight: 20,
               marginBottom: 30,
             }}
             onPress={handleFaceId}
-          />
+          >
+            <Image
+              style={{ width: 30, height: 30 }}
+              source={require('../../../icons/faceid.png')}
+            />
+          </TouchableOpacity>
         </View>
       </SafeAreaView>
     );

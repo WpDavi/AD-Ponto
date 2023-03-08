@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Platform } from 'react-native';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -23,7 +23,22 @@ export const Login = () => {
   const [loadingEntrar, setLoadingEntrar] = useState(false);
   const [loginByKey, setLoginByKey] = useState(false);
 
+  useEffect(()=>{
+    async function getDados(){
+      const empresa = await AsyncStorage.getItem('@LoginEmpresa')
+      console.log(empresa)
+      const email = await AsyncStorage.getItem('@LoginEmail')
+      setCompany(empresa)
+      if(email){
+        setEmail(email)
+      }
+    }
+    getDados()
+  },[])
+
   const handleSignIn = async () => {
+    await AsyncStorage.setItem('@LoginEmpresa', company)
+    await AsyncStorage.setItem('@LoginEmail', email)
     setLoadingEntrar(true);
 
     const json = loginByKey
@@ -74,7 +89,7 @@ export const Login = () => {
               <FilledButton
                 text={'ENTRAR'}
                 onPress={handleSignIn}
-                loading={loadingEntrar}
+                loading={loadingEntrar}                
                 disabled={
                   email.length < 3 || password.length < 3 || company.length < 3
                 }
