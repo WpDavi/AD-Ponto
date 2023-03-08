@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
 
-const BASE_API = 'http://66.94.120.192:5001';
-//const BASE_API = 'http://192.168.0.61:5001';
+//const BASE_API = 'http://66.94.120.192:5001';
+const BASE_API = 'http://192.168.0.61:5001';
 //const BASE_API = 'http://192.168.1.83:5001';
 //const BASE_API = "http://192.168.100.139:5001";
 

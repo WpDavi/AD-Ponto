@@ -11,7 +11,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
