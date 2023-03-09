@@ -69,9 +69,7 @@ export default function RelatorioDefuncionario() {
     }
     setTimeout(() => {navigation.reset({
       routes: [{ name: 'Home' }],
-    })}, 1000)
-    
-   
+    })}, 1000)  
   }
 
   const localização = async () => {

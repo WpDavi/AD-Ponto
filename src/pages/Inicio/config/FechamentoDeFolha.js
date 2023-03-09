@@ -3,11 +3,13 @@ import {
   ActivityIndicator,
   FlatList,
   Image,
+  Modal,
   Platform,
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
+  TouchableOpacity,
+  View
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
@@ -17,7 +19,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation } from '@react-navigation/native';
 
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
@@ -42,6 +44,8 @@ export default function FechamentoDeFolha() {
   const [funcionario, setFuncionario] = useState('');
   const [load, setLoad] = useState(true);
   const [loadSec, setLoadSec] = useState(false);
+
+  const [modalPeriodo, setModalPeriodo] = useState(true)
 
   useEffect(() => {
     async function getFuncinarios() {
@@ -114,6 +118,12 @@ export default function FechamentoDeFolha() {
       setFuncionario(itemValue);
     }
   }
+
+  async function handleClose(){
+    setModalPeriodo(true)
+    console.log('teste')
+  }
+
 
   const renderItem = useCallback((atestado) => {
     return (
@@ -264,9 +274,12 @@ export default function FechamentoDeFolha() {
           />
         )}
 
-        <ButtonFolha>
-          <TxtButton>Encerrar período</TxtButton>
-        </ButtonFolha>
+        {funcionario && dataInicial && dataFinal && listaPesquisa &&
+        <ButtonFolha
+        onPress={handleClose}
+        >
+        <TxtButton>Gerar período{'\n'}de fechamento</TxtButton>
+      </ButtonFolha>}
         {listaPesquisa && (
           <ContainerMsg>
             {!funcionario && <TextMsg>Selecione um Funcionario</TextMsg>}
@@ -281,6 +294,71 @@ export default function FechamentoDeFolha() {
             size={'large'}
           />
         )}
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalPeriodo}
+            onRequestClose={() => {
+              setModalPeriodo(!setModalPeriodo);
+            }}
+          >
+            <ContainerModal>
+              <TitleModal>
+                <TitleTxt>
+                  Nova Assinatura Eletrônica de Cartão Ponto
+                </TitleTxt>
+                <TouchableOpacity
+                onPress={()=>{setModalPeriodo(false)}}>
+                  <AntDesign
+                  color={'#555555'}
+                  name={'close'}
+                  size={20}
+                  />
+                </TouchableOpacity>
+              </TitleModal>   
+              <ModalDescritption>
+                <ModalPrimare>
+                  <TxtPrimare>Descrição</TxtPrimare>
+                </ModalPrimare>
+                <ModalSegund>
+                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                </ModalSegund>                
+
+              </ModalDescritption>   
+
+               <ModalDescritption>
+                <ModalPrimare>
+                  <TxtPrimare>Período</TxtPrimare>
+                </ModalPrimare>
+                <ModalSegund>
+                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                </ModalSegund>                
+
+              </ModalDescritption>  
+
+               <ModalDescritption>
+                <ModalPrimare>
+                  <TxtPrimare>Funcionário</TxtPrimare>
+                </ModalPrimare>
+                <ModalSegund>
+                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                </ModalSegund>              
+              </ModalDescritption>      
+
+              <FooterModal>
+                <ButtonGerar>
+                  <ButtonGerarTxt>
+                    Gerar
+                  </ButtonGerarTxt>
+                </ButtonGerar>
+                <ButtonCancel>
+                  <ButtonCancTxt>Cancelar</ButtonCancTxt>
+                </ButtonCancel>
+
+              </FooterModal>            
+
+            </ContainerModal>
+          </Modal>
       </AlertNotificationRoot>
     </Container>
   );
@@ -342,7 +420,7 @@ const ButtonFolha = styled.TouchableOpacity`
   position: absolute;
   bottom: 40px;
   right: 40px;
-  background-color: red;
+  background-color: #1cade2;
   border-radius: 10px;
 `;
 
@@ -352,7 +430,94 @@ const TxtButton = styled.Text`
   padding: 7px;
   padding-left: 10px;
   padding-right: 10px;
+  font-weight: bold;
 `;
+
+//MODALL ------------
+
+const ContainerModal = styled.View`
+margin-top: 40%;
+align-self: center;
+justify-content: center;
+background-color: white;
+width: 95%;
+`
+
+const TitleModal = styled.View`
+width: 100%;
+background-color: #EEEEEE;
+border-bottom-width: 1px;
+flex-direction: row;
+align-items: center;
+justify-content: space-between;
+`
+const TitleTxt = styled.Text`
+padding: 10px;
+font-weight: bold;
+`
+
+const ModalDescritption = styled.View`
+flex-direction: row;
+`
+
+const ModalPrimare = styled.View`
+width: 30%;
+align-items: flex-end;
+margin-top: 20px;
+`
+const TxtPrimare = styled.Text`
+font-weight: bold;
+font-size: 17px;
+`
+
+const ModalSegund = styled.View`
+border-width: 1px;
+width: 60%;
+margin-top: 20px;
+margin-left: 20px;
+background-color: #DDDDDD;
+`
+
+const TxtSeund = styled.Text`
+padding: 5px;
+`
+
+const FooterModal = styled.View`
+background-color: #DDDDDD;
+flex-direction: row;
+border-top-width: 1px;
+margin-top: 40px;
+justify-content: space-between;
+`
+
+const ButtonGerar = styled.TouchableOpacity`
+margin: 15px;
+background-color: #1cade2;
+
+`
+
+const ButtonGerarTxt = styled.Text`
+padding: 10px;
+font-weight: bold;
+color: white;
+padding-left: 40px;
+padding-right: 40px;
+`
+
+const ButtonCancel = styled.TouchableOpacity`
+margin: 15px;
+background-color: #1cade2;
+`
+
+const ButtonCancTxt = styled.Text`
+padding: 10px;
+font-weight: bold;
+color: white;
+padding-left: 40px;
+padding-right: 40px;
+`
+
+
 
 const styles = StyleSheet.create({
   containeratestado: {
