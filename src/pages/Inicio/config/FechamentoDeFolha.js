@@ -9,11 +9,10 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
-import { DialogSuccess } from '~/components/DialogSuccess';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -24,9 +23,10 @@ import { AntDesign, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
-export default function FechamentoDeFolha() {  
+export default function FechamentoDeFolha() {
   const navigation = useNavigation();
 
   const [loadd, setLoadd] = useState(false);
@@ -48,7 +48,7 @@ export default function FechamentoDeFolha() {
   const [load, setLoad] = useState(true);
   const [loadSec, setLoadSec] = useState(false);
 
-  const [modalPeriodo, setModalPeriodo] = useState(false)
+  const [modalPeriodo, setModalPeriodo] = useState(false);
 
   useEffect(() => {
     async function getFuncinarios() {
@@ -61,7 +61,8 @@ export default function FechamentoDeFolha() {
   const onChangeInicio = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === 'ios');
-    setDataInicial(currentDate);AsyncStorage.setItem('@DataInicial', JSON.stringify(currentDate));
+    setDataInicial(currentDate);
+    AsyncStorage.setItem('@DataInicial', JSON.stringify(currentDate));
     setModalDataFinal(true);
   };
 
@@ -73,7 +74,6 @@ export default function FechamentoDeFolha() {
     setDataFinal(currentDate);
     AsyncStorage.setItem('@DataFinal', JSON.stringify(currentDate));
   };
-
 
   const onStart = async () => {
     if ((!dataInicial, !dataFinal)) {
@@ -112,26 +112,26 @@ export default function FechamentoDeFolha() {
   async function handlePerson(itemValue) {
     if (itemValue == 'Option 1') {
     } else {
-      const fun = AsyncStorage.setItem('@FuncionarioPes', JSON.stringify(itemValue));
+      const fun = AsyncStorage.setItem(
+        '@FuncionarioPes',
+        JSON.stringify(itemValue),
+      );
       setLoadSec(true);
       setFuncionario(itemValue);
     }
   }
 
-  async function handleClose(){
-    setModalPeriodo(true)
+  async function handleClose() {
+    setModalPeriodo(true);
   }
-   async function handleGerator(){
+  async function handleGerator() {
     setTimeout(() => {
       DialogSuccess('Fechamento de Periódo enviado');
       setTimeout(() => {
         navigation.navigate('Home');
       }, 2500);
-            
     }, 1000);
-
-   }
-
+  }
 
   const renderItem = useCallback((atestado) => {
     return (
@@ -282,12 +282,11 @@ export default function FechamentoDeFolha() {
           />
         )}
 
-        {funcionario && dataInicial && dataFinal && listaPesquisa &&
-        <ButtonFolha
-        onPress={handleClose}
-        >
-        <TxtButton>Gerar período{'\n'}de fechamento</TxtButton>
-      </ButtonFolha>}
+        {funcionario && dataInicial && dataFinal && listaPesquisa && (
+          <ButtonFolha onPress={handleClose}>
+            <TxtButton>Gerar período{'\n'}de fechamento</TxtButton>
+          </ButtonFolha>
+        )}
         {listaPesquisa && (
           <ContainerMsg>
             {!funcionario && <TextMsg>Selecione um Funcionario</TextMsg>}
@@ -303,80 +302,76 @@ export default function FechamentoDeFolha() {
           />
         )}
         <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalPeriodo}
-            onRequestClose={() => {
-              setModalPeriodo(!setModalPeriodo);
-            }}
-          >
-            <ContainerModal>
-              <TitleModal>
-                <TitleTxt>
-                  Nova Assinatura Eletrônica de Cartão Ponto
-                </TitleTxt>
-                <TouchableOpacity
-                onPress={()=>{setModalPeriodo(false)}}>
-                  <AntDesign
+          animationType="slide"
+          transparent={true}
+          visible={modalPeriodo}
+          onRequestClose={() => {
+            setModalPeriodo(!setModalPeriodo);
+          }}
+        >
+          <ContainerModal>
+            <TitleModal>
+              <TitleTxt>Nova Assinatura Eletrônica de Cartão Ponto</TitleTxt>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalPeriodo(false);
+                }}
+              >
+                <AntDesign
                   color={'#555555'}
                   name={'close'}
                   size={20}
-                  />
-                </TouchableOpacity>
-              </TitleModal>   
-              <ModalDescritption>
-                <ModalPrimare>
-                  <TxtPrimare>Descrição</TxtPrimare>
-                </ModalPrimare>
-                <ModalSegund>
-                  <TxtSeund>Apuração {funcionario}</TxtSeund>
-                </ModalSegund>                
+                />
+              </TouchableOpacity>
+            </TitleModal>
+            <ModalDescritption>
+              <ModalPrimare>
+                <TxtPrimare>Descrição</TxtPrimare>
+              </ModalPrimare>
+              <ModalSegund>
+                <TxtSeund>Apuração {funcionario}</TxtSeund>
+              </ModalSegund>
+            </ModalDescritption>
 
-              </ModalDescritption>   
+            <ModalDescritption>
+              <ModalPrimare>
+                <TxtPrimare>Período</TxtPrimare>
+              </ModalPrimare>
+              <ModalSegund>
+                <TxtSeund>
+                  {JSON.stringify(dataInicial).substr(9, 2)}/
+                  {JSON.stringify(dataInicial).substr(6, 2)}/
+                  {JSON.stringify(dataInicial).substr(1, 4)} -{' '}
+                  {JSON.stringify(dataFinal).substr(9, 2)}/
+                  {JSON.stringify(dataFinal).substr(6, 2)}/
+                  {JSON.stringify(dataFinal).substr(1, 4)}
+                </TxtSeund>
+              </ModalSegund>
+            </ModalDescritption>
 
-               <ModalDescritption>
-                <ModalPrimare>
-                  <TxtPrimare>Período</TxtPrimare>
-                </ModalPrimare>
-                <ModalSegund>
-                  <TxtSeund>
-                    {JSON.stringify(dataInicial).substr(9,2)}/
-                    {JSON.stringify(dataInicial).substr(6,2)}/
-                    {JSON.stringify(dataInicial).substr(1,4)} - {JSON.stringify(dataFinal).substr(9,2)}/
-                    {JSON.stringify(dataFinal).substr(6,2)}/
-                    {JSON.stringify(dataFinal).substr(1,4)}
-                    </TxtSeund>
-                </ModalSegund>                
+            <ModalDescritption>
+              <ModalPrimare>
+                <TxtPrimare>Funcionário</TxtPrimare>
+              </ModalPrimare>
+              <ModalSegund>
+                <TxtSeund>{funcionario}</TxtSeund>
+              </ModalSegund>
+            </ModalDescritption>
 
-              </ModalDescritption>  
-
-               <ModalDescritption>
-                <ModalPrimare>
-                  <TxtPrimare>Funcionário</TxtPrimare>
-                </ModalPrimare>
-                <ModalSegund>
-                  <TxtSeund>{funcionario}</TxtSeund>
-                </ModalSegund>              
-              </ModalDescritption>      
-
-              <FooterModal>
-                <ButtonGerar>
-                  <ButtonGerarTxt
-                  onPress={handleGerator}
-                  >
-                    Gerar
-                  </ButtonGerarTxt>
-                </ButtonGerar>
-                <ButtonCancel
-                onPress={()=>{setModalPeriodo(false)}}
-                >
-                  <ButtonCancTxt>Cancelar</ButtonCancTxt>
-                </ButtonCancel>
-
-              </FooterModal>            
-
-            </ContainerModal>
-          </Modal>
+            <FooterModal>
+              <ButtonGerar>
+                <ButtonGerarTxt onPress={handleGerator}>Gerar</ButtonGerarTxt>
+              </ButtonGerar>
+              <ButtonCancel
+                onPress={() => {
+                  setModalPeriodo(false);
+                }}
+              >
+                <ButtonCancTxt>Cancelar</ButtonCancTxt>
+              </ButtonCancel>
+            </FooterModal>
+          </ContainerModal>
+        </Modal>
       </AlertNotificationRoot>
     </Container>
   );
@@ -454,88 +449,85 @@ const TxtButton = styled.Text`
 //MODALL ------------
 
 const ContainerModal = styled.View`
-margin-top: 40%;
-align-self: center;
-justify-content: center;
-background-color: white;
-width: 95%;
-`
+  margin-top: 40%;
+  align-self: center;
+  justify-content: center;
+  background-color: white;
+  width: 95%;
+`;
 
 const TitleModal = styled.View`
-width: 100%;
-background-color: #EEEEEE;
-border-bottom-width: 1px;
-flex-direction: row;
-align-items: center;
-justify-content: space-between;
-`
+  width: 100%;
+  background-color: #eeeeee;
+  border-bottom-width: 1px;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
 const TitleTxt = styled.Text`
-padding: 10px;
-font-weight: bold;
-`
+  padding: 10px;
+  font-weight: bold;
+`;
 
 const ModalDescritption = styled.View`
-flex-direction: row;
-`
+  flex-direction: row;
+`;
 
 const ModalPrimare = styled.View`
-width: 30%;
-align-items: flex-end;
-margin-top: 20px;
-`
+  width: 30%;
+  align-items: flex-end;
+  margin-top: 20px;
+`;
 const TxtPrimare = styled.Text`
-font-weight: bold;
-font-size: 17px;
-`
+  font-weight: bold;
+  font-size: 17px;
+`;
 
 const ModalSegund = styled.View`
-border-width: 1px;
-width: 60%;
-margin-top: 20px;
-margin-left: 20px;
-background-color: #DDDDDD;
-`
+  border-width: 1px;
+  width: 60%;
+  margin-top: 20px;
+  margin-left: 20px;
+  background-color: #dddddd;
+`;
 
 const TxtSeund = styled.Text`
-padding: 5px;
-`
+  padding: 5px;
+`;
 
 const FooterModal = styled.View`
-background-color: #DDDDDD;
-flex-direction: row;
-border-top-width: 1px;
-margin-top: 40px;
-justify-content: space-between;
-`
+  background-color: #dddddd;
+  flex-direction: row;
+  border-top-width: 1px;
+  margin-top: 40px;
+  justify-content: space-between;
+`;
 
 const ButtonGerar = styled.TouchableOpacity`
-margin: 15px;
-background-color: #1cade2;
-
-`
+  margin: 15px;
+  background-color: #1cade2;
+`;
 
 const ButtonGerarTxt = styled.Text`
-padding: 10px;
-font-weight: bold;
-color: white;
-padding-left: 40px;
-padding-right: 40px;
-`
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  padding-left: 40px;
+  padding-right: 40px;
+`;
 
 const ButtonCancel = styled.TouchableOpacity`
-margin: 15px;
-background-color: #1cade2;
-`
+  margin: 15px;
+  background-color: #1cade2;
+`;
 
 const ButtonCancTxt = styled.Text`
-padding: 10px;
-font-weight: bold;
-color: white;
-padding-left: 40px;
-padding-right: 40px;
-`
-
-
+  padding: 10px;
+  font-weight: bold;
+  color: white;
+  padding-left: 40px;
+  padding-right: 40px;
+`;
 
 const styles = StyleSheet.create({
   containeratestado: {

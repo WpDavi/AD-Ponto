@@ -48,6 +48,7 @@ export default function EnvioDeNoification() {
       DialogAlert('Campos obrigatórios');
     } else if (assunto || msg) {
       setButton(false);
+      console.log(assunto, msg);
       const ress = await Api.notification(pis, assunto, msg);
 
       const res = await Api.createPushNotification(token, assunto, msg);
