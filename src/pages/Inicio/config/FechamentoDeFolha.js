@@ -13,6 +13,7 @@ import {
 } from 'react-native';
 import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
+import { DialogSuccess } from '~/components/DialogSuccess';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -25,7 +26,9 @@ import styled from 'styled-components/native';
 
 import Api from '~/services/Api';
 
-export default function FechamentoDeFolha() {
+export default function FechamentoDeFolha() {  
+  const navigation = useNavigation();
+
   const [loadd, setLoadd] = useState(false);
 
   const [lista, setLista] = useState();
@@ -45,7 +48,7 @@ export default function FechamentoDeFolha() {
   const [load, setLoad] = useState(true);
   const [loadSec, setLoadSec] = useState(false);
 
-  const [modalPeriodo, setModalPeriodo] = useState(true)
+  const [modalPeriodo, setModalPeriodo] = useState(false)
 
   useEffect(() => {
     async function getFuncinarios() {
@@ -58,8 +61,7 @@ export default function FechamentoDeFolha() {
   const onChangeInicio = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setModalDataInicial(Platform.OS === 'ios');
-    setDataInicial(currentDate);
-    AsyncStorage.setItem('@DataInicial', JSON.stringify(currentDate));
+    setDataInicial(currentDate);AsyncStorage.setItem('@DataInicial', JSON.stringify(currentDate));
     setModalDataFinal(true);
   };
 
@@ -72,7 +74,6 @@ export default function FechamentoDeFolha() {
     AsyncStorage.setItem('@DataFinal', JSON.stringify(currentDate));
   };
 
-  const navigation = useNavigation();
 
   const onStart = async () => {
     if ((!dataInicial, !dataFinal)) {
@@ -110,10 +111,8 @@ export default function FechamentoDeFolha() {
 
   async function handlePerson(itemValue) {
     if (itemValue == 'Option 1') {
-      console.log('nao faz nd');
     } else {
-      console.log(itemValue);
-      AsyncStorage.setItem('@FuncionarioPes', JSON.stringify(itemValue));
+      const fun = AsyncStorage.setItem('@FuncionarioPes', JSON.stringify(itemValue));
       setLoadSec(true);
       setFuncionario(itemValue);
     }
@@ -121,8 +120,17 @@ export default function FechamentoDeFolha() {
 
   async function handleClose(){
     setModalPeriodo(true)
-    console.log('teste')
   }
+   async function handleGerator(){
+    setTimeout(() => {
+      DialogSuccess('Fechamento de Periódo enviado');
+      setTimeout(() => {
+        navigation.navigate('Home');
+      }, 2500);
+            
+    }, 1000);
+
+   }
 
 
   const renderItem = useCallback((atestado) => {
@@ -321,7 +329,7 @@ export default function FechamentoDeFolha() {
                   <TxtPrimare>Descrição</TxtPrimare>
                 </ModalPrimare>
                 <ModalSegund>
-                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                  <TxtSeund>Apuração {funcionario}</TxtSeund>
                 </ModalSegund>                
 
               </ModalDescritption>   
@@ -331,7 +339,13 @@ export default function FechamentoDeFolha() {
                   <TxtPrimare>Período</TxtPrimare>
                 </ModalPrimare>
                 <ModalSegund>
-                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                  <TxtSeund>
+                    {JSON.stringify(dataInicial).substr(9,2)}/
+                    {JSON.stringify(dataInicial).substr(6,2)}/
+                    {JSON.stringify(dataInicial).substr(1,4)} - {JSON.stringify(dataFinal).substr(9,2)}/
+                    {JSON.stringify(dataFinal).substr(6,2)}/
+                    {JSON.stringify(dataFinal).substr(1,4)}
+                    </TxtSeund>
                 </ModalSegund>                
 
               </ModalDescritption>  
@@ -341,17 +355,21 @@ export default function FechamentoDeFolha() {
                   <TxtPrimare>Funcionário</TxtPrimare>
                 </ModalPrimare>
                 <ModalSegund>
-                  <TxtSeund>Apuração DHIORGENES</TxtSeund>
+                  <TxtSeund>{funcionario}</TxtSeund>
                 </ModalSegund>              
               </ModalDescritption>      
 
               <FooterModal>
                 <ButtonGerar>
-                  <ButtonGerarTxt>
+                  <ButtonGerarTxt
+                  onPress={handleGerator}
+                  >
                     Gerar
                   </ButtonGerarTxt>
                 </ButtonGerar>
-                <ButtonCancel>
+                <ButtonCancel
+                onPress={()=>{setModalPeriodo(false)}}
+                >
                   <ButtonCancTxt>Cancelar</ButtonCancTxt>
                 </ButtonCancel>
 
