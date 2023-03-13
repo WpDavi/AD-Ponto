@@ -39,6 +39,7 @@ export default function RelatorioDePonto() {
       await AsyncStorage.setItem('@inici', relatorio.item.data_inicial);
       await AsyncStorage.setItem('@fim', relatorio.item.data_final);
       await AsyncStorage.setItem('@stat', relatorio.item.status);
+      await AsyncStorage.setItem('@assinat', relatorio.item.assinatura);
       await AsyncStorage.setItem('@dat', relatorio.item.date);
 
       navigation.navigate('FechamentoFolha');
@@ -77,10 +78,10 @@ export default function RelatorioDePonto() {
               <Title>Relatório reprovado</Title>
             )}
 
-            {relatorio.item.assinatura == null && (
+            {relatorio.item.assinatura == 'n' && (
               <Description>Assinatura não coletado.</Description>
             )}
-            {relatorio.item.assinatura !== null && (
+            {relatorio.item.assinatura !== 'n' && (
               <Description>Assinatura coletado.</Description>
             )}
           </ContainerTxt>

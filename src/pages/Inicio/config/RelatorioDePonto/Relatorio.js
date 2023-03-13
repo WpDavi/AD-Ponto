@@ -30,6 +30,7 @@ export default function FechamentoDeFolha() {
   const [funcionario, setFuncionario] = useState('');
   const [status, setStatus] = useState();
   const [date, setDate] = useState();
+  const [assinatura, setAssinatura] = useState();
 
   const [load, setLoad] = useState(true);
   const [loadSec, setLoadSec] = useState(false);
@@ -41,7 +42,9 @@ export default function FechamentoDeFolha() {
       const fim = await AsyncStorage.getItem('@fim');
       const stat = await AsyncStorage.getItem('@stat');
       const dat = await AsyncStorage.getItem('@dat');
+      const assinatura = await AsyncStorage.getItem('@assinat');
 
+      setAssinatura(assinatura);
       setDate(dat);
       setStatus(stat);
       setDataInicial(inici);
@@ -141,6 +144,11 @@ export default function FechamentoDeFolha() {
         <TxtInfos>{date}</TxtInfos>
       </ContainerHeaderInfos>
       <ContainerHeaderInfos>
+        <TxtInfos>Assinatura</TxtInfos>
+        {assinatura == 'n' && <TxtInfos>Não coletada</TxtInfos>}
+        {assinatura !== 'n' && <TxtInfos>Coletada</TxtInfos>}
+      </ContainerHeaderInfos>
+      <ContainerHeaderInfos>
         <TxtInfos>Status</TxtInfos>
         <TxtInfos>{status}</TxtInfos>
       </ContainerHeaderInfos>
@@ -171,7 +179,10 @@ export default function FechamentoDeFolha() {
           </ContainerButtonBack>
         </View>
         <ContainerTit>
-          <TxtTit>Apuração de{'\n'}01-01-2023 a 31-01-203 </TxtTit>
+          <TxtTit>
+            Apuração de{'\n'}
+            {dataInicial} a {dataFinal}{' '}
+          </TxtTit>
         </ContainerTit>
 
         <FlatList
