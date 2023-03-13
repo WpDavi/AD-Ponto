@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native';
 import {
   Feather,
   FontAwesome,
-  MaterialCommunityIcons,
+  MaterialCommunityIcons
 } from '@expo/vector-icons';
 
 import Api from '~/services/Api';
@@ -39,7 +39,10 @@ export const Actions = () => {
         horizontal
         showsHorizontalScrollIndicator={false}
       >
-        <Action
+        
+        {
+          /*
+          <Action
           onPress={() => navigation.navigate('Reports')}
           text={'Banco\nde Horas'}
           Icon={
@@ -49,6 +52,10 @@ export const Actions = () => {
             />
           }
         />
+        
+          */
+        }
+        
         <Action
           onPress={handPont}
           text={'Bater\nPonto'}

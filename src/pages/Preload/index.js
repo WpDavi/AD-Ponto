@@ -9,7 +9,7 @@ import {
   SafeAreaView,
   StyleSheet,
   Text,
-  View,
+  View
 } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
@@ -114,6 +114,7 @@ const Login = ({ navigation }) => {
           style={{ marginTop: 80 }}
         />
         <Text style={{ marginTop: 10, color: '#002' }}>Carregando...</Text>
+        <Text style={styles.versao}>Versão 2.1.9</Text>
       </View>
 
       {token && (
@@ -138,6 +139,10 @@ const styles = StyleSheet.create({
     height: 100,
     resizeMode: 'center',
   },
+  versao:{
+    color:'#83817D',
+    marginTop:150
+  }
 });
 
 export default Login;
