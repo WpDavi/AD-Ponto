@@ -50,6 +50,8 @@ export default function FechamentoDeFolha() {
 
   const [modalPeriodo, setModalPeriodo] = useState(false);
 
+  const [buttonLoad, setButtonLoad] = useState(false);
+
   useEffect(() => {
     async function getFuncinarios() {
       const res = await Api.getAllFuncionarios();
@@ -125,6 +127,7 @@ export default function FechamentoDeFolha() {
     setModalPeriodo(true);
   }
   async function handleGerator() {
+    setButtonLoad(true);
     setTimeout(() => {
       DialogSuccess('Fechamento de Periódo enviado');
       setTimeout(() => {
@@ -360,7 +363,10 @@ export default function FechamentoDeFolha() {
 
             <FooterModal>
               <ButtonGerar>
-                <ButtonGerarTxt onPress={handleGerator}>Gerar</ButtonGerarTxt>
+                {!buttonLoad && (
+                  <ButtonGerarTxt onPress={handleGerator}>Gerar</ButtonGerarTxt>
+                )}
+                {buttonLoad && <Load color={'white'} />}
               </ButtonGerar>
               <ButtonCancel
                 onPress={() => {
@@ -527,6 +533,13 @@ const ButtonCancTxt = styled.Text`
   color: white;
   padding-left: 40px;
   padding-right: 40px;
+`;
+
+const Load = styled.ActivityIndicator`
+  padding: 10px;
+  font-weight: bold;
+  padding-left: 47px;
+  padding-right: 47px;
 `;
 
 const styles = StyleSheet.create({
