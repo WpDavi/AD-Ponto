@@ -9,11 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 import MapView from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
@@ -26,6 +22,7 @@ import Icone from '@expo/vector-icons/FontAwesome5';
 import * as Location from 'expo-location';
 import styled from 'styled-components';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function GestorCadastroVisita() {
@@ -90,13 +87,7 @@ export default function GestorCadastroVisita() {
     setTimeout(() => {
       navigation.navigate('HistoricoSolicitaçãoDeVisitas');
     }, 2000);
-
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Solicitação de visita enviada',
-      button: 'ok',
-    });
+    DialogSuccess('Solicitação de visita enviada');
   };
 
   //TELA////////////////////

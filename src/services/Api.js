@@ -1,15 +1,11 @@
-import { Platform } from 'react-native';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import * as Device from 'expo-device';
 import * as FileSystem from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
 
 const BASE_API = 'http://66.94.120.192:5001';
 //const BASE_API = 'http://192.168.0.61:5001';
-//const BASE_API = 'http://192.168.1.83:5001';
-//const BASE_API = "http://192.168.100.139:5001";
+//const BASE_API = 'http://192.168.1.6:5001';
 
 export default {
   signIn: async (email, senha, empresa) => {
@@ -43,59 +39,8 @@ export default {
     return json;
   },
 
-  registerForPushNotification: async (token) => {
-    try {
-      if (Device.isDevice) {
-        const { status: existingStatus } =
-          await Notifications.getPermissionsAsync();
-        let finalStatus = existingStatus;
-        if (existingStatus !== 'granted') {
-          const { status } = await Notifications.requestPermissionsAsync();
-          finalStatus = status;
-        }
-        if (finalStatus !== 'granted') {
-          console.log('Failed to get push token for push notification!');
-          return;
-        }
-        token = (await Notifications.getExpoPushTokenAsync()).data;
-        console.log(token);
-      } else {
-        console.log('Must use physical device for Push Notifications');
-      }
-
-      if (Platform.OS === 'android') {
-        Notifications.setNotificationChannelAsync('default', {
-          name: 'default',
-          importance: Notifications.AndroidImportance.MAX,
-          vibrationPattern: [0, 250, 250, 250],
-          lightColor: '#FF231F7C',
-        });
-      }
-      const req = await fetch(
-        `${BASE_API}/user/register-for-push-notification`,
-        {
-          method: 'POST',
-          body: JSON.stringify({
-            token: token,
-            pushNotificationsToken: token,
-          }),
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-        .fetch((r) => r.json())
-        .catch(() => ({}));
-
-      return req;
-    } catch (e) {
-      console.log(e);
-      return {};
-    }
-  },
-
   logout: async () => {
-    await AsyncStorage.clear();
+    await AsyncStorage.removeItem('token');
   },
 
   checktoken: async () => {
@@ -549,6 +494,7 @@ export default {
   },
 
   getGestorhourss: async (funcionario, dataInicial, dataFinal) => {
+    console.log(funcionario, dataInicial, dataFinal);
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/newhoursDate`, {
       method: 'POST',
@@ -893,46 +839,6 @@ export default {
     return json;
   },
 
-  puhNotification: async (pis, tokenn) => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/user/pushToken`, {
-      method: 'POST',
-      body: JSON.stringify({
-        pis,
-        tokenn,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`,
-      },
-    });
-    const json = await req.json();
-    console.log('reposta token', json);
-    return json;
-  },
-
-  RegisterNotification: async (token, assunto, msg) => {
-    console.log(token, assunto, token);
-    const message = {
-      to: token,
-      sound: 'default',
-      title: assunto,
-      body: msg,
-      data: { someData: 'goes here' },
-    };
-    const req = await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(message),
-    });
-    const json = await req.json();
-    return json;
-  },
-
   getGestor: async () => {
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getGestorPersonalInformation`, {
@@ -959,7 +865,7 @@ export default {
     return json;
   },
 
-  suporte: async (nome_usuario, mensagem, idFuncionario) => {
+  suporte: async (nome_usuario, email, mensagem, idFuncionario) => {
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/dashboard/suporte`, {
       method: 'POST',
@@ -973,45 +879,11 @@ export default {
         Authorization: `${token}`,
       },
     });
-    const json = await req.json();
-    return json;
-  },
-
-  notification: async (pis, msg, assunto) => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/dashboard/notification`, {
+    const reqSendMail = await fetch(`${BASE_API}/user/sandEmails`, {
       method: 'POST',
       body: JSON.stringify({
-        pis,
-        mensagem: msg,
-        assunto,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`,
-      },
-    });
-    const json = await req.json();
-    return json;
-  },
-
-  getNotification: async () => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/dashboard/notification`, {
-      headers: {
-        Authorization: `${token}`,
-      },
-    });
-    const json = await req.json();
-    return json;
-  },
-
-  deleteNotification: async (id) => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/dashboard/notification`, {
-      method: 'DELETE',
-      body: JSON.stringify({
-        id,
+        email,
+        mensagem,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -1358,27 +1230,128 @@ export default {
     return json;
   },
 
-  sandEmail: async (email, mensagem) => {
-    const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/user/sandEmail`, {
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        mensagem,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `${token}`,
-      },
-    });
-  },
-
   getFotoEmail: async (email) => {
     const token = await AsyncStorage.getItem('token');
     const req = await fetch(`${BASE_API}/user/getFoto`, {
       method: 'POST',
       body: JSON.stringify({
         email,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  /* notification */
+
+  registerForPushNotification: async (token) => {
+    try {
+      const expoPushToken = await Notifications.getExpoPushTokenAsync({
+        experienceId: '@username/example',
+      });
+
+      const req = await fetch(
+        `${BASE_API}/user/register-for-push-notification`,
+        {
+          method: 'POST',
+          body: JSON.stringify({
+            token: token,
+            pushNotificationsToken: expoPushToken,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+        .fetch((r) => r.json())
+        .catch(() => ({}));
+
+      return req;
+    } catch (e) {
+      console.log(e);
+      return {};
+    }
+  },
+
+  notification: async (pis, msg, assunto) => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/dashboard/notification`, {
+      method: 'POST',
+      body: JSON.stringify({
+        pis,
+        mensagem: msg,
+        assunto,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  getNotification: async () => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/dashboard/notification`, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  createPushNotification: async (token, assunto, msg) => {
+    console.log(token, assunto, token);
+    const message = {
+      to: token,
+      sound: 'default',
+      title: assunto,
+      body: msg,
+      data: { someData: 'goes here' },
+    };
+    const req = await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(message),
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  pushNotification: async (pis, tokenn) => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/user/pushToken`, {
+      method: 'POST',
+      body: JSON.stringify({
+        pis,
+        tokenn,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    console.log('reposta token', json);
+    return json;
+  },
+
+  deleteNotification: async (id) => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/dashboard/notification`, {
+      method: 'DELETE',
+      body: JSON.stringify({
+        id,
       }),
       headers: {
         'Content-Type': 'application/json',

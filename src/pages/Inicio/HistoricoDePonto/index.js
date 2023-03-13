@@ -10,11 +10,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 import { TextInputMask } from 'react-native-masked-text';
 
 import { useNavigation } from '@react-navigation/native';
@@ -23,6 +19,7 @@ import { Entypo, Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 import { cleanText } from '~/utils/text';
 
@@ -113,7 +110,7 @@ export default function RelatorioDeAtestado() {
     const assunto = 'Solicitação de edição de ponto';
     const msg = 'Um funcionario solicitou edição de ponto';
     for (let i in token) {
-      const ress = await Api.RegisterNotification(
+      const ress = await Api.createPushNotification(
         token[i].token_notification,
         assunto,
         msg,
@@ -188,13 +185,7 @@ export default function RelatorioDeAtestado() {
       setTimeout(() => {
         navigation.goBack();
       }, 2000);
-
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Solicitação enviada com Sucesso',
-        button: 'ok',
-      });
+      DialogSuccess('Solicitação enviada com Sucesso');
     }
   };
 

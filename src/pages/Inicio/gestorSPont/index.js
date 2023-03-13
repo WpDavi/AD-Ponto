@@ -9,11 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -21,6 +17,7 @@ import { Feather } from '@expo/vector-icons';
 import Icone from '@expo/vector-icons/FontAwesome5';
 import styled from 'styled-components/native';
 
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function GestorSolicitaçõesdePonto() {
@@ -145,13 +142,7 @@ export default function GestorSolicitaçõesdePonto() {
 
     if (res && ress) {
       setModalItemPonto(false);
-
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Ponto Alterado com sucesso',
-        button: 'ok',
-      });
+      DialogSuccess('Ponto Alterado com sucesso');
     }
   };
 
@@ -162,13 +153,7 @@ export default function GestorSolicitaçõesdePonto() {
     if (ress) {
       setModalItemPonto(false);
       setBottonLoad(false);
-
-      Dialog.show({
-        type: ALERT_TYPE.SUCCESS,
-        title: 'Sucesso',
-        textBody: 'Solicitação de alteração de ponto negado',
-        button: 'ok',
-      });
+      DialogSuccess('Solicitação de alteração de ponto negado');
     }
   };
 

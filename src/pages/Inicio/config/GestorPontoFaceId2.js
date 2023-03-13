@@ -8,11 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {
-  ALERT_TYPE,
-  AlertNotificationRoot,
-  Dialog,
-} from 'react-native-alert-notification';
+import { AlertNotificationRoot } from 'react-native-alert-notification';
 
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,6 +18,8 @@ import { Camera } from 'expo-camera';
 import * as Location from 'expo-location';
 import styled from 'styled-components/native';
 
+import { DialogAlert } from '~/components/DialogAlert';
+import { DialogSuccess } from '~/components/DialogSuccess';
 import Api from '~/services/Api';
 
 export default function PontoFaceId2() {
@@ -53,12 +51,7 @@ export default function PontoFaceId2() {
     setButtonEnviarLoad(true);
     let json = await Api.point(email, hour, date, lat, long, image);
     const php = await Api.PointPhp(pis, lat, long, date, empresa);
-    Dialog.show({
-      type: ALERT_TYPE.SUCCESS,
-      title: 'Sucesso',
-      textBody: 'Ponto Enviado com sucesso',
-      button: 'ok',
-    });
+    DialogSuccess('Ponto Enviado com sucesso');
     setTimeout(() => {
       navigation.goBack();
     }, 2000);
@@ -112,24 +105,14 @@ export default function PontoFaceId2() {
     console.log('res', res.length);
 
     if (res.status === 'failure') {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Pessoa nao encontrada no banco de dados',
-        button: 'ok',
-      });
+      DialogAlert('Pessoa nao encontrada no banco de dados');
       setModalLoad(false);
     } else if (res.length === 1) {
       setPis(res[0].name);
       setModalLoad(false);
       setModalVisible(true);
     } else if (res.length === 0) {
-      Dialog.show({
-        type: ALERT_TYPE.WARNING,
-        title: 'Alerta',
-        textBody: 'Rosto nao encontrado',
-        button: 'ok',
-      });
+      DialogAlert('Rosto não encontrado');
       setModalLoad(false);
     }
   }
