@@ -6,7 +6,7 @@ import {
   Switch,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 
 import { DrawerItem } from '@react-navigation/drawer';
@@ -15,9 +15,11 @@ import { useNavigation } from '@react-navigation/native';
 import {
   AntDesign,
   Entypo,
-  FontAwesome, FontAwesome5, Fontisto,
+  FontAwesome,
+  FontAwesome5,
+  Fontisto,
   MaterialCommunityIcons,
-  MaterialIcons
+  MaterialIcons,
 } from '@expo/vector-icons';
 
 import { ThemeContext } from '~/context/ThemeContext';
@@ -142,6 +144,19 @@ export function DrawerContent(props) {
         <DrawerItem
           labelStyle={{ marginLeft: -12 }}
           icon={({ color, size }) => (
+            <MaterialCommunityIcons
+              name="newspaper-check"
+              size={20}
+              color="black"
+            />
+          )}
+          label="Relatório De Ponto"
+          onPress={() => navigation.navigate('RelatorioDePonto')}
+        />
+
+        <DrawerItem
+          labelStyle={{ marginLeft: -12 }}
+          icon={({ color, size }) => (
             <FontAwesome
               name="history"
               size={20}
@@ -221,7 +236,7 @@ export function DrawerContent(props) {
               onPress={() => navigation.navigate('EnvioDeNoification')}
             />
 
-        <DrawerItem
+            <DrawerItem
               labelStyle={{ marginLeft: -12 }}
               icon={({ color, size }) => (
                 <FontAwesome5

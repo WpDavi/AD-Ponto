@@ -1,13 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { GoBack } from '~/components/GoBack';
-import EnvioDeNoification from '~/pages/Inicio/config/EnvioDeNotification';
-import GestorGPonto from '~/pages/Inicio/config/GestorAllPontos/GestorGPonto';
-import GestorBaterPonto from '~/pages/Inicio/config/GestorBaterPonto';
-import GestorCadastroVisita from '~/pages/Inicio/config/GestorCadastroVisita';
-import PontoFaceId from '~/pages/Inicio/config/GestorPontoFaceId';
-import PontoFaceId2 from '~/pages/Inicio/config/GestorPontoFaceId2';
-import MeuQRCode from '~/pages/Inicio/config/MeuQRCode';
 import EnviodeAtestado from '~/pages/Inicio/EnviodeAtestado';
 import HistoricoDePonto from '~/pages/Inicio/HistoricoDePonto';
 import Mapa from '~/pages/Inicio/Mapa';
@@ -23,17 +16,26 @@ import HistoricoDeAtestado from '~/pages/Inicio/RelatorioDeAtestado';
 import { Reports } from '~/pages/Inicio/Reports';
 import { Support } from '~/pages/Inicio/Support';
 import SolicitaçãoDeVisitas from '~/pages/Inicio/Visitas';
+import EnvioDeNoification from '~/pages/Inicio/config/EnvioDeNotification';
 //Drawer
 import FechamentoDeFolha from '~/pages/Inicio/config/FechamentoDeFolha';
+import GestorGPonto from '~/pages/Inicio/config/GestorAllPontos/GestorGPonto';
+import GestorBaterPonto from '~/pages/Inicio/config/GestorBaterPonto';
+import GestorCadastroVisita from '~/pages/Inicio/config/GestorCadastroVisita';
+import PontoFaceId from '~/pages/Inicio/config/GestorPontoFaceId';
+import PontoFaceId2 from '~/pages/Inicio/config/GestorPontoFaceId2';
+import MeuQRCode from '~/pages/Inicio/config/MeuQRCode';
+import FechamentoFolha from '~/pages/Inicio/config/RelatorioDePonto/Relatorio';
+import RelatorioDePonto from '~/pages/Inicio/config/RelatorioDePonto/index';
 import Senha from '~/pages/Inicio/config/Senha';
 import Solicitacoes from '~/pages/Inicio/config/Solicitacoes';
-import SolicitaçõesPonto from '~/pages/Inicio/config/solicitacoesPonto';
 import SolicitarFerias from '~/pages/Inicio/config/SolicitarFerias';
+import SolicitaçõesPonto from '~/pages/Inicio/config/solicitacoesPonto';
 import ImgAssinatura from '~/pages/Inicio/config/visitas/Assinatura';
 import HistoricoSolicitaçãoDeVisitas from '~/pages/Inicio/config/visitas/HistoricoSolicitacoes';
 import HistoricoDeVisitas from '~/pages/Inicio/config/visitas/HistricoVisitas';
-import GestorSolicitacoes from '~/pages/Inicio/gestorSolic';
 import GestorSolicitaçõesdePonto from '~/pages/Inicio/gestorSPont';
+import GestorSolicitacoes from '~/pages/Inicio/gestorSolic';
 import { Login } from '~/pages/Login';
 import Preload from '~/pages/Preload';
 import { Drawer } from '~/routes/drawer';
@@ -239,6 +241,16 @@ export const Stack = () => {
         options={{ headerShown: false }}
         name="FechamentoDeFolha"
         component={FechamentoDeFolha}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="RelatorioDePonto"
+        component={RelatorioDePonto}
+      />
+      <Screen
+        options={{ headerShown: false }}
+        name="FechamentoFolha"
+        component={FechamentoFolha}
       />
     </Navigator>
   );

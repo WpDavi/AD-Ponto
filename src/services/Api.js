@@ -3,8 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as FileSystem from 'expo-file-system';
 import * as Notifications from 'expo-notifications';
 
-const BASE_API = 'http://66.94.120.192:5001';
-//const BASE_API = 'http://192.168.0.61:5001';
+//const BASE_API = 'http://66.94.120.192:5001';
+const BASE_API = 'http://192.168.0.61:5001';
 //const BASE_API = 'http://192.168.1.6:5001';
 
 export default {
@@ -496,7 +496,7 @@ export default {
   getGestorhourss: async (funcionario, dataInicial, dataFinal) => {
     console.log(funcionario, dataInicial, dataFinal);
     const token = await AsyncStorage.getItem('token');
-    const req = await fetch(`${BASE_API}/dashboard/newhoursDate`, {
+    const req = await fetch(`${BASE_API}/dashboard/newhoursDatee`, {
       method: 'POST',
       body: JSON.stringify({
         funcionario,
@@ -1355,6 +1355,35 @@ export default {
       }),
       headers: {
         'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  FechamentoDeFolha: async (data_inicial, data_final, funcionario) => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/gestor/fechamentofolha`, {
+      method: 'POST',
+      body: JSON.stringify({
+        data_inicial,
+        data_final,
+        funcionario,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${token}`,
+      },
+    });
+    const json = await req.json();
+    return json;
+  },
+
+  getRelatoriodePontos: async () => {
+    const token = await AsyncStorage.getItem('token');
+    const req = await fetch(`${BASE_API}/gestor/fechamentofolha`, {
+      headers: {
         Authorization: `${token}`,
       },
     });

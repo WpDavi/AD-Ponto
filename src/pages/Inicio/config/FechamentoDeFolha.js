@@ -128,12 +128,17 @@ export default function FechamentoDeFolha() {
   }
   async function handleGerator() {
     setButtonLoad(true);
+    const data_inicial = JSON.stringify(dataInicial).substr(1, 10);
+    const data_final = JSON.stringify(dataFinal).substr(1, 10);
+    const res = await Api.FechamentoDeFolha(
+      data_inicial,
+      data_final,
+      funcionario,
+    );
+    DialogSuccess('Fechamento de Periódo enviado');
     setTimeout(() => {
-      DialogSuccess('Fechamento de Periódo enviado');
-      setTimeout(() => {
-        navigation.navigate('Home');
-      }, 2500);
-    }, 1000);
+      navigation.navigate('Home');
+    }, 2500);
   }
 
   const renderItem = useCallback((atestado) => {
