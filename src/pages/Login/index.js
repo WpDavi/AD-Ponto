@@ -8,6 +8,7 @@ import { DialogAlert } from '~/components/DialogAlert';
 import { FilledButton } from '~/components/FilledButton';
 import { HeaderPublic } from '~/components/HeaderPublic';
 import { InputLabel } from '~/components/InputLabel';
+import { InputLabelSenha } from '~/components/InputLabelSenha/index';
 import { RecoverPassword } from '~/components/RecoverPassword';
 import { UnfilledButton } from '~/components/UnfilledButton';
 import Api from '~/services/Api';
@@ -23,22 +24,22 @@ export const Login = () => {
   const [loadingEntrar, setLoadingEntrar] = useState(false);
   const [loginByKey, setLoginByKey] = useState(false);
 
-  useEffect(()=>{
-    async function getDados(){
-      const empresa = await AsyncStorage.getItem('@LoginEmpresa')
-      console.log(empresa)
-      const email = await AsyncStorage.getItem('@LoginEmail')
-      setCompany(empresa)
-      if(email){
-        setEmail(email)
+  useEffect(() => {
+    async function getDados() {
+      const empresa = await AsyncStorage.getItem('@LoginEmpresa');
+      console.log(empresa);
+      const email = await AsyncStorage.getItem('@LoginEmail');
+      setCompany(empresa);
+      if (email) {
+        setEmail(email);
       }
     }
-    getDados()
-  },[])
+    getDados();
+  }, []);
 
   const handleSignIn = async () => {
-    await AsyncStorage.setItem('@LoginEmpresa', company)
-    await AsyncStorage.setItem('@LoginEmail', email)
+    await AsyncStorage.setItem('@LoginEmpresa', company);
+    await AsyncStorage.setItem('@LoginEmail', email);
     setLoadingEntrar(true);
 
     const json = loginByKey
@@ -81,7 +82,7 @@ export const Login = () => {
                 setText={setEmail}
                 label={'Email'}
               />
-              <InputLabel
+              <InputLabelSenha
                 text={password}
                 setText={setPassword}
                 label={'Senha'}
@@ -89,9 +90,9 @@ export const Login = () => {
               <FilledButton
                 text={'ENTRAR'}
                 onPress={handleSignIn}
-                loading={loadingEntrar}                
+                loading={loadingEntrar}
                 disabled={
-                  email.length < 3 || password.length < 3 || company.length < 3
+                  email.length < 1 || password.length < 1 || company.length < 1
                 }
               />
             </>
